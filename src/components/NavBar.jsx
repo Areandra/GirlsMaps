@@ -35,6 +35,7 @@ const NavBar = ({
       backgroundColor: ColorPallate.background,
       width: "80vw",
       borderRadius: "40px",
+      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     },
     navDismiss: {
       top: "-10vh",
@@ -67,6 +68,7 @@ const NavBar = ({
       borderRadius: "20px",
       transition: "left 0.3s ease",
       zIndex: -1,
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     titleGroup: {
       flex: 1,

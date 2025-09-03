@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
+import Maps from "./components/Maps.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -36,6 +37,7 @@ function App() {
         lastPage={lastPage}
         setLastPage={setLastPage}
       />
+      <Maps lastPage={lastPage} />
       <LandingPage
         lastPage={lastPage}
         buttonOneOnClick={() => {

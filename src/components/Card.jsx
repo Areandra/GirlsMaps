@@ -9,9 +9,11 @@ export const FetureCard = ({ text, imageUrl, id }) => {
       width: "10vw",
       height: "13vh",
       background: "#FFFFFF",
-      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
       borderRadius: "25px",
-      marginTop: "auto"
+      marginTop: "auto",
+      minHeight: "87px",
+      minWidth: "128px"
     },
     image: {
       width: "40px",
@@ -42,18 +44,18 @@ export const InfoCard = ({ title, infoList, id }) => {
       padding: "16px",
       width: "15vw",
       background: ColorPallate.primary,
-      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
       borderRadius: "30px",
-      marginRight: "8px"
+      marginRight: "0.5vw",
     },
     text: {
-      fontSize: "1rem",
+      fontSize: "1em",
       fontWeight: "bold",
       textAlign: "center",
       color: "white",
     },
     deskripsi: {
-      fontSize: "0.6rem",
+      fontSize: "0.6em",
       fontWeight: "bold",
       textAlign: "center",
       color: ColorPallate.text,

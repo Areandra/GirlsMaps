@@ -11,6 +11,7 @@ const ButtonCostum = ({
   currentPage,
   onHoverEnter,
   onHoverExit,
+  icon,
 }) => {
   const [active, setActive] = useState(false);
   const [hover, setHover] = useState(false);
@@ -22,6 +23,10 @@ const ButtonCostum = ({
       transition: "none",
       cursor: "pointer",
       fontSize: "12px",
+      justifyContent: "center",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
     },
   };
   if (type === "navbarButton") {
@@ -47,6 +52,7 @@ const ButtonCostum = ({
         setActive(false);
       }
     }, [currentPage, id]);
+    const IconComponent = icon;
 
     return (
       <button
@@ -70,7 +76,13 @@ const ButtonCostum = ({
           onclick?.();
         }}
       >
-        {text}
+        {text}{" "}
+        {icon && (
+          <IconComponent
+            size={18}
+            color={hover ? ColorPallate.background : ColorPallate.primary}
+          />
+        )}
       </button>
     );
   } else if (type === "textButton") {
@@ -81,7 +93,12 @@ const ButtonCostum = ({
         border: "none",
         cursor: "pointer",
       },
+      hover: {
+        fontWeight: "bold",
+        scale: 1.05,
+      },
     };
+    const IconComponent = icon;
     return (
       <button
         id={id}
@@ -89,12 +106,19 @@ const ButtonCostum = ({
           ...textButtonStyles.button,
           ...style,
           ...buttonResetstyles.button,
+          ...(hover ? textButtonStyles.hover : {}),
         }}
         onClick={onclick}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        {text}
+        {text}{" "}
+        {icon && (
+          <IconComponent
+            size={18}
+            color={hover ? ColorPallate.background : ColorPallate.primary}
+          />
+        )}
       </button>
     );
   }
@@ -107,6 +131,7 @@ const ButtonCostum = ({
       display: "flex",
       alignItems: "center",
       gap: "8px",
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     active: {
       backgroundColor: ColorPallate.secondary,
@@ -114,9 +139,11 @@ const ButtonCostum = ({
     hover: {
       backgroundColor: "transparent",
       color: ColorPallate.primary,
+      scale: 1.05,
       boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
     },
   };
+  const IconComponent = FiArrowRight || icon;
   return (
     <button
       id={id}
@@ -134,7 +161,11 @@ const ButtonCostum = ({
         setActive(!active);
       }}
     >
-      {text} <FiArrowRight size={18} color={!hover ? ColorPallate.background : ColorPallate.primary} />
+      {text}{" "}
+      <IconComponent
+        size={18}
+        color={!hover ? ColorPallate.background : ColorPallate.primary}
+      />
     </button>
   );
 };

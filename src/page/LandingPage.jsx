@@ -1,6 +1,7 @@
 import ButtonCostum from "../components/Button";
 import { FetureCard, InfoCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
+import { FiUnlock } from "react-icons/fi";
 
 const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
   const fetuereCardList = [
@@ -52,6 +53,7 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
       position: "absolute",
       maxWidth: "40vw",
       transition: "left 0.5s ease, transform 0.5s ease",
+      zIndex: 10,
     },
     title: {
       fontSize: "1.5rem",
@@ -66,7 +68,6 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
     },
     paragraph: {
       fontSize: "0.75rem",
-      color: "#333",
       maxWidth: "600px",
       textAlign: "left",
       color: ColorPallate.text,
@@ -74,6 +75,7 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
     buttonGroup: {
       display: "flex",
       gap: "16px",
+      zIndex: 10,
     },
     cardGroup: {
       display: "flex",
@@ -84,6 +86,7 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
       bottom: "8vh",
       left: "5vw",
       transition: "left 0.5s ease, transform 0.5s ease",
+      zIndex: 10,
     },
     fetureCardGroup: {
       display: "flex",
@@ -96,6 +99,16 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
     containerDissmis: {
       left: "0",
       transform: "translateX(-100%)",
+    },
+    textBackground: {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "65vw",
+      height: "100vh",
+      backgroundImage:
+        "linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,0.6) 70%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.2) 90%, rgba(255,255,255,0.1) 100%)",
+      zIndex: 5,
     },
   };
 
@@ -121,8 +134,16 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
           </p>
         </div>
         <div style={LandingPageStyles.buttonGroup}>
-          <ButtonCostum text="Mulai" type="primary" onclick={() => buttonOneOnClick()}/>
-          <ButtonCostum text="Lebih Lanjut" type="textButton" onclick={() => buttonTwoOnClick()}/>
+          <ButtonCostum
+            text="Mulai"
+            type="primary"
+            onclick={() => buttonOneOnClick()}
+          />
+          <ButtonCostum
+            text="Lebih Lanjut"
+            type="textButton"
+            onclick={() => buttonTwoOnClick()}
+          />
         </div>
       </div>
       <div
@@ -148,6 +169,7 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
           ))}
         </div>
       </div>
+      <div style={LandingPageStyles.textBackground}></div>
     </>
   );
 };
