@@ -96,6 +96,8 @@ const ButtonCostum = ({
       hover: {
         fontWeight: "bold",
         scale: 1.05,
+        testShadow:
+          "0 0 15px rgba(248, 187, 208, 0.7), 0 0 30px rgba(248, 187, 208, 0.5), 0 0 45px rgba(248, 187, 208, 0.3)",
       },
     };
     const IconComponent = icon;

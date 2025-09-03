@@ -33,6 +33,11 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  pointer-events: none;
+}
+
+p, h3 {
+  pointer-events: none;
 }
 
 button {

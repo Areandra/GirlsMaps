@@ -1,6 +1,8 @@
 import ColorPallate from "../theme/Color";
+import { useState } from "react";
 
 export const FetureCard = ({ text, imageUrl, id }) => {
+  const [hover, setHover] = useState(false);
   const cardStyles = {
     container: {
       display: "flex",
@@ -13,7 +15,7 @@ export const FetureCard = ({ text, imageUrl, id }) => {
       borderRadius: "25px",
       marginTop: "auto",
       minHeight: "87px",
-      minWidth: "128px"
+      minWidth: "128px",
     },
     image: {
       width: "40px",
@@ -27,9 +29,22 @@ export const FetureCard = ({ text, imageUrl, id }) => {
       textAlign: "left",
       color: "#333",
     },
+    hover: {
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px rgba(248, 187, 208, 0.7), 0 0 20px rgba(248, 187, 208, 0.5), 0 0 30px rgba(248, 187, 208, 0.3)`,
+      transition: "translate 0.3s ease",
+      transform: "translateY(-5%)",
+    },
   };
   return (
-    <div id={id} style={cardStyles.container}>
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      id={id}
+      style={{
+        ...cardStyles.container,
+        ...(hover ? cardStyles.hover : {}),
+      }}
+    >
       <img src={imageUrl} alt={text} style={cardStyles.image} />
       <p style={cardStyles.text}>{text}</p>
     </div>

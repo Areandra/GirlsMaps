@@ -25,7 +25,7 @@ const NavBar = ({
   const styles = {
     nav: {
       position: "fixed",
-      top: "24px",
+      top: "3vh",
       left: "50%",
       transform: "translateX(-50%)",
       zIndex: 100,
