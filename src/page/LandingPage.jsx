@@ -109,6 +109,10 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
       backgroundImage:
         "linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,0.6) 70%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.2) 90%, rgba(255,255,255,0.1) 100%)",
       zIndex: 5,
+      transition: "left 0.5s ease, transform 0.5s ease",
+    },
+    textBackgroundDissmis: {
+      transform: "translateX(-100%)",
     },
   };
 
@@ -169,7 +173,12 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
           ))}
         </div>
       </div>
-      <div style={LandingPageStyles.textBackground}></div>
+      <div
+        style={{
+          ...LandingPageStyles.textBackground,
+          ...(lastPage != "home" ? LandingPageStyles.textBackgroundDissmis : {}),
+        }}
+      ></div>
     </>
   );
 };
