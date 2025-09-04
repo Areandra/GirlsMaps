@@ -138,7 +138,7 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
         </div>
         <div style={LandingPageStyles.buttonGroup}>
           <ButtonCostum
-            text="Mulai"
+            text="Ayo Mulai"
             type="primary"
             onclick={() => buttonOneOnClick()}
           />

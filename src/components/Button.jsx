@@ -114,16 +114,52 @@ const ButtonCostum = ({
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        {text}{" "}
-        {icon && (
-          <IconComponent
-            size={18}
-            color={hover ? ColorPallate.background : ColorPallate.primary}
-          />
-        )}
+        {text}
+        {icon && <IconComponent size={18} color={ColorPallate.primary} />}
       </button>
     );
+  } else if (type === "floatingButton") {
+    const floatingButtonStyles = {
+      container: {
+        position: "fixed",
+        top: "3vh",
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 100,
+        display: "flex",
+        alignItems: "center",
+        padding: "8px 14px",
+        backgroundColor: ColorPallate.background,
+      },
+    };
+    const IconComponent = FiArrowRight || icon;
+    return (
+      <div style={floatingButtonStyles.container}>
+        <button
+          id={id}
+          style={{
+            ...buttonResetstyles.button,
+            ...normalButtonStyles.button,
+            ...(hover ? normalButtonStyles.hover : {}),
+            ...style,
+          }}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          onClick={() => {
+            onclick?.();
+            setActive(!active);
+          }}
+        >
+          {text}
+          <IconComponent
+            size={18}
+            color={!hover ? ColorPallate.background : ColorPallate.primary}
+          />
+        </button>
+      </div>
+    );
   }
+
   const normalButtonStyles = {
     button: {
       backgroundColor: ColorPallate.primary,
@@ -134,9 +170,6 @@ const ButtonCostum = ({
       alignItems: "center",
       gap: "8px",
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
-    },
-    active: {
-      backgroundColor: ColorPallate.secondary,
     },
     hover: {
       backgroundColor: "transparent",
@@ -152,7 +185,6 @@ const ButtonCostum = ({
       style={{
         ...buttonResetstyles.button,
         ...normalButtonStyles.button,
-        ...(active ? normalButtonStyles.active : {}),
         ...(hover ? normalButtonStyles.hover : {}),
         ...style,
       }}
@@ -163,7 +195,7 @@ const ButtonCostum = ({
         setActive(!active);
       }}
     >
-      {text}{" "}
+      {text}
       <IconComponent
         size={18}
         color={!hover ? ColorPallate.background : ColorPallate.primary}

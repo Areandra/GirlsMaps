@@ -3,24 +3,43 @@ import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
 import Maps from "./components/Maps.jsx";
+import LoginPage from "./page/LoginPage.jsx";
+import { useSearchParams } from "react-router-dom";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [lastPage, setLastPage] = useState("home");
   const [navDismiss, setNavDismiss] = useState(false);
+  const [urlParams, setUrlParams] = useSearchParams();
+  const [lastPage, setPageTo] = useState(urlParams.get("page") || "home");
+
+  const setLastPage = (p) => {
+    setUrlParams({ page: p });
+  };
+
+  useEffect(() => {
+    const paramLastPage = urlParams.get("page") || "home";
+    console.log("cek:", lastPage === paramLastPage, {
+      lastPage,
+      paramLastPage,
+    });
+    if (lastPage === (urlParams.get("page") || "home")) return;
+    setPageTo(urlParams.get("page") || "home");
+  }, [urlParams]);
+
+  useEffect(() => {
+    setNavDismiss(lastPage === "login");
+  }, [lastPage]);
 
   const navButtonAction = {
     navButton: [],
     navAuthButton: [
       () => {
         console.log("is called");
-        setNavDismiss(true);
-        setCurrentPage("login");
-        setLastPage("login");
+        setCurrentPage("daftar");
+        setLastPage("daftar");
       },
       () => {
         console.log("is called");
-        setNavDismiss(true);
         setCurrentPage("login");
         setLastPage("login");
       },
@@ -46,6 +65,11 @@ function App() {
           setCurrentPage("login");
           setLastPage("login");
         }}
+      />
+      <LoginPage
+        lastPage={lastPage}
+        slideIn={lastPage === "login" || lastPage === "daftar"}
+        setLastPage={setLastPage}
       />
     </>
   );
