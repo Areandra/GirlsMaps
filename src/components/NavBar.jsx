@@ -12,21 +12,17 @@ const NavBar = ({
   setCurrentPage,
   lastPage,
   setLastPage,
+  handleSearch,
+  searchQuery,
+  setSearchQuery
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
+  const [showSearchBar, setshowSearchBar] = useState(false);
   const [buttonSize, setButtonSize] = useState([]);
   const ButtonRef = useRef([]);
   const containerRef = useRef();
   const navRef = useRef();
-
-  const [showSearchBar, setshowSearchBar] = useState(false);
-
-  const buttonList = [
-    { id: "home", text: "Home" },
-    { id: "map", text: "Map" },
-    { id: "about", text: "About" },
-  ];
 
   const styles = {
     nav: {
@@ -108,6 +104,12 @@ const NavBar = ({
       transform: "translateX(100%)",
     },
   };
+
+  const buttonList = [
+    { id: "home", text: "Home" },
+    { id: "map", text: "Map" },
+    { id: "about", text: "About" },
+  ];
 
   useEffect(() => {
     if (lastPage === "login") return;
@@ -243,7 +245,9 @@ const NavBar = ({
             }}
             hovercolor={ColorPallate.primary}
             color={ColorPallate.background}
-
+            value={searchQuery}
+            onChange={handleSearch}
+            clearQuery={() => setSearchQuery("")}
           />
         </div>
       )}

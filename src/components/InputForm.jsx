@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ColorPallate from "../theme/Color";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiX, FiXCircle } from "react-icons/fi";
 
 export const InputForm = ({
   icon,
@@ -10,6 +10,7 @@ export const InputForm = ({
   type,
   value,
   onChange,
+  clearQuery,
 }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
@@ -47,7 +48,6 @@ export const InputForm = ({
       }}
       onMouseEnter={() => {
         setHover(true);
-        inputRef.current.hover().placeholder;
       }}
       onMouseLeave={() => setHover(false)}
       onClick={() => {
@@ -66,10 +66,24 @@ export const InputForm = ({
           ...style?.input,
         }}
       />
-      <IconComponent
-        size={18}
-        color={hover ? ColorPallate.background : ColorPallate.primary}
-      />
+      {!value ? (
+        <IconComponent
+          size={18}
+          color={hover ? ColorPallate.background : ColorPallate.primary}
+        />
+      ) : (
+        <div
+          onClick={() => clearQuery()}
+          style={{
+            alignContent: "center",
+            justifyContent: "center",
+            display: "flex",
+            cursor: "pointer",
+          }}
+        >
+          <FiX size={18} color={!hover ? ColorPallate.secondaryText : ColorPallate.background} />
+        </div>
+      )}
     </div>
   );
 };

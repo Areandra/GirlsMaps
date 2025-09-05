@@ -25,11 +25,13 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
   const inputFields = [
     lastPage === "daftar" && {
       key: "username",
-      icon: FiUser,
       text: "Username",
-      placeholder: "example",
-      value: username,
-      onChange: (e) => setUsername(e.target.value),
+      spread: {
+        icon: FiUser,
+        placeholder: "example",
+        value: username,
+        onChange: (e) => setUsername(e.target.value),
+      },
       wrapperStyle: {
         display: "flex",
         gap: "4px",
@@ -44,11 +46,13 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
     },
     {
       key: "email",
-      icon: FiMail,
       text: "Email",
-      placeholder: "example@gmail.com",
-      value: email,
-      onChange: (e) => setEmail(e.target.value),
+      spread: {
+        icon: FiMail,
+        placeholder: "example@gmail.com",
+        value: email,
+        onChange: (e) => setEmail(e.target.value),
+      },
       wrapperStyle: {
         display: "flex",
         gap: "4px",
@@ -63,13 +67,14 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
     },
     {
       key: "password",
-      icon: FiLock,
       text: "Password",
-      type: "password",
-      placeholder: "enter...",
-
-      value: password,
-      onChange: (e) => setPassword(e.target.value),
+      spread: {
+        icon: FiLock,
+        type: "password",
+        placeholder: "enter...",
+        value: password,
+        onChange: (e) => setPassword(e.target.value),
+      },
       wrapperStyle: {
         display: "flex",
         gap: "4px",
@@ -119,7 +124,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
             field.wrapperStyle ? (
               <div key={field.key} style={field.wrapperStyle}>
                 <p style={field.labelStyle}>{field.text}</p>
-                <InputForm {...field} />
+                <InputForm {...field.spread} />
               </div>
             ) : (
               <InputForm key={field.key} {...field} />

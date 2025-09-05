@@ -167,15 +167,19 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
             infoList={infoList}
             id="kumpulan"
           />
-          {fetuereCardList.map((i) => (
-            <FetureCard text={i.text} id={i.id} imageUrl={i.imgUrl} />
+          {fetuereCardList.map((i, index) => (
+            <div key={index}>
+              <FetureCard text={i.text} id={i.id} imageUrl={i.imgUrl} />
+            </div>
           ))}
         </div>
       </div>
       <div
         style={{
           ...LandingPageStyles.textBackground,
-          ...(lastPage != "home" ? LandingPageStyles.textBackgroundDissmis : {}),
+          ...(lastPage != "home"
+            ? LandingPageStyles.textBackgroundDissmis
+            : {}),
         }}
       ></div>
     </>

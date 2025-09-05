@@ -85,8 +85,8 @@ export const InfoCard = ({ title, infoList, id }) => {
     <div id={id} style={cardStyles.container}>
       <h1 style={cardStyles.text}>{title}</h1>
       <div style={cardStyles.groupInfo}>
-        {infoList.map((i) => (
-          <div id={i.id} style={cardStyles.groupInfoBody}>
+        {infoList.map((i, index) => (
+          <div key={index} style={cardStyles.groupInfoBody}>
             <h1 style={cardStyles.text}>{i.title}</h1>
             <p style={cardStyles.deskripsi}>{i.deskripsi}</p>
           </div>

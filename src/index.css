@@ -86,7 +86,7 @@ input:focus{
   }
 }
 
-@media screen and (max-height: 663px) {
+/* @media screen and (max-height: 663px) {
   body > * {
     display: none;
   }
@@ -108,4 +108,4 @@ input:focus{
     background-repeat: no-repeat;
     background-position: center;
   }
-}
+} */
