@@ -12,6 +12,8 @@ const ButtonCostum = ({
   onHoverEnter,
   onHoverExit,
   icon,
+  content,
+  hoverScale
 }) => {
   const [active, setActive] = useState(false);
   const [hover, setHover] = useState(false);
@@ -41,9 +43,9 @@ const ButtonCostum = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     hover: {
-      backgroundColor: "transparent",
+      backgroundColor: ColorPallate.background,
       color: ColorPallate.primary,
-      scale: 1.05,
+      scale: hoverScale || 1.05,
       boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
     },
   };
@@ -150,13 +152,24 @@ const ButtonCostum = ({
         zIndex: 100,
         display: "flex",
         alignItems: "center",
-        padding: "8px 14px",
+        padding: "14px 20px",
         backgroundColor: ColorPallate.background,
+        gap: 18,
       },
     };
     const IconComponent = icon || FiArrowRight;
     return (
       <div style={floatingButtonStyles.container}>
+        <p
+          style={{
+            color: ColorPallate.text,
+            fontSize: 12,
+            fontWeight: 500,
+            transform: "translateX(6px)"
+          }}
+        >
+          {text}
+        </p>
         <button
           id={id}
           style={{
@@ -172,9 +185,8 @@ const ButtonCostum = ({
             setActive(!active);
           }}
         >
-          {text}
           <IconComponent
-            size={16}
+            size={18}
             color={!hover ? ColorPallate.background : ColorPallate.primary}
           />
         </button>
@@ -196,13 +208,18 @@ const ButtonCostum = ({
       onClick={() => {
         onclick?.();
         setActive(!active);
+        setHover(!hover);
       }}
     >
-      {text}
-      <IconComponent
-        size={18}
-        color={!hover ? ColorPallate.background : ColorPallate.primary}
-      />
+      {content || (
+        <>
+          {text}
+          <IconComponent
+            size={18}
+            color={!hover ? ColorPallate.background : ColorPallate.primary}
+          />
+        </>
+      )}
     </button>
   );
 };

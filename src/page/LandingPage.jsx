@@ -168,9 +168,12 @@ const LandingPage = ({ lastPage, buttonOneOnClick, buttonTwoOnClick }) => {
             id="kumpulan"
           />
           {fetuereCardList.map((i, index) => (
-            <div key={index}>
-              <FetureCard text={i.text} id={i.id} imageUrl={i.imgUrl} />
-            </div>
+            <FetureCard
+              key={index}
+              text={i.text}
+              id={i.id}
+              imageUrl={i.imgUrl}
+            />
           ))}
         </div>
       </div>

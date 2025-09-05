@@ -22,7 +22,6 @@ export const InputForm = ({
       outline: "none",
       cursor: "text",
       fontSize: "12px",
-      flex: 1,
       alignItems: "center",
       gap: "8px",
       borderRadius: "8px",

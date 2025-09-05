@@ -35,7 +35,7 @@ h1 {
   line-height: 1.1;
 }
 
-p, h3, h1, img, button, input {
+p, h3, h1, img, button, input, span {
   user-select: none;
 }
 

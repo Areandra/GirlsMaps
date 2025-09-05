@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
@@ -96,11 +96,15 @@ const fuse = new Fuse(storeLocation, {
 });
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
   const [urlParams, setUrlParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(
+    urlParams.get("page") || "home"
+  );
   const [lastPage, setPageTo] = useState(urlParams.get("page") || "home");
   const [searchQuery, setSearchQuery] = useState("");
   const [queryResult, setQueryResult] = useState(storeLocation);
+  const [currentPin, setCurrentPin] = useState(null);
+  const navRef = useRef();
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -125,6 +129,7 @@ function App() {
     if (lastPage === (urlParams.get("page") || "home")) return;
     setPageTo(urlParams.get("page") || "home");
     setCurrentPage(urlParams.get("page") || "home");
+    setCurrentPin(null);
   }, [urlParams]);
 
   const navButtonAction = {
@@ -155,8 +160,13 @@ function App() {
         handleSearch={handleSearch}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        navRef={navRef}
       />
-      <Maps lastPage={lastPage} queryResult={queryResult} />
+      <Maps
+        lastPage={lastPage}
+        queryResult={queryResult}
+        setCurrentPin={setCurrentPin}
+      />
       <LandingPage
         lastPage={lastPage}
         buttonOneOnClick={() => {
@@ -165,7 +175,11 @@ function App() {
           setLastPage("login");
         }}
       />
-      <MapsPage dismiss={lastPage !== "map"} />
+      <MapsPage
+        dismiss={lastPage !== "map"}
+        navRef={navRef}
+        currentPin={currentPin}
+      />
       <LoginPage
         lastPage={lastPage}
         slideIn={lastPage === "login" || lastPage === "daftar"}

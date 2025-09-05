@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.png";
 
 const icon = new L.Icon({
@@ -14,7 +14,34 @@ const icon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const Maps = ({ lastPage, queryResult }) => {
+const FlyToMarker = ({ pin, setCurrentPin }) => {
+  const map = useMap();
+
+  const handleClick = () => {
+    setCurrentPin(pin);
+    map.flyTo([pin.Latitude, pin.Longitude], 18, {
+      animate: true,
+      duration: 1.5,
+    });
+  };
+
+  return (
+    <Marker
+      position={[pin.Latitude, pin.Longitude]}
+      icon={icon}
+      eventHandlers={{
+        click: handleClick,
+        mouseover: (e) => e.target.openPopup(),
+        mouseout: (e) => e.target.closePopup(),
+      }}
+    >
+      <Popup>{pin.NamaTempat}</Popup>
+    </Marker>
+  );
+};
+
+const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
+  const mapRef = useRef();
   const RecenterMap = ({ position }) => {
     const map = useMap();
 
@@ -52,6 +79,9 @@ const Maps = ({ lastPage, queryResult }) => {
         zoomControl={false}
         maxBoundsViscosity={1.0}
         minZoom={14}
+        whenCreated={(mapInstance) => {
+          mapRef.current = mapInstance;
+        }}
       >
         <RecenterMap position={[-0.8975593, 119.8606656]} />
         <TileLayer
@@ -59,9 +89,7 @@ const Maps = ({ lastPage, queryResult }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         />
         {queryResult?.map((pin, index) => (
-          <Marker key={index} position={[pin.Latitude, pin.Longitude]} icon={icon}>
-            <Popup>{pin.NamaTempat}</Popup>
-          </Marker>
+          <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
         ))}
       </MapContainer>
     </div>

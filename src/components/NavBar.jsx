@@ -14,7 +14,8 @@ const NavBar = ({
   setLastPage,
   handleSearch,
   searchQuery,
-  setSearchQuery
+  setSearchQuery,
+  navRef
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
@@ -22,7 +23,8 @@ const NavBar = ({
   const [buttonSize, setButtonSize] = useState([]);
   const ButtonRef = useRef([]);
   const containerRef = useRef();
-  const navRef = useRef();
+
+  console.log("test", currentPage, lastPage)
 
   const styles = {
     nav: {

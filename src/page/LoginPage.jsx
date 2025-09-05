@@ -119,7 +119,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
           <h2 style={styles.loginTitle}>Welcome Boss!</h2>
         </div>
 
-        <div style={{ gap: "8px", display: "flex", flexDirection: "column" }}>
+        <div style={{ gap: "8px", display: "flex", flexDirection: "column", marginBottom: "10px" }}>
           {inputFields.map((field) =>
             field.wrapperStyle ? (
               <div key={field.key} style={field.wrapperStyle}>
