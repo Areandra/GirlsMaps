@@ -97,7 +97,13 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
-        <div style={{justifyContent: "flex-start", display: "flex", flexDirection: "column", }}>
+        <div
+          style={{
+            justifyContent: "flex-start",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <div style={styles.titleGroup}>
             <img src={logo} alt="" style={styles.logo} />
             <h1 style={styles.titleText}>Girls</h1>
@@ -106,25 +112,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
             </h1>
           </div>
           <h2 style={styles.loginTitle}>Welcome Boss!</h2>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-          >
-            <span style={{ color: "grey", fontSize: 12 }}>
-              {lastPage === "login"
-                ? "Belum Punya Akun Ya?"
-                : "Sudah Punya Akun Sebelumnya?"}
-            </span>
-            <ButtonCostum
-              type="textButton"
-              text={lastPage === "login" ? "Daftar" : "Masuk"}
-              onclick={() => handleChangeMode()}
-            />
-          </div>
         </div>
 
         <div style={{ gap: "8px", display: "flex", flexDirection: "column" }}>
@@ -157,11 +144,16 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
         />
 
         <div style={styles.separator}>
-          <div style={styles.line}></div>
-          <p style={{ textAlign: "center", color: "grey", fontSize: "12px" }}>
-            OR
+          <p
+            style={{
+              textAlign: "center",
+              color: ColorPallate.text,
+              fontSize: "12px",
+              fontWeight: 500,
+            }}
+          >
+            - Or Sign In With -
           </p>
-          <div style={styles.line}></div>
         </div>
 
         <div style={styles.socialContainer}>
@@ -172,23 +164,28 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
             <img
               src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
               alt="google"
-              style={{ width: 24, height: 24 }}
+              style={{ width: 18, height: 18 }}
             />
+            Google
           </button>
-          <button style={styles.buttonBox}>
-            <img
-              src="https://img.icons8.com/?size=100&id=uLWV5A9vXIPu&format=png&color=000000"
-              alt="facebook"
-              style={{ width: 24, height: 24 }}
-            />
-          </button>
-          <button style={styles.buttonBox}>
-            <img
-              src="https://img.icons8.com/?size=100&id=fJp7hepMryiw&format=png&color=000000"
-              alt="twitter"
-              style={{ width: 24, height: 24 }}
-            />
-          </button>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ color: "grey", fontSize: 12 }}>
+            {lastPage === "login"
+              ? "Belum Punya Akun Ya?"
+              : "Sudah Punya Akun Sebelumnya?"}
+          </span>
+          <ButtonCostum
+            type="textButton"
+            text={lastPage === "login" ? "Daftar" : "Masuk"}
+            onclick={() => handleChangeMode()}
+          />
         </div>
       </div>
     </div>
@@ -210,36 +207,41 @@ const styles = {
     transition: "opacity 0.3s ease",
   },
   loginForm: {
-    minWidth: "360px",
-    padding: 20,
+    minWidth: "300px",
+    padding: 35,
     backgroundColor: ColorPallate.background,
     borderRadius: 20,
     display: "flex",
     flexDirection: "column",
-    gap: 20,
+    gap: 14,
     transition: "bottom 0.3s ease, transform 0.3s ease",
-    boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 100vw rgba(148, 81, 81, 0.7), 0 0 100vw rgba(0, 45, 103, 0.5), 0 0 100vw rgba(0, 255, 21, 0.3)`,
+    boxShadow: `0px 2px 2px rgba(0, 0, 0, 0.25), 0 0 100vw rgba(255, 255, 255, 0.7), 0 0 100vw rgba(255, 255, 255, 0.5), 0 0 100vw rgba(255, 255, 255, 0.3)`,
   },
   firstPosition: {
     transform: "translateY(150%)",
   },
   loginTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: "1rem",
+    fontWeight: 500,
     color: ColorPallate.text,
-    textAlign: "left",
-    marginBottom: 0,
+    textAlign: "center",
+    margin: 0,
   },
   buttonBox: {
-    backgroundColor: ColorPallate.primary,
-    height: 34,
-    borderRadius: 5,
-    justifyContent: "center",
+    backgroundColor: ColorPallate.background,
+    color: "black",
+    border: "none",
+    outline: "none",
+    cursor: "text",
+    fontSize: "12px",
+    flex: 1,
     alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    justifyContent: "center",
     display: "flex",
     cursor: "pointer",
-    border: "none",
-    boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+    boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
   },
   line: {
     flex: 1,
@@ -249,12 +251,12 @@ const styles = {
   separator: {
     display: "flex",
     alignItems: "center",
-    gap: 10,
+    justifyContent: "center",
   },
   socialContainer: {
     display: "flex",
     justifyContent: "center",
-    gap: 10,
+    flexDirection: "column",
   },
   linkButton: {
     background: "none",
@@ -266,20 +268,20 @@ const styles = {
   },
   titleGroup: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     display: "flex",
     alignItems: "center",
   },
   titleText: {
     color: ColorPallate.primary,
-    fontSize: "1rem",
+    fontSize: "1.5rem",
     fontWeight: "bold",
     textAlign: "left",
     display: "inline",
   },
   logo: {
-    width: "2rem",
-    height: "2rem",
+    width: "3rem",
+    height: "3rem",
   },
 };
 

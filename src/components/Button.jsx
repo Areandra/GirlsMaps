@@ -174,7 +174,7 @@ const ButtonCostum = ({
         >
           {text}
           <IconComponent
-            size={18}
+            size={16}
             color={!hover ? ColorPallate.background : ColorPallate.primary}
           />
         </button>

@@ -24,6 +24,7 @@ function App() {
     });
     if (lastPage === (urlParams.get("page") || "home")) return;
     setPageTo(urlParams.get("page") || "home");
+    setCurrentPage(urlParams.get("page") || "home");
   }, [urlParams]);
 
   const navButtonAction = {

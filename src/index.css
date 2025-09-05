@@ -58,7 +58,6 @@ input {
   background: transparent;
   border: none;
   flex: 1;
-  color: white;
   font-size: 12px;
   font-weight: 500;
 }
@@ -69,15 +68,7 @@ input::placeholder{
   flex: 1;
 
 }
-input:hover::placeholder{
-  color: transparent;
-  font-size: 12px;
-  font-weight: 500;
 
-}
-input:hover {
-  color: rgba(248, 187, 208, 1);
-}
 input:focus{
   outline: none;
   box-shadow: none;

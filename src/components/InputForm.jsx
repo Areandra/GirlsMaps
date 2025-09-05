@@ -2,13 +2,21 @@ import { useRef, useState } from "react";
 import ColorPallate from "../theme/Color";
 import { FiSearch } from "react-icons/fi";
 
-export const InputForm = ({ icon, placeholder, id, style, type, value, onChange }) => {
+export const InputForm = ({
+  icon,
+  placeholder,
+  id,
+  style,
+  type,
+  value,
+  onChange,
+}) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
 
   const searchForm = {
     form: {
-      backgroundColor: ColorPallate.primary,
+      backgroundColor: ColorPallate.secondaryText,
       border: "none",
       outline: "none",
       cursor: "text",
@@ -19,7 +27,7 @@ export const InputForm = ({ icon, placeholder, id, style, type, value, onChange 
       borderRadius: "8px",
       justifyContent: "space-between",
       display: "flex",
-      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+      boxShadow: `inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     hover: {
       backgroundColor: "transparent",
@@ -37,7 +45,10 @@ export const InputForm = ({ icon, placeholder, id, style, type, value, onChange 
         ...(!hover ? searchForm.hover : {}),
         ...style?.container,
       }}
-      onMouseEnter={() => setHover(true)}
+      onMouseEnter={() => {
+        setHover(true);
+        inputRef.current.hover().placeholder;
+      }}
       onMouseLeave={() => setHover(false)}
       onClick={() => {
         setHover(!hover);
@@ -48,11 +59,10 @@ export const InputForm = ({ icon, placeholder, id, style, type, value, onChange 
         ref={inputRef}
         type={type}
         placeholder={placeholder}
-        textColor="white"
         value={value}
         onChange={onChange}
         style={{
-          ...{ color: "white" },
+          ...{ color: ColorPallate.text },
           ...style?.input,
         }}
       />
