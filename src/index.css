@@ -85,3 +85,27 @@ input:focus{
     background-color: #f9f9f9;
   }
 }
+
+@media screen and (max-height: 663px) {
+  body > * {
+    display: none;
+  }
+  body {
+    background-image: url(./assets/mobilee.jpg);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+@media screen and (max-width: 1087px) {
+  body > * {
+    display: none;
+  }
+  body {
+    background-image: url(./assets/mobilee.jpg);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
