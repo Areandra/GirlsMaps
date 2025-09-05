@@ -5,10 +5,10 @@ import LandingPage from "./page/LandingPage.jsx";
 import Maps from "./components/Maps.jsx";
 import LoginPage from "./page/LoginPage.jsx";
 import { useSearchParams } from "react-router-dom";
+import MapsPage from "./page/MapsPage.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [navDismiss, setNavDismiss] = useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
   const [lastPage, setPageTo] = useState(urlParams.get("page") || "home");
 
@@ -25,10 +25,6 @@ function App() {
     if (lastPage === (urlParams.get("page") || "home")) return;
     setPageTo(urlParams.get("page") || "home");
   }, [urlParams]);
-
-  useEffect(() => {
-    setNavDismiss(lastPage === "login");
-  }, [lastPage]);
 
   const navButtonAction = {
     navButton: [],
@@ -49,7 +45,7 @@ function App() {
   return (
     <>
       <NavBar
-        dismiss={navDismiss}
+        dismiss={lastPage === "login" || lastPage === "daftar"}
         buttonAction={navButtonAction}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
@@ -61,11 +57,11 @@ function App() {
         lastPage={lastPage}
         buttonOneOnClick={() => {
           console.log("is called");
-          setNavDismiss(true);
           setCurrentPage("login");
           setLastPage("login");
         }}
       />
+      <MapsPage dismiss={lastPage !== "map"} />
       <LoginPage
         lastPage={lastPage}
         slideIn={lastPage === "login" || lastPage === "daftar"}

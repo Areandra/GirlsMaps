@@ -29,6 +29,24 @@ const ButtonCostum = ({
       gap: "8px",
     },
   };
+  const normalButtonStyles = {
+    button: {
+      backgroundColor: ColorPallate.primary,
+      borderRadius: "30px",
+      justifyContent: "center",
+      color: "white",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+    },
+    hover: {
+      backgroundColor: "transparent",
+      color: ColorPallate.primary,
+      scale: 1.05,
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
+    },
+  };
   if (type === "navbarButton") {
     const navbarbuttonStyles = {
       button: {
@@ -121,10 +139,14 @@ const ButtonCostum = ({
   } else if (type === "floatingButton") {
     const floatingButtonStyles = {
       container: {
+        borderRadius: "40px",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        transition:
+          "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease",
         position: "fixed",
         top: "3vh",
-        left: "50%",
-        transform: "translateX(-50%)",
+        right: "0%",
+        transform: "translateX(-25%)",
         zIndex: 100,
         display: "flex",
         alignItems: "center",
@@ -132,7 +154,7 @@ const ButtonCostum = ({
         backgroundColor: ColorPallate.background,
       },
     };
-    const IconComponent = FiArrowRight || icon;
+    const IconComponent = icon || FiArrowRight;
     return (
       <div style={floatingButtonStyles.container}>
         <button
@@ -159,26 +181,7 @@ const ButtonCostum = ({
       </div>
     );
   }
-
-  const normalButtonStyles = {
-    button: {
-      backgroundColor: ColorPallate.primary,
-      borderRadius: "30px",
-      justifyContent: "center",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
-    },
-    hover: {
-      backgroundColor: "transparent",
-      color: ColorPallate.primary,
-      scale: 1.05,
-      boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
-    },
-  };
-  const IconComponent = FiArrowRight || icon;
+  const IconComponent = icon || FiArrowRight;
   return (
     <button
       id={id}

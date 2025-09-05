@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import ColorPallate from "../theme/Color";
 import { FiSearch } from "react-icons/fi";
 
-export const InputForm = ({ icon, text, id, style, type, value, onChange }) => {
+export const InputForm = ({ icon, placeholder, id, style, type, value, onChange }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
 
@@ -16,16 +16,15 @@ export const InputForm = ({ icon, text, id, style, type, value, onChange }) => {
       flex: 1,
       alignItems: "center",
       gap: "8px",
-      borderRadius: "30px",
+      borderRadius: "8px",
       justifyContent: "space-between",
       display: "flex",
-      alignItems: "center",
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     hover: {
       backgroundColor: "transparent",
       color: ColorPallate.primary,
-      boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
     },
   };
   const IconComponent = icon || FiSearch;
@@ -35,7 +34,7 @@ export const InputForm = ({ icon, text, id, style, type, value, onChange }) => {
       id={id}
       style={{
         ...searchForm.form,
-        ...(hover ? searchForm.hover : {}),
+        ...(!hover ? searchForm.hover : {}),
         ...style?.container,
       }}
       onMouseEnter={() => setHover(true)}
@@ -48,7 +47,7 @@ export const InputForm = ({ icon, text, id, style, type, value, onChange }) => {
       <input
         ref={inputRef}
         type={type}
-        placeholder={text}
+        placeholder={placeholder}
         textColor="white"
         value={value}
         onChange={onChange}
@@ -59,7 +58,7 @@ export const InputForm = ({ icon, text, id, style, type, value, onChange }) => {
       />
       <IconComponent
         size={18}
-        color={!hover ? ColorPallate.background : ColorPallate.primary}
+        color={hover ? ColorPallate.background : ColorPallate.primary}
       />
     </div>
   );

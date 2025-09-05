@@ -3,6 +3,7 @@ import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
+import logo from "../assets/logo.png";
 
 const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
   const [username, setUsername] = useState("");
@@ -21,6 +22,68 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
     console.log("Register:", data);
   };
 
+  const inputFields = [
+    lastPage === "daftar" && {
+      key: "username",
+      icon: FiUser,
+      text: "Username",
+      placeholder: "example",
+      value: username,
+      onChange: (e) => setUsername(e.target.value),
+      wrapperStyle: {
+        display: "flex",
+        gap: "4px",
+        flexDirection: "column",
+      },
+      labelStyle: {
+        color: ColorPallate.primary,
+        textAlign: "left",
+        fontSize: 14,
+        flex: 1,
+      },
+    },
+    {
+      key: "email",
+      icon: FiMail,
+      text: "Email",
+      placeholder: "example@gmail.com",
+      value: email,
+      onChange: (e) => setEmail(e.target.value),
+      wrapperStyle: {
+        display: "flex",
+        gap: "4px",
+        flexDirection: "column",
+      },
+      labelStyle: {
+        color: ColorPallate.primary,
+        textAlign: "left",
+        fontSize: 14,
+        flex: 1,
+      },
+    },
+    {
+      key: "password",
+      icon: FiLock,
+      text: "Password",
+      type: "password",
+      placeholder: "enter...",
+
+      value: password,
+      onChange: (e) => setPassword(e.target.value),
+      wrapperStyle: {
+        display: "flex",
+        gap: "4px",
+        flexDirection: "column",
+      },
+      labelStyle: {
+        color: ColorPallate.primary,
+        textAlign: "left",
+        fontSize: 14,
+        flex: 1,
+      },
+    },
+  ].filter(Boolean);
+
   return (
     <div
       style={{
@@ -34,50 +97,48 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
-        <h2 style={styles.loginTitle}>Welcome Boss!</h2>
+        <div style={{justifyContent: "flex-start", display: "flex", flexDirection: "column", }}>
+          <div style={styles.titleGroup}>
+            <img src={logo} alt="" style={styles.logo} />
+            <h1 style={styles.titleText}>Girls</h1>
+            <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
+              Map
+            </h1>
+          </div>
+          <h2 style={styles.loginTitle}>Welcome Boss!</h2>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <span style={{ color: "grey", fontSize: 12 }}>
-            {lastPage === "login"
-              ? "Belum Punya Akun Ya? "
-              : "Sudah Punya Akun Sebelumnya? "}
-          </span>
-          <ButtonCostum
-            type="textButton"
-            text={lastPage === "login" ? "Daftar" : "Masuk"}
-            onclick={() => handleChangeMode()}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ color: "grey", fontSize: 12 }}>
+              {lastPage === "login"
+                ? "Belum Punya Akun Ya?"
+                : "Sudah Punya Akun Sebelumnya?"}
+            </span>
+            <ButtonCostum
+              type="textButton"
+              text={lastPage === "login" ? "Daftar" : "Masuk"}
+              onclick={() => handleChangeMode()}
+            />
+          </div>
         </div>
 
-        {lastPage === "daftar" && (
-          <InputForm
-            icon={FiUser}
-            text="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        )}
-
-        <InputForm
-          text="Email"
-          icon={FiMail}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <InputForm
-          icon={FiLock}
-          type="password"
-          text="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div style={{ gap: "8px", display: "flex", flexDirection: "column" }}>
+          {inputFields.map((field) =>
+            field.wrapperStyle ? (
+              <div key={field.key} style={field.wrapperStyle}>
+                <p style={field.labelStyle}>{field.text}</p>
+                <InputForm {...field} />
+              </div>
+            ) : (
+              <InputForm key={field.key} {...field} />
+            )
+          )}
+        </div>
 
         <ButtonCostum
           type="normalbutton"
@@ -149,15 +210,15 @@ const styles = {
     transition: "opacity 0.3s ease",
   },
   loginForm: {
-    minWidth: "280px",
+    minWidth: "360px",
     padding: 20,
     backgroundColor: ColorPallate.background,
-    borderRadius: 40,
+    borderRadius: 20,
     display: "flex",
     flexDirection: "column",
     gap: 20,
     transition: "bottom 0.3s ease, transform 0.3s ease",
-    boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 800px rgba(248, 187, 208, 0.7), 0 0 800px rgba(248, 187, 208, 0.5), 0 0 800px rgba(248, 187, 208, 0.3)`,
+    boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 8px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 100vw rgba(148, 81, 81, 0.7), 0 0 100vw rgba(0, 45, 103, 0.5), 0 0 100vw rgba(0, 255, 21, 0.3)`,
   },
   firstPosition: {
     transform: "translateY(150%)",
@@ -166,7 +227,8 @@ const styles = {
     fontSize: 20,
     fontWeight: "bold",
     color: ColorPallate.text,
-    textAlign: "center",
+    textAlign: "left",
+    marginBottom: 0,
   },
   buttonBox: {
     backgroundColor: ColorPallate.primary,
@@ -201,6 +263,23 @@ const styles = {
     fontSize: 12,
     cursor: "pointer",
     marginLeft: 5,
+  },
+  titleGroup: {
+    flex: 1,
+    justifyContent: "flex-start",
+    display: "flex",
+    alignItems: "center",
+  },
+  titleText: {
+    color: ColorPallate.primary,
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textAlign: "left",
+    display: "inline",
+  },
+  logo: {
+    width: "2rem",
+    height: "2rem",
   },
 };
 

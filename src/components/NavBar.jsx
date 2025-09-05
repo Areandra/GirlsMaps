@@ -234,12 +234,16 @@ const NavBar = ({
       ) : (
         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
           <InputForm
-            text="Cari Toko"
+            placeholder="Cari Toko"
             style={{
               container: {
                 width: "18vw",
+                borderRadius: 30,
               },
             }}
+            hovercolor={ColorPallate.primary}
+            color={ColorPallate.background}
+
           />
         </div>
       )}
