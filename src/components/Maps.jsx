@@ -78,7 +78,6 @@ const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
     },
     disbleMap: {
       pointerEvents: "none",
-      touchAction: "none"
     },
   };
   return (
@@ -88,7 +87,6 @@ const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
         zoom={14}
         style={{
           ...mapStyle.container,
-          ...(lastPage != "map" ? mapStyle.disbleMap : {}) 
         }}
         maxBounds={[
           [-1.05, 119.75],
