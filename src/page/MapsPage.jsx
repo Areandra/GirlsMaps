@@ -7,6 +7,7 @@ import {
   FiMapPin,
   FiPhoneCall,
   FiShoppingBag,
+  FiX,
 } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
 import GlobalModal from "../components/Modal";
@@ -58,6 +59,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
 
   const [showDeskripsi, setShowDeskripsi] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
+  const [showFullDeskripsi, setShowFullDeskripsi] = useState(false);
 
   useEffect(() => {
     console.log("lappor", currentPin);
@@ -73,14 +75,26 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
     containerModal: {
       pointerEvents: showDeskripsi ? "all" : "none",
       left: windowSize.width > 700 ? "2vw" : "50%",
-      ...(windowSize.width < 700 ? { transform: "translateX(-50%)" } : {}),
-      top:
-        navRef?.current?.getBoundingClientRect?.()?.height +
-        window.innerHeight * 0.06,
+      ...(windowSize.width < 700
+        ? {
+            transform: "translateX(-50%)",
+            bottom: 0,
+          }
+        : {
+            top:
+              navRef?.current?.getBoundingClientRect?.()?.height +
+              window.innerHeight * 0.06,
+          }),
       position: "fixed",
     },
     deskripsiModal: {
-      overflow: "auto",
+      transition: "height 0.3s ease",
+      overflow:
+        windowSize.width > 700
+          ? "auto"
+          : !showFullDeskripsi
+          ? "hidden"
+          : "auto",
       boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
       flexDirection: "column",
       borderRadius: "10px",
@@ -91,10 +105,16 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
             width: "22vw",
             height: "76vh ",
           }
+        : showFullDeskripsi
+        ? {
+            left: "50%",
+            width: "80vw",
+            height: "70vh ",
+          }
         : {
             left: "50%",
             width: "80vw",
-            height: "76vh ",
+            height: "40vh ",
           }),
     },
     productModal: {
@@ -107,7 +127,8 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
       borderRadius: "30px",
       display: "flex",
       flexDirection: "column",
-      overflow: "auto",
+      overflow:
+        windowSize.width > 700 ? "auto" : showFullDeskripsi ? "hidden" : "auto",
       width: "22vw",
       height: "76vh ",
       boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
@@ -181,41 +202,53 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         />
       )}
       <div style={styles.containerModal}>
-        <ButtonCostum
-          onclick={() => setShowDeskripsi(!showDeskripsi)}
-          content={
-            windowSize.width > 700 ? (
-              showDeskripsi ? (
-                <FiChevronLeft size={14} />
-              ) : (
-                <FiChevronRight size={14} />
-              )
-            ) : showDeskripsi ? (
-              <FiChevronDown size={14} />
-            ) : (
-              <FiChevronUp size={14} />
-            )
-          }
-          style={{
-            position: "absolute",
-            right: windowSize.width > 700 ? 0 : "50%",
-            top: windowSize.width > 700 ? "50%" : 0,
-            transform:
+        {currentPin && (
+          <ButtonCostum
+            onclick={
               windowSize.width > 700
-                ? showDeskripsi
+                ? () => {
+                    setShowDeskripsi(!showDeskripsi);
+                  }
+                : !showFullDeskripsi
+                ? () => setShowFullDeskripsi(true)
+                : () => {
+                    setShowFullDeskripsi(false);
+                  }
+            }
+            content={
+              windowSize.width > 700 ? (
+                showDeskripsi ? (
+                  <FiChevronLeft size={14} />
+                ) : (
+                  <FiChevronRight size={14} />
+                )
+              ) : showFullDeskripsi ? (
+                <FiX size={14} />
+              ) : (
+                <FiChevronUp size={14} />
+              )
+            }
+            style={{
+              position: "absolute",
+              right: windowSize.width > 700 ? 0 : "50%",
+              top: windowSize.width > 700 ? "50%" : 0,
+              transform:
+                windowSize.width > 700
+                  ? showDeskripsi
+                    ? "translateY(-50%) translateX(50%)"
+                    : "translateY(100%) translateX(100%)"
+                  : showDeskripsi
                   ? "translateY(-50%) translateX(50%)"
-                  : "translateY(100%) translateX(100%)"
-                : showDeskripsi
-                ? "translateY(-50%) translateX(50%)"
-                : "translateX(50%)",
-            textAlign: "center",
-            padding: 10,
-            borderRadius: "12px",
-            zIndex: 11,
-            pointerEvents: "all",
-          }}
-          hoverScale={showDeskripsi ? 1.05 : 1}
-        />
+                  : "translateX(50%) translateY(-150%)",
+              textAlign: "center",
+              padding: 10,
+              borderRadius: "12px",
+              zIndex: 11,
+              pointerEvents: "all",
+            }}
+            hoverScale={showDeskripsi ? 1.05 : 1}
+          />
+        )}
         {showDeskripsi && (
           <GlobalModal visible={showDeskripsi} styles={styles.deskripsiModal}>
             <img
@@ -255,7 +288,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                             display: "flex",
                             flexDirection: "column",
                             gap: 8,
-                            width: "100%"
+                            width: "100%",
                           }}
                         >
                           {i.value.map((j, index) => (

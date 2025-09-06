@@ -86,6 +86,7 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     titleGroup: {
+      flex: windowSize.width > 700 ? 1 : 0,
       justifyContent: "flex-start",
       display: "flex",
       alignItems: "center",

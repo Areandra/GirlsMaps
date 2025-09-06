@@ -1,25 +1,31 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  useMapEvent,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import logo from "../assets/logo.png";
 
 const icon = new L.Icon({
   iconUrl: logo,
   iconRetinaUrl: logo,
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
   iconSize: [54, 54],
   iconAnchor: [27, 54],
   popupAnchor: [0, -47],
   shadowSize: [41, 41],
 });
 
-const FlyToMarker = ({ pin, setCurrentPin }) => {
+const FlyToMarker = ({ pin, setCurrentPin, position }) => {
   const map = useMap();
 
   const handleClick = () => {
     setCurrentPin(pin);
-    map.flyTo([pin.Latitude, pin.Longitude], 18);
+    map.flyTo(position, 18);
   };
 
   return (
@@ -56,10 +62,13 @@ const FlyToMarker = ({ pin, setCurrentPin }) => {
   );
 };
 
-const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
+const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
   const mapRef = useRef();
   const RecenterMap = ({ position }) => {
     const map = useMap();
+    useMapEvent("click", () => {
+      setCurrentPin(null);
+    });
 
     useEffect(() => {
       if (lastPage !== "map") {
@@ -105,7 +114,12 @@ const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         />
         {queryResult?.map((pin, index) => (
-          <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
+          <FlyToMarker
+            key={index}
+            pin={pin}
+            setCurrentPin={setCurrentPin}
+            position={[pin.Latitude - 0.00065, pin.Longitude]}
+          />
         ))}
       </MapContainer>
     </div>

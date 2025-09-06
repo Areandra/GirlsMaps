@@ -180,6 +180,7 @@ function App() {
         lastPage={lastPage}
         queryResult={queryResult}
         setCurrentPin={setCurrentPin}
+        windowSize={windowSize}
       />
       <LandingPage
         lastPage={lastPage}
@@ -202,6 +203,7 @@ function App() {
         navRef={navRef}
         currentPin={currentPin}
         windowSize={windowSize}
+        setCurrentPin={setCurrentPin}
       />
       <LoginPage
         lastPage={lastPage}

@@ -99,7 +99,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
       <div
         style={{
           ...styles.loginForm,
-          ...(windowSize.width < 700 ? {width: "65vw"} : {}),
+          ...(windowSize.width < 700 ? { width: "65vw" } : {minWidth: "300px"}),
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
@@ -120,7 +120,14 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
           <h2 style={styles.loginTitle}>Welcome Boss!</h2>
         </div>
 
-        <div style={{ gap: "8px", display: "flex", flexDirection: "column", marginBottom: "10px" }}>
+        <div
+          style={{
+            gap: "8px",
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "10px",
+          }}
+        >
           {inputFields.map((field) =>
             field.wrapperStyle ? (
               <div key={field.key} style={field.wrapperStyle}>
