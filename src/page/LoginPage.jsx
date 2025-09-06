@@ -5,7 +5,7 @@ import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
 import logo from "../assets/logo.png";
 
-const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
+const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
   const [username, setUsername] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
@@ -99,6 +99,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage }) => {
       <div
         style={{
           ...styles.loginForm,
+          ...(windowSize.width < 700 ? {width: "65vw"} : {}),
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
@@ -212,7 +213,6 @@ const styles = {
     transition: "opacity 0.3s ease",
   },
   loginForm: {
-    minWidth: "300px",
     padding: 35,
     backgroundColor: ColorPallate.background,
     borderRadius: 20,

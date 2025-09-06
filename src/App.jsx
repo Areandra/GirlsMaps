@@ -207,6 +207,7 @@ function App() {
         lastPage={lastPage}
         slideIn={lastPage === "login" || lastPage === "daftar"}
         setLastPage={setLastPage}
+        windowSize={windowSize}
       />
     </>
   );
