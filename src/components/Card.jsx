@@ -1,7 +1,7 @@
 import ColorPallate from "../theme/Color";
 import { useState } from "react";
 
-export const FetureCard = ({ text, imageUrl, id }) => {
+export const FetureCard = ({ text, imageUrl, id, onClick }) => {
   const [hover, setHover] = useState(false);
   const cardStyles = {
     container: {
@@ -9,7 +9,7 @@ export const FetureCard = ({ text, imageUrl, id }) => {
       flexDirection: "column",
       padding: "12px",
       width: "10vw",
-      height: "13vh",
+      height: "13dvh",
       background: "#FFFFFF",
       boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
       borderRadius: "25px",
@@ -39,6 +39,10 @@ export const FetureCard = ({ text, imageUrl, id }) => {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={() => {
+        console.log("tatekan op");
+        onClick();
+      }}
       id={id}
       style={{
         ...cardStyles.container,
@@ -62,6 +66,8 @@ export const InfoCard = ({ title, infoList, id }) => {
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 5px 5px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
       borderRadius: "30px",
       marginRight: "0.5vw",
+      minWidth: "192px",
+      maxHeight: "125px",
     },
     text: {
       fontSize: "1em",

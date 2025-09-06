@@ -1,6 +1,8 @@
 import {
+  FiChevronDown,
   FiChevronLeft,
   FiChevronRight,
+  FiChevronUp,
   FiClock,
   FiMapPin,
   FiPhoneCall,
@@ -51,7 +53,7 @@ const infoList = [
   },
 ];
 
-const MapsPage = ({ dismiss, navRef, currentPin }) => {
+const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
   if (dismiss || !navRef?.current) return;
 
   const [showDeskripsi, setShowDeskripsi] = useState(false);
@@ -59,28 +61,41 @@ const MapsPage = ({ dismiss, navRef, currentPin }) => {
 
   useEffect(() => {
     console.log("lappor", currentPin);
-    if (currentPin) setShowDeskripsi(true);
+    if (currentPin)
+      setShowDeskripsi((prev) => {
+        if (prev !== showProduct) setShowProduct(!prev);
+        return true;
+      });
     else setShowDeskripsi(false);
   }, [currentPin]);
 
   const styles = {
     containerModal: {
       pointerEvents: showDeskripsi ? "all" : "none",
-      left: "2vw",
+      left: windowSize.width > 700 ? "2vw" : "50%",
+      ...(windowSize.width < 700 ? { transform: "translateX(-50%)" } : {}),
       top:
         navRef?.current?.getBoundingClientRect?.()?.height +
         window.innerHeight * 0.06,
       position: "fixed",
     },
     deskripsiModal: {
-      gap: 16,
-      borderRadius: "30px",
-      display: "flex",
-      flexDirection: "column",
       overflow: "auto",
-      width: "22vw",
-      height: "77vh ",
       boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
+      flexDirection: "column",
+      borderRadius: "10px",
+      display: "flex",
+      gap: 16,
+      ...(windowSize.width > 700
+        ? {
+            width: "22vw",
+            height: "76vh ",
+          }
+        : {
+            left: "50%",
+            width: "80vw",
+            height: "76vh ",
+          }),
     },
     productModal: {
       right: "2vw",
@@ -94,11 +109,11 @@ const MapsPage = ({ dismiss, navRef, currentPin }) => {
       flexDirection: "column",
       overflow: "auto",
       width: "22vw",
-      height: "77vh ",
+      height: "76vh ",
       boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
     },
     img: {
-      borderRadius: "1vw",
+      borderRadius: "10px",
       width: "100%",
       boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
@@ -112,17 +127,16 @@ const MapsPage = ({ dismiss, navRef, currentPin }) => {
     lebelInfo: {
       color: ColorPallate.text,
       textAlign: "left",
-      fontSize: 16,
+      fontSize: 12,
       alignItems: "center",
       fontWeight: 400,
       padding: 0,
     },
     contentContainer: {
       padding: 10,
-      margin: 0,
+      margin: 8,
       display: "flex",
       flexDirection: "column",
-      maxWidth: "45vw",
       wordWrap: "break-word",
       overflowWrap: "break-word",
       justifyContent: "flex-start",
@@ -149,112 +163,142 @@ const MapsPage = ({ dismiss, navRef, currentPin }) => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "fixed",
         zIndex: 10,
       }}
     >
-      <ButtonCostum
-        text="Cari Produk"
-        icon={FiShoppingBag}
-        type="floatingButton"
-        onclick={() => setShowProduct(!showProduct)}
-      />
+      {windowSize.width > 700 && (
+        <ButtonCostum
+          text="Cari Produk"
+          icon={FiShoppingBag}
+          type="floatingButton"
+          onclick={() =>
+            setShowProduct((prev) => {
+              if (prev !== showDeskripsi) setShowDeskripsi(prev);
+              return !prev;
+            })
+          }
+        />
+      )}
       <div style={styles.containerModal}>
         <ButtonCostum
           onclick={() => setShowDeskripsi(!showDeskripsi)}
           content={
-            showDeskripsi ? (
-              <FiChevronLeft size={14} />
+            windowSize.width > 700 ? (
+              showDeskripsi ? (
+                <FiChevronLeft size={14} />
+              ) : (
+                <FiChevronRight size={14} />
+              )
+            ) : showDeskripsi ? (
+              <FiChevronDown size={14} />
             ) : (
-              <FiChevronRight size={14} />
+              <FiChevronUp size={14} />
             )
           }
           style={{
             position: "absolute",
-            right: 0,
-            top: "50%",
-            transform: showDeskripsi
-              ? "translateY(-50%) translateX(50%)"
-              : "translateY(-50%) translateX(-22vw)",
+            right: windowSize.width > 700 ? 0 : "50%",
+            top: windowSize.width > 700 ? "50%" : 0,
+            transform:
+              windowSize.width > 700
+                ? showDeskripsi
+                  ? "translateY(-50%) translateX(50%)"
+                  : "translateY(100%) translateX(100%)"
+                : showDeskripsi
+                ? "translateY(-50%) translateX(50%)"
+                : "translateX(50%)",
             textAlign: "center",
             padding: 10,
             borderRadius: "12px",
             zIndex: 11,
-            pointerEvents: "all"
+            pointerEvents: "all",
           }}
           hoverScale={showDeskripsi ? 1.05 : 1}
         />
-        <GlobalModal visible={showDeskripsi} styles={styles.deskripsiModal}>
-          <img
-            style={styles.img}
-            src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
-          ></img>
-          <div style={styles.contentContainer}>
-            <h1 style={styles.tittleText}>
-              {currentPin?.NamaTempat || "Store Name"}
-            </h1>
-            <span style={styles.rating}>
-              <BsFillStarFill size={16} color="gold" />{" "}
-              {currentPin?.rate || "0.0"} {currentPin?.rater || "(000)"}
-            </span>
-            <div style={styles.line}></div>
-            <div style={styles.infoContainer}>
-              {infoList.map((i) => {
-                const IconComponent = i.icon;
-                return (
-                  <div
-                    key={i.id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: i.id !== "time" ? "center" : "flex-start",
-                      gap: 14,
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <IconComponent size={20} color="black" />
-                    {i.id !== "time" ? (
-                      <p style={styles.lebelInfo}>{i.value}</p>
-                    ) : (
-                      <div
-                        style={{
-                          lineHeight: 1,
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 8,
-                        }}
-                      >
-                        {i.value.map((j, index) => (
-                          <div
-                            key={index}
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              width: "15vw",
-                              fontSize: 16,
-                              color: ColorPallate.text,
-                              flexDirection: "row",
-                            }}
-                          >
-                            <span style={{ flex: 1, textAlign: "left" }}>
-                              {dayList[index]}
-                            </span>
-                            <span style={{ flex: 1, textAlign: "left" }}>
-                              {j}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+        {showDeskripsi && (
+          <GlobalModal visible={showDeskripsi} styles={styles.deskripsiModal}>
+            <img
+              style={styles.img}
+              src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
+            ></img>
+            <div style={styles.contentContainer}>
+              <h1 style={styles.tittleText}>
+                {currentPin?.NamaTempat || "Store Name"}
+              </h1>
+              <span style={styles.rating}>
+                <BsFillStarFill size={16} color="gold" />{" "}
+                {currentPin?.rate || "0.0"} {currentPin?.rater || "(000)"}
+              </span>
+              <div style={styles.line}></div>
+              <div style={styles.infoContainer}>
+                {infoList.map((i) => {
+                  const IconComponent = i.icon;
+                  return (
+                    <div
+                      key={i.id}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: i.id !== "time" ? "center" : "flex-start",
+                        gap: 14,
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      <IconComponent size={16} color="black" />
+                      {i.id !== "time" ? (
+                        <p style={styles.lebelInfo}>{i.value}</p>
+                      ) : (
+                        <div
+                          style={{
+                            lineHeight: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 8,
+                            width: "100%"
+                          }}
+                        >
+                          {i.value.map((j, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                flexDirection: "row",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  flex: 1,
+                                  textAlign: "left",
+                                  ...styles.lebelInfo,
+                                }}
+                              >
+                                {dayList[index]}
+                              </p>
+                              <p
+                                style={{
+                                  flex: 1,
+                                  textAlign: "left",
+                                  ...styles.lebelInfo,
+                                }}
+                              >
+                                {j}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={styles.line}></div>
+              <ButtonCostum text="Favorit" icon={MdFavorite} />
             </div>
-            <div style={styles.line}></div>
-            <ButtonCostum text="Favorit" icon={MdFavorite} />
-          </div>
-        </GlobalModal>
+          </GlobalModal>
+        )}
       </div>
       <GlobalModal visible={showProduct} styles={styles.productModal}>
         <div style={styles.contentContainer}>

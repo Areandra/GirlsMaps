@@ -15,7 +15,8 @@ const NavBar = ({
   handleSearch,
   searchQuery,
   setSearchQuery,
-  navRef
+  navRef,
+  windowSize,
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
@@ -24,12 +25,12 @@ const NavBar = ({
   const ButtonRef = useRef([]);
   const containerRef = useRef();
 
-  console.log("test", currentPage, lastPage)
+  console.log("test", currentPage, lastPage, windowSize);
 
   const styles = {
     nav: {
       position: "fixed",
-      top: "3vh",
+      top: "3dvh",
       left: "50%",
       transform: "translateX(-50%)",
       zIndex: 100,
@@ -47,12 +48,12 @@ const NavBar = ({
     },
     navResizeMap: {
       width: "auto",
-      left: "2vw",
-      transform: "translateX(-1%)",
+      ...(windowSize.width > 450
+        ? { left: "2vw", transform: "translateX(-1%)" }
+        : { width: "80vw", transform: "translateX(-50%)" }),
     },
-
     navDismiss: {
-      top: "-10vh",
+      top: "-10dvh",
     },
     navButtonGroup: {
       display: "flex",
@@ -85,7 +86,6 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     titleGroup: {
-      flex: 1,
       justifyContent: "flex-start",
       display: "flex",
       alignItems: "center",
@@ -114,14 +114,15 @@ const NavBar = ({
   ];
 
   useEffect(() => {
+    if (!containerRef.current && !ButtonRef.current) return;
     if (lastPage === "login") return;
     const updateButtonSize = () => {
       let buttonLists = [];
-      const containerLeft = containerRef.current.getBoundingClientRect().left;
+      const containerLeft = containerRef?.current?.getBoundingClientRect().left;
       ButtonRef.current.forEach((el, i) => {
         if (el) {
-          const newSize = el.getBoundingClientRect().width;
-          const newLeft = el.getBoundingClientRect().left;
+          const newSize = el?.getBoundingClientRect().width;
+          const newLeft = el?.getBoundingClientRect().left;
           buttonLists.push({
             id: buttonList[i].id,
             width: newSize,
@@ -175,10 +176,16 @@ const NavBar = ({
     >
       <div style={styles.titleGroup}>
         <img src={logo} alt="" style={styles.logo} />
-        <h1 style={styles.titleText}>Girls</h1>
-        <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>Map</h1>
+        {windowSize.width > 700 && (
+          <>
+            <h1 style={styles.titleText}>Girls</h1>
+            <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
+              Map
+            </h1>
+          </>
+        )}
       </div>
-      {lastPage !== "login" && (
+      {windowSize?.width > 700 ? (
         <div
           ref={containerRef}
           style={styles.navButtonGroup}
@@ -186,31 +193,28 @@ const NavBar = ({
             setCurrentPage(lastPage);
           }}
         >
-          {buttonList.map((button, index) => {
-            return (
-              <div
-                key={button.id}
-                ref={(el) => (ButtonRef.current[index] = el)}
-              >
-                <ButtonCostum
-                  currentPage={currentPage}
-                  id={button.id}
-                  type="navbarButton"
-                  text={button.text}
-                  onclick={() => {
-                    setLastPage(currentPage);
-                    setCurrentPage(button.id);
-                    buttonAction.navButton?.[index]?.();
-                  }}
-                  onHoverEnter={() => {
-                    setCurrentPage(button.id);
-                  }}
-                />
-              </div>
-            );
-          })}
+          {buttonList.map((button, index) => (
+            <div key={button.id} ref={(el) => (ButtonRef.current[index] = el)}>
+              <ButtonCostum
+                currentPage={currentPage}
+                id={button.id}
+                type="navbarButton"
+                text={button.text}
+                onclick={() => {
+                  setLastPage(button.id);
+                  setCurrentPage(button.id);
+                  buttonAction.navButton?.[index]?.();
+                }}
+                onHoverEnter={() => {
+                  setCurrentPage(button.id);
+                }}
+              />
+            </div>
+          ))}
           <div style={styles.slider}></div>
         </div>
+      ) : (
+        <></>
       )}
       {!showSearchBar ? (
         <div
@@ -218,17 +222,20 @@ const NavBar = ({
             ...styles.navAuthButtonGroup,
           }}
         >
-          <ButtonCostum
-            text="Masuk"
-            type="textButton"
-            icon={FiUnlock}
-            onclick={() => {
-              console.log("Login");
-              buttonAction.navAuthButton?.[0]?.();
-            }}
-          />
+          {windowSize.width > 510 && (
+            <ButtonCostum
+              text="Masuk"
+              type="textButton"
+              icon={FiUnlock}
+              onclick={() => {
+                console.log("Login");
+                buttonAction.navAuthButton?.[0]?.();
+              }}
+            />
+          )}
           <ButtonCostum
             text="Ayo Mulai"
+            style={{ minWidth: "110px" }}
             onclick={() => {
               console.log("Login");
               buttonAction.navAuthButton?.[1]?.();
@@ -241,7 +248,7 @@ const NavBar = ({
             placeholder="Cari Toko"
             style={{
               container: {
-                width: "18vw",
+                width: windowSize.width > 450 ? "clamp(240px, 18vw, 18vw)" : "100%",
                 borderRadius: 30,
               },
             }}

@@ -19,10 +19,7 @@ const FlyToMarker = ({ pin, setCurrentPin }) => {
 
   const handleClick = () => {
     setCurrentPin(pin);
-    map.flyTo([pin.Latitude, pin.Longitude], 18, {
-      animate: true,
-      duration: 1.5,
-    });
+    map.flyTo([pin.Latitude, pin.Longitude], 18);
   };
 
   return (
@@ -35,7 +32,26 @@ const FlyToMarker = ({ pin, setCurrentPin }) => {
         mouseout: (e) => e.target.closePopup(),
       }}
     >
-      <Popup>{pin.NamaTempat}</Popup>
+      <Popup>
+        <div style={{ padding: "8px", minWidth: "150px" }}>
+          <h3 style={{ margin: 0, color: "#333" }}>Produk A</h3>
+          <p style={{ margin: "4px 0", fontSize: "14px" }}>
+            Deskripsi singkat produk
+          </p>
+          <button
+            style={{
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "6px 10px",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Detail
+          </button>
+        </div>
+      </Popup>
     </Marker>
   );
 };
@@ -54,14 +70,15 @@ const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
 
   const mapStyle = {
     container: {
-      width: "100%",
-      height: "100vh",
+      width: "100vw",
+      height: "100dvh",
       position: "absolute",
       transform: "translateX(-50%) translateY(-50%)",
       zIndex: 1,
     },
     disbleMap: {
       pointerEvents: "none",
+      touchAction: "none"
     },
   };
   return (
@@ -71,6 +88,7 @@ const Maps = ({ lastPage, queryResult, setCurrentPin }) => {
         zoom={14}
         style={{
           ...mapStyle.container,
+          ...(lastPage != "map" ? mapStyle.disbleMap : {}) 
         }}
         maxBounds={[
           [-1.05, 119.75],

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
@@ -106,6 +106,19 @@ function App() {
   const [currentPin, setCurrentPin] = useState(null);
   const navRef = useRef();
 
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useLayoutEffect(() => {
+    const handleResize = () =>
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -161,6 +174,7 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         navRef={navRef}
+        windowSize={windowSize}
       />
       <Maps
         lastPage={lastPage}
@@ -174,11 +188,20 @@ function App() {
           setCurrentPage("login");
           setLastPage("login");
         }}
+        navRef={navRef}
+        windowSize={windowSize}
+        fetureCardOnClick={[
+          () => {
+            setLastPage("map");
+            setCurrentPage("map");
+          },
+        ]}
       />
       <MapsPage
         dismiss={lastPage !== "map"}
         navRef={navRef}
         currentPin={currentPin}
+        windowSize={windowSize}
       />
       <LoginPage
         lastPage={lastPage}
