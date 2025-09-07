@@ -3,7 +3,18 @@ import ButtonCostum from "./Button";
 import ColorPallate from "../theme/Color";
 import logo from "../assets/logo.png";
 import { InputForm } from "./InputForm";
-import { FiUnlock } from "react-icons/fi";
+import {
+  FiEdit,
+  FiGrid,
+  FiLogOut,
+  FiUnlock,
+  FiUser,
+  FiX,
+  FiXCircle,
+} from "react-icons/fi";
+import GlobalModal from "./Modal";
+import { signOut } from "firebase/auth";
+import { auth } from "../service/firebaseConfig";
 
 const NavBar = ({
   dismiss,
@@ -17,15 +28,15 @@ const NavBar = ({
   setSearchQuery,
   navRef,
   windowSize,
+  user,
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
   const [showSearchBar, setshowSearchBar] = useState(false);
   const [buttonSize, setButtonSize] = useState([]);
   const ButtonRef = useRef([]);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const containerRef = useRef();
-
-  console.log("test", currentPage, lastPage, windowSize);
 
   const styles = {
     nav: {
@@ -42,13 +53,12 @@ const NavBar = ({
       borderRadius: "40px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       transition:
-        "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease",
-      overflow: "hidden",
+        "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease, height 0.3s ease",
       gap: "2vw",
     },
     navResizeMap: {
       width: "auto",
-      ...(windowSize.width > 450
+      ...(windowSize.width > 700
         ? { left: "2vw", transform: "translateX(-1%)" }
         : { width: "80vw", transform: "translateX(-50%)" }),
     },
@@ -105,6 +115,27 @@ const NavBar = ({
     dissmisAuthButton: {
       right: 0,
       transform: "translateX(100%)",
+    },
+    profileContainer: {
+      justifyContent: "center",
+      display: "flex",
+      alignItems: "center",
+      borderRadius: "100%",
+      width: "38px",
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+      height: "38px",
+      padding: 2,
+      backgroundColor: ColorPallate.background,
+      position: "relative",
+    },
+    profileImg: {
+      color: ColorPallate.text,
+      textAlign: "center",
+      margin: 0,
+      fontSize: 16,
+      padding: 0,
+      width: "100%",
+      borderRadius: "100%",
     },
   };
 
@@ -166,102 +197,294 @@ const NavBar = ({
     setshowSearchBar(lastPage === "map");
   }, [lastPage, showSearchBar]);
 
-  return (
-    <nav
-      style={{
-        ...styles.nav,
-        ...(showSearchBar ? styles.navResizeMap : {}),
-        ...(dismiss ? styles.navDismiss : {}),
-      }}
-      ref={navRef}
-    >
-      <div style={styles.titleGroup}>
-        <img src={logo} alt="" style={styles.logo} />
-        {windowSize.width > 700 && (
-          <>
-            <h1 style={styles.titleText}>Girls</h1>
-            <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
-              Map
-            </h1>
-          </>
+  const Profile = ({ style, edit, onClick }) => {
+    const [hover, setHover] = useState(false);
+    return (
+      <>
+        {!edit && (
+          <div
+            style={{
+              backgroundColor: ColorPallate.background,
+              borderRadius: windowSize.width > 700 ? "0px 50px 50px 0px" : "0px 0px 50px 50px",
+              padding: 14,
+              display: "flex",
+              alignItems: "center",
+              transition: "opacity 0.3s ease, transform 0.3s ease",
+              position: "absolute",
+              opacity: 0,
+              ...((showProfileModal ? true : hover)
+                ? {
+                    opacity: 1,
+                    transform: windowSize.width > 700 ? `translateX(${
+                      lastPage === "map" ? "" : "-" 
+                    }45px)` : "translateY(45px)",
+                  }
+                : {}),
+            }}
+          >
+            <FiGrid size={18} color={ColorPallate.text} />
+          </div>
         )}
-      </div>
-      {windowSize?.width > 700 ? (
         <div
-          ref={containerRef}
-          style={styles.navButtonGroup}
-          onMouseLeave={() => {
-            setCurrentPage(lastPage);
+          style={{ ...styles.profileContainer, ...style?.container }}
+          onClick={() => onClick()}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          {user?.photoURL ? (
+            <img
+              src={user?.photoURL}
+              alt=""
+              style={{ ...styles.profileImg, ...style?.img }}
+            />
+          ) : (
+            <h1 style={{ ...styles.profileImg, ...style?.img }}>
+              {user?.displayName?.slice(0, 1)}
+            </h1>
+          )}
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div>
+      {user && (
+        <GlobalModal
+          visible={showProfileModal}
+          styles={{
+            borderRadius: 30,
+            position: "fixed",
+            zIndex: 100,
+            gap: 28,
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+            ...(windowSize.width > 700
+              ? {
+                  width: "25vw",
+                  top:
+                    navRef?.current?.getBoundingClientRect?.()?.height +
+                    window.innerHeight * 0.06,
+                  ...(lastPage !== "map"
+                    ? { right: "10vw" }
+                    : {
+                        left: navRef?.current?.getBoundingClientRect?.()?.width,
+                        transform: "translateX(-100%)",
+                      }),
+                }
+              : {
+                  left: 0,
+                  bottom: 0,
+                  width: "90vw",
+                  padding: "5vw",
+                }),
           }}
         >
-          {buttonList.map((button, index) => (
-            <div key={button.id} ref={(el) => (ButtonRef.current[index] = el)}>
+          <div
+            onClick={() => setShowProfileModal(false)}
+            style={{ position: "absolute", cursor: "pointer" }}
+          >
+            <FiX size={20} color={ColorPallate.text} />
+          </div>
+          <p
+            style={{
+              fontSize: "0.75rem",
+              color: ColorPallate.text,
+              fontWeight: 500,
+            }}
+          >
+            {user?.email}
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            <Profile
+              style={{
+                container: {
+                  margin: "auto",
+                  justifyContent: "center",
+                  width: "80px",
+                  height: "80px",
+                },
+                img: {
+                  fontSize: 30,
+                },
+              }}
+              edit={true}
+            />
+            <h1
+              style={{
+                color: ColorPallate.text,
+                fontSize: 24,
+                fontWeight: 500,
+                margin: 0,
+              }}
+            >
+              Hi, {user?.displayName}
+            </h1>
+            <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
               <ButtonCostum
-                currentPage={currentPage}
-                id={button.id}
-                type="navbarButton"
-                text={button.text}
-                onclick={() => {
-                  setLastPage(button.id);
-                  setCurrentPage(button.id);
-                  buttonAction.navButton?.[index]?.();
-                }}
-                onHoverEnter={() => {
-                  setCurrentPage(button.id);
-                }}
+                type="normalButton"
+                text={user.admin ? "Admin" : "Pengguna"}
+                icon={FiUser}
+                style={{ flex: 1 }}
+              />
+              <ButtonCostum
+                type="normalButton"
+                text="Log Out"
+                style={{ flex: 1 }}
+                icon={FiLogOut}
+                onclick={() => signOut(auth)}
               />
             </div>
-          ))}
-          <div style={styles.slider}></div>
-        </div>
-      ) : (
-        <></>
+            {user.admin && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ButtonCostum
+                  style={{ color: ColorPallate.secondaryText }}
+                  type="textButton"
+                  text="Edit Data Toko"
+                />
+                <p
+                  style={{
+                    fontSize: "0.75rem",
+                    color: ColorPallate.text,
+                    fontWeight: 500,
+                  }}
+                >
+                  |
+                </p>
+                <ButtonCostum
+                  style={{ color: ColorPallate.secondaryText }}
+                  type="textButton"
+                  text="Edit Data Peta"
+                />
+              </div>
+            )}
+          </div>
+        </GlobalModal>
       )}
-      {!showSearchBar ? (
-        <div
-          style={{
-            ...styles.navAuthButtonGroup,
-          }}
-        >
-          {windowSize.width > 510 && (
-            <ButtonCostum
-              text="Masuk"
-              type="textButton"
-              icon={FiUnlock}
-              onclick={() => {
-                console.log("Login");
-                buttonAction.navAuthButton?.[0]?.();
+      <nav
+        style={{
+          ...styles.nav,
+          ...(showSearchBar ? styles.navResizeMap : {}),
+          ...(dismiss ? styles.navDismiss : {}),
+        }}
+        ref={navRef}
+      >
+        <>
+          <div style={styles.titleGroup}>
+            <img src={logo} alt="" style={styles.logo} />
+            {(lastPage === "home" ? true : windowSize.width > 700) && (
+              <>
+                <h1 style={styles.titleText}>Girls</h1>
+                <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
+                  Map
+                </h1>
+              </>
+            )}
+          </div>
+        </>
+        {windowSize?.width > 700 ? (
+          <div
+            ref={containerRef}
+            style={styles.navButtonGroup}
+            onMouseLeave={() => {
+              setCurrentPage(lastPage);
+            }}
+          >
+            {buttonList.map((button, index) => (
+              <div
+                key={button.id}
+                ref={(el) => (ButtonRef.current[index] = el)}
+              >
+                <ButtonCostum
+                  currentPage={currentPage}
+                  id={button.id}
+                  type="navbarButton"
+                  text={button.text}
+                  onclick={() => {
+                    setLastPage(button.id);
+                    setCurrentPage(button.id);
+                    buttonAction.navButton?.[index]?.();
+                  }}
+                  onHoverEnter={() => {
+                    setCurrentPage(button.id);
+                  }}
+                />
+              </div>
+            ))}
+            <div style={styles.slider}></div>
+          </div>
+        ) : (
+          <></>
+        )}
+        {showSearchBar && (
+          <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+            <InputForm
+              placeholder="Cari Toko"
+              style={{
+                container: {
+                  width:
+                    windowSize.width > 450
+                      ? "clamp(240px, 18vw, 18vw)"
+                      : "100%",
+                  borderRadius: 30,
+                },
               }}
+              hovercolor={ColorPallate.primary}
+              color={ColorPallate.background}
+              value={searchQuery}
+              onChange={handleSearch}
+              clearQuery={() => setSearchQuery("")}
             />
-          )}
-          <ButtonCostum
-            text="Ayo Mulai"
-            style={{ minWidth: "110px" }}
-            onclick={() => {
-              console.log("Login");
-              buttonAction.navAuthButton?.[1]?.();
-            }}
-          />
-        </div>
-      ) : (
-        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-          <InputForm
-            placeholder="Cari Toko"
+          </div>
+        )}
+        {(user ? true : !(lastPage === "map")) && (
+          <div
             style={{
-              container: {
-                width: windowSize.width > 450 ? "clamp(240px, 18vw, 18vw)" : "100%",
-                borderRadius: 30,
-              },
+              ...styles.navAuthButtonGroup,
             }}
-            hovercolor={ColorPallate.primary}
-            color={ColorPallate.background}
-            value={searchQuery}
-            onChange={handleSearch}
-            clearQuery={() => setSearchQuery("")}
-          />
-        </div>
-      )}
-    </nav>
+          >
+            {!user ? (
+              <>
+                {windowSize.width > 510 && (
+                  <ButtonCostum
+                    text="Masuk"
+                    type="textButton"
+                    icon={FiUnlock}
+                    onclick={() => {
+                      console.log("Login");
+                      buttonAction.navAuthButton?.[0]?.();
+                    }}
+                  />
+                )}
+                <ButtonCostum
+                  text="Ayo Mulai"
+                  style={{ minWidth: "110px" }}
+                  onclick={() => {
+                    console.log("Login");
+                    buttonAction.navAuthButton?.[1]?.();
+                  }}
+                />
+              </>
+            ) : (
+              <Profile
+                onClick={() => setShowProfileModal(!showProfileModal)}
+                style={{
+                  container: {
+                    cursor: "pointer",
+                  },
+                }}
+              />
+            )}
+          </div>
+        )}
+      </nav>
+    </div>
   );
 };
 

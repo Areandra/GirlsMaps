@@ -55,7 +55,7 @@ const infoList = [
 ];
 
 const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
-  if (dismiss || !navRef?.current) return;
+  if (dismiss) return;
 
   const [showDeskripsi, setShowDeskripsi] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
@@ -65,7 +65,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
     console.log("lappor", currentPin);
     if (currentPin)
       setShowDeskripsi((prev) => {
-        if (prev !== showProduct) setShowProduct(!prev);
+        if (prev) setShowProduct(false);
         return true;
       });
     else setShowDeskripsi(false);
@@ -190,6 +190,11 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
     >
       {windowSize.width > 700 && (
         <ButtonCostum
+          style={{
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            top: "3dvh",
+            right: "1vw",
+          }}
           text="Cari Produk"
           icon={FiShoppingBag}
           type="floatingButton"

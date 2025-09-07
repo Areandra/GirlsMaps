@@ -7,6 +7,9 @@ import LoginPage from "./page/LoginPage.jsx";
 import { useSearchParams } from "react-router-dom";
 import MapsPage from "./page/MapsPage.jsx";
 import Fuse from "fuse.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./service/firebaseConfig.jsx";
+import { get, ref } from "firebase/database";
 
 const storeLocation = [
   { Latitude: -0.8888343, Longitude: 119.877946, NamaTempat: "BNS Zone" },
@@ -104,7 +107,27 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [queryResult, setQueryResult] = useState(storeLocation);
   const [currentPin, setCurrentPin] = useState(null);
+  const [user, setUser] = useState(null);
   const navRef = useRef();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        if (lastPage === "login" || lastPage === "daftar") {
+          setLastPage("home");
+        }
+        const snapshot = await get(ref(db, `admin/${currentUser.uid}`));
+        console.log(snapshot);
+        const isAdmin = snapshot.exists();
+        setUser({ ...currentUser, admin: isAdmin });
+      } else {
+        console.log("Belum login");
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [lastPage]);
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -150,13 +173,13 @@ function App() {
     navAuthButton: [
       () => {
         console.log("is called");
-        setCurrentPage("daftar");
-        setLastPage("daftar");
+        setCurrentPage("login");
+        setLastPage("login");
       },
       () => {
         console.log("is called");
-        setCurrentPage("login");
-        setLastPage("login");
+        setCurrentPage("daftar");
+        setLastPage("daftar");
       },
     ],
   };
@@ -175,6 +198,7 @@ function App() {
         setSearchQuery={setSearchQuery}
         navRef={navRef}
         windowSize={windowSize}
+        user={user}
       />
       <Maps
         lastPage={lastPage}
@@ -183,6 +207,8 @@ function App() {
         windowSize={windowSize}
       />
       <LandingPage
+        user={user}
+        setLastPage={setLastPage}
         lastPage={lastPage}
         buttonOneOnClick={() => {
           console.log("is called");
@@ -210,6 +236,7 @@ function App() {
         slideIn={lastPage === "login" || lastPage === "daftar"}
         setLastPage={setLastPage}
         windowSize={windowSize}
+        setUser={setUser}
       />
     </>
   );

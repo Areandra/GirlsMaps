@@ -13,7 +13,7 @@ const ButtonCostum = ({
   onHoverExit,
   icon,
   content,
-  hoverScale
+  hoverScale,
 }) => {
   const [active, setActive] = useState(false);
   const [hover, setHover] = useState(false);
@@ -142,12 +142,9 @@ const ButtonCostum = ({
     const floatingButtonStyles = {
       container: {
         borderRadius: "40px",
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         transition:
           "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease",
         position: "fixed",
-        top: "3dvh",
-        right: "1vw",
         zIndex: 100,
         display: "flex",
         alignItems: "center",
@@ -158,13 +155,13 @@ const ButtonCostum = ({
     };
     const IconComponent = icon || FiArrowRight;
     return (
-      <div style={floatingButtonStyles.container}>
+      <div style={{ ...floatingButtonStyles.container, ...style }}>
         <p
           style={{
             color: ColorPallate.text,
             fontSize: 12,
             fontWeight: 500,
-            transform: "translateX(6px)"
+            transform: "translateX(6px)",
           }}
         >
           {text}
@@ -175,7 +172,6 @@ const ButtonCostum = ({
             ...buttonResetstyles.button,
             ...normalButtonStyles.button,
             ...(hover ? normalButtonStyles.hover : {}),
-            ...style,
           }}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}

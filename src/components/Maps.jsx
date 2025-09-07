@@ -9,15 +9,15 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useRef } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/pin.svg";
+import ColorPallate from "../theme/Color";
 
 const icon = new L.Icon({
   iconUrl: logo,
   iconRetinaUrl: logo,
-  iconSize: [54, 54],
-  iconAnchor: [27, 54],
-  popupAnchor: [0, -47],
-  shadowSize: [41, 41],
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+  popupAnchor: [0, -30],
 });
 
 const FlyToMarker = ({ pin, setCurrentPin, position }) => {
@@ -39,23 +39,8 @@ const FlyToMarker = ({ pin, setCurrentPin, position }) => {
       }}
     >
       <Popup>
-        <div style={{ padding: "8px", minWidth: "150px" }}>
-          <h3 style={{ margin: 0, color: "#333" }}>Produk A</h3>
-          <p style={{ margin: "4px 0", fontSize: "14px" }}>
-            Deskripsi singkat produk
-          </p>
-          <button
-            style={{
-              background: "#007bff",
-              color: "#fff",
-              border: "none",
-              padding: "6px 10px",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          >
-            Detail
-          </button>
+        <div>
+          <h3 style={{ margin: 0, color: ColorPallate.text, textAlign: "center", fontSize: 12}}>{pin.NamaTempat}</h3>
         </div>
       </Popup>
     </Marker>
@@ -86,11 +71,18 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       zIndex: 1,
     },
     disbleMap: {
-      pointerEvents: "none",
+      pointerEvents: "auto",
+      position: "fixed",
+      left: 0,
+      top: 0,
+      width: "100vw",
+      height: "100dvh",
+      zIndex: 10,
     },
   };
   return (
-    <div style={{ ...(lastPage != "map" ? mapStyle.disbleMap : {}) }}>
+    <div>
+      {lastPage != "map" && <div style={mapStyle.disbleMap}></div>}
       <MapContainer
         center={[-0.8975593, 119.8606656]}
         zoom={14}
@@ -118,7 +110,10 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
             key={index}
             pin={pin}
             setCurrentPin={setCurrentPin}
-            position={[pin.Latitude - 0.00065, pin.Longitude]}
+            position={[
+              pin.Latitude - (windowSize.width < 700 ? 0.00065 : 0),
+              pin.Longitude,
+            ]}
           />
         ))}
       </MapContainer>

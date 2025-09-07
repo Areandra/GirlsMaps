@@ -1,25 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
 import logo from "../assets/logo.png";
+import { auth } from "../service/firebaseConfig";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+  reload,
+} from "firebase/auth";
 
-const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
+const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
   const [username, setUsername] = useState("");
-  const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleChangeMode = () =>
     setLastPage(lastPage === "login" ? "daftar" : "login");
 
-  const handleLogin = (data) => {
-    console.log("Login:", data);
+  const handleRegister = async ({ email, password, username }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await updateProfile(userCredential.user, {
+        displayName: username,
+      });
+
+      await reload(userCredential.user);
+
+      console.log("Register sukses:", userCredential.user);
+    } catch (error) {
+      console.error("Register gagal:", error.message);
+    }
   };
 
-  const handleRegister = (data) => {
-    console.log("Register:", data);
+  const handleLogin = async ({ email, password }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("Login sukses:", userCredential.user);
+      return;
+    } catch (error) {
+      console.error("Login gagal:", error.message);
+      throw error;
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, new GoogleAuthProvider());
+
+      // Data user
+      const user = result.user;
+      console.log("Display Name:", user.displayName);
+      console.log("Photo URL:", user.photoURL);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const inputFields = [
@@ -99,7 +147,9 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
       <div
         style={{
           ...styles.loginForm,
-          ...(windowSize.width < 700 ? { width: "65vw" } : {minWidth: "300px"}),
+          ...(windowSize.width < 700
+            ? { width: "65vw" }
+            : { minWidth: "300px" }),
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
@@ -150,8 +200,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
                   handleRegister({
                     email,
                     password,
-                    name: username,
-                    companyName,
+                    username,
                   })
           }
         />
@@ -171,7 +220,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
 
         <div style={styles.socialContainer}>
           <button
-            onClick={() => handleLogin({ type: "google" })}
+            onClick={() => loginWithGoogle()}
             style={styles.buttonBox}
           >
             <img

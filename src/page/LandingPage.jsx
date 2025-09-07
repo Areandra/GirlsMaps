@@ -11,6 +11,8 @@ const LandingPage = ({
   navRef,
   windowSize,
   fetureCardOnClick,
+  user,
+  setLastPage,
 }) => {
   const [navHeight, setNavHeight] = useState(0);
 
@@ -87,9 +89,9 @@ const LandingPage = ({
           </div>
           <div style={LandingPageStyles.buttonGroup}>
             <ButtonCostum
-              text="Ayo Mulai"
+              text={user ? "Buka Peta" : "Ayo Mulai"}
               type="primary"
-              onclick={() => buttonOneOnClick()}
+              onclick={() => user ? setLastPage("map") : buttonOneOnClick()}
             />
             <ButtonCostum
               text="Lebih Lanjut"
@@ -119,7 +121,7 @@ const LandingPage = ({
                   : {}),
               }}
             >
-              {windowSize.width > 450 && (
+              {/* (
                 <InfoCard
                   title={
                     <span>
@@ -132,7 +134,7 @@ const LandingPage = ({
                   }
                   infoList={infoList}
                 />
-              )}
+              )*/}
               {fetuereCardList.map((i, index) => (
                 <FetureCard
                   key={index}
