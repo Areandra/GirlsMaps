@@ -15,6 +15,7 @@ import {
 import GlobalModal from "./Modal";
 import { signOut } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = ({
   dismiss,
@@ -37,6 +38,7 @@ const NavBar = ({
   const ButtonRef = useRef([]);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const containerRef = useRef();
+  const navigate = useNavigate();
 
   const styles = {
     nav: {
@@ -205,7 +207,10 @@ const NavBar = ({
           <div
             style={{
               backgroundColor: ColorPallate.background,
-              borderRadius: windowSize.width > 700 ? "0px 50px 50px 0px" : "0px 0px 50px 50px",
+              borderRadius:
+                windowSize.width > 700
+                  ? "0px 50px 50px 0px"
+                  : "0px 0px 50px 50px",
               padding: 14,
               display: "flex",
               alignItems: "center",
@@ -215,9 +220,10 @@ const NavBar = ({
               ...((showProfileModal ? true : hover)
                 ? {
                     opacity: 1,
-                    transform: windowSize.width > 700 ? `translateX(${
-                      lastPage === "map" ? "" : "-" 
-                    }45px)` : "translateY(45px)",
+                    transform:
+                      windowSize.width > 700
+                        ? `translateX(${lastPage === "map" ? "" : "-"}45px)`
+                        : "translateY(45px)",
                   }
                 : {}),
             }}
@@ -322,7 +328,7 @@ const NavBar = ({
             <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
               <ButtonCostum
                 type="normalButton"
-                text={user.admin ? "Admin" : "Pengguna"}
+                text={user?.admin ? "Admin" : "Pengguna"}
                 icon={FiUser}
                 style={{ flex: 1 }}
               />
@@ -334,7 +340,7 @@ const NavBar = ({
                 onclick={() => signOut(auth)}
               />
             </div>
-            {user.admin && (
+            {user?.admin && (
               <div
                 style={{
                   display: "flex",
@@ -347,6 +353,7 @@ const NavBar = ({
                   style={{ color: ColorPallate.secondaryText }}
                   type="textButton"
                   text="Edit Data Toko"
+                  onclick={() => navigate("/doss/" + user?.uid)}
                 />
                 <p
                   style={{

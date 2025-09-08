@@ -93,6 +93,7 @@ const ButtonCostum = ({
           onHoverExit?.();
         }}
         onClick={() => {
+          setActive(true);
           onclick?.();
         }}
       >
