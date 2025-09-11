@@ -103,7 +103,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
       ...(windowSize.width > 700
         ? {
             width: "22vw",
-            height: "76vh ",
+            height: 520,
           }
         : showFullDeskripsi
         ? {
@@ -118,20 +118,39 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
           }),
     },
     productModal: {
+      transition: "height 0.3s ease",
+      overflow:
+        windowSize.width > 700
+          ? "auto"
+          : !showFullDeskripsi
+          ? "hidden"
+          : "auto",
+      boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
+      flexDirection: "column",
+      borderRadius: "10px",
+      display: "flex",
+      gap: 16,
+      ...(windowSize.width > 700
+        ? {
+            width: "22vw",
+            height: 520,
+          }
+        : showFullDeskripsi
+        ? {
+            left: "50%",
+            width: "80vw",
+            height: "70vh ",
+          }
+        : {
+            left: "50%",
+            width: "80vw",
+            height: "40vh ",
+          }),
       right: "2vw",
       top:
         navRef?.current?.getBoundingClientRect?.()?.height +
         window.innerHeight * 0.06,
       position: "fixed",
-      gap: 16,
-      borderRadius: "30px",
-      display: "flex",
-      flexDirection: "column",
-      overflow:
-        windowSize.width > 700 ? "auto" : showFullDeskripsi ? "hidden" : "auto",
-      width: "22vw",
-      height: "76vh ",
-      boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
     },
     img: {
       borderRadius: "10px",
@@ -192,7 +211,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         <ButtonCostum
           style={{
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            top: "3dvh",
+            top: windowSize.height * 0.03,
             right: "1vw",
           }}
           text="Cari Produk"
@@ -352,7 +371,6 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
             style={{
               container: {
                 width: "auto",
-                borderRadius: 30,
               },
             }}
             hovercolor={ColorPallate.primary}

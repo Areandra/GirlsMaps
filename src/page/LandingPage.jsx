@@ -1,8 +1,7 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import ButtonCostum from "../components/Button";
 import { FetureCard, InfoCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
-import { firstImgCard } from "../assets/pin.svg";
 
 const LandingPage = ({
   lastPage,
@@ -27,7 +26,6 @@ const LandingPage = ({
       id: "locationStore",
       onClick: () => fetureCardOnClick[0](),
       text: "Lokasi Make Up & SkinCare Store",
-      imgUrl: { firstImgCard },
     },
     {
       id: "searchProduct",
@@ -186,14 +184,14 @@ const LandingPageStyles = {
     textAlign: "left",
     marginTop: 0,
     fontSize: "1rem",
-    color: ColorPallate.text,
+    color: ColorPallate.secondaryText,
     width: "100vw",
   },
   paragraph: {
     fontSize: "0.75rem",
     maxWidth: "600px",
     textAlign: "left",
-    color: ColorPallate.text,
+    color: ColorPallate.secondaryText,
   },
   buttonGroup: {
     display: "flex",
@@ -203,7 +201,7 @@ const LandingPageStyles = {
   cardGroup: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between", // ⬅️ ganti ini      gap: "16px",
+    justifyContent: "space-between",
     marginBottom: "4dvh",
     transition: "left 0.5s ease, transform 0.5s ease",
     zIndex: 10,
@@ -227,9 +225,10 @@ const LandingPageStyles = {
     top: "0",
     left: "0",
     width: "clamp(330px, 100vw, 100vw)",
+    backdropFilter: "blur(20px)",
     height: "100dvh",
     backgroundImage:
-      "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.4) 80%, rgba(0,0,0,0.2) 90%, rgba(0,0,0,0.1) 100%)",
+      "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
     zIndex: 5,
     backdropFilter: "blur(1px)",
     transition: "left 0.5s ease, transform 0.5s ease",

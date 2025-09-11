@@ -88,7 +88,7 @@ const NavBar = ({
     },
     slider: {
       position: "absolute",
-      padding: "20px 0",
+      padding: "18px 0",
       left: left - 10 + "px",
       width: size + 20 + "px",
       background: ColorPallate.primaryGradient,
@@ -127,11 +127,11 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
       height: "38px",
       padding: 2,
-      backgroundColor: ColorPallate.background,
+      background: ColorPallate.primaryGradient,
       position: "relative",
     },
     profileImg: {
-      color: ColorPallate.text,
+      color: ColorPallate.background,
       textAlign: "center",
       margin: 0,
       fontSize: 16,
@@ -259,6 +259,7 @@ const NavBar = ({
         <GlobalModal
           visible={showProfileModal}
           styles={{
+            padding: 20,
             borderRadius: 30,
             position: "fixed",
             zIndex: 100,

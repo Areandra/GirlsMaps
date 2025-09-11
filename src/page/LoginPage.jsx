@@ -88,7 +88,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
       labelStyle: {
         color: ColorPallate.primary,
         textAlign: "left",
-        fontSize: 14,
+        fontSize: 12,
         flex: 1,
       },
     },
@@ -109,7 +109,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
       labelStyle: {
         color: ColorPallate.primary,
         textAlign: "left",
-        fontSize: 14,
+        fontSize: 12,
         flex: 1,
       },
     },
@@ -131,7 +131,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
       labelStyle: {
         color: ColorPallate.primary,
         textAlign: "left",
-        fontSize: 14,
+        fontSize: 12,
         flex: 1,
       },
     },
@@ -149,7 +149,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
           ...styles.loginForm,
           ...(windowSize.width < 700
             ? { width: "65vw" }
-            : { minWidth: "300px" }),
+            : { minWidth: "325px" }),
           ...(!slideIn ? styles.firstPosition : {}),
         }}
       >
@@ -172,7 +172,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
 
         <div
           style={{
-            gap: "8px",
+            gap: "12px",
             display: "flex",
             flexDirection: "column",
             marginBottom: "10px",
@@ -209,9 +209,8 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
           <p
             style={{
               textAlign: "center",
-              color: ColorPallate.text,
+              color: ColorPallate.inputBorder,
               fontSize: "12px",
-              fontWeight: 500,
             }}
           >
             - Or Sign In With -
@@ -247,6 +246,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
             type="textButton"
             text={lastPage === "login" ? "Daftar" : "Masuk"}
             onclick={() => handleChangeMode()}
+            disbleBackground={true}
           />
         </div>
       </div>
@@ -271,7 +271,7 @@ const styles = {
   loginForm: {
     padding: 35,
     backgroundColor: ColorPallate.background,
-    borderRadius: 20,
+    borderRadius: 10,
     display: "flex",
     flexDirection: "column",
     gap: 14,
@@ -289,7 +289,7 @@ const styles = {
     margin: 0,
   },
   buttonBox: {
-    backgroundColor: ColorPallate.background,
+    backgroundColor: ColorPallate.text,
     color: "black",
     border: "none",
     outline: "none",

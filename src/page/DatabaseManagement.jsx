@@ -194,7 +194,7 @@ const DatabaseManagement = () => {
   return (
     <div
       style={{
-        backgroundColor: "white",
+        backgroundColor: "rgba(18,18,18,1)",
         height: "100dvh",
         width: "100vw",
         left: 0,
@@ -209,7 +209,7 @@ const DatabaseManagement = () => {
           height: "100vh",
           padding: 8,
           left: 0,
-          borderRight: `2px solid ${ColorPallate.secondaryText}`,
+          borderRight: `2px solid ${ColorPallate.background}`,
           gap: 12,
           alignItems: "center",
         }}
@@ -218,7 +218,7 @@ const DatabaseManagement = () => {
           src={logo}
           style={{
             width: 32,
-            border: `2px solid ${ColorPallate.secondaryText}`,
+            border: `2px solid ${ColorPallate.background}`,
             borderRadius: 12,
           }}
         />
@@ -240,7 +240,7 @@ const DatabaseManagement = () => {
         <div
           style={{
             padding: "10px 0px 10px 40px",
-            borderBottom: `2px solid ${ColorPallate.secondaryText}`,
+            borderBottom: `2px solid ${ColorPallate.background}`,
           }}
         >
           <p
@@ -260,7 +260,7 @@ const DatabaseManagement = () => {
             flexDirection: "row",
             color: ColorPallate.text,
             justifyContent: "space-between",
-            backgroundColor: "transparent",
+            backgroundColor: ColorPallate.background,
             alignItems: "center",
             paddingInline: 40,
           }}

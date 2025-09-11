@@ -117,7 +117,7 @@ const ButtonCostum = ({
       hover: {
         fontWeight: "bold",
         scale: 1.05,
-        boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 118, 175, 0.7), 0 0 20px rgba(255, 118, 175, 0.5), 0 0 30px rgba(255, 118, 175, 0.3)`,
+        boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px ${ColorPallate.buttonShadow}`,
       },
     };
     const IconComponent = icon;
@@ -141,14 +141,14 @@ const ButtonCostum = ({
   } else if (type === "floatingButton") {
     const floatingButtonStyles = {
       container: {
-        borderRadius: "40px",
+        borderRadius: "8px",
         transition:
           "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease",
         position: "fixed",
         zIndex: 100,
         display: "flex",
         alignItems: "center",
-        padding: "14px 16px",
+        padding: "10px 10px",
         backgroundColor: ColorPallate.background,
         gap: 18,
       },

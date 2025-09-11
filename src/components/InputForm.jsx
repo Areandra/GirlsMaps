@@ -17,17 +17,18 @@ export const InputForm = ({
 
   const searchForm = {
     form: {
-      backgroundColor: ColorPallate.secondaryText,
+      backgroundColor: ColorPallate.inputBackground,
       border: "none",
       outline: "none",
+      padding: "8px 18px",
       cursor: "text",
       fontSize: "12px",
       alignItems: "center",
       gap: "8px",
-      borderRadius: "8px",
+      borderRadius: "6px",
       justifyContent: "space-between",
       display: "flex",
-      boxShadow: `inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
     },
     hover: {
       backgroundColor: "transparent",
@@ -42,7 +43,7 @@ export const InputForm = ({
       id={id}
       style={{
         ...searchForm.form,
-        ...(!hover ? searchForm.hover : {}),
+        ...(hover ? searchForm.hover : {}),
         ...style?.container,
       }}
       onMouseEnter={() => {
@@ -80,7 +81,12 @@ export const InputForm = ({
             cursor: "pointer",
           }}
         >
-          <FiX size={18} color={!hover ? ColorPallate.secondaryText : ColorPallate.background} />
+          <FiX
+            size={18}
+            color={
+              hover ? ColorPallate.secondaryText : ColorPallate.background
+            }
+          />
         </div>
       )}
     </div>

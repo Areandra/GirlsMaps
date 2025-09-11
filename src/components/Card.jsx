@@ -1,10 +1,10 @@
 import ColorPallate from "../theme/Color";
 import { useState } from "react";
+import pinIcon from "../assets/pin.svg";
 
 export const FetureCard = ({ text, imageUrl, id, onClick }) => {
   const [hover, setHover] = useState(false);
 
-  const SvgContent = imageUrl; 
   const cardStyles = {
     container: {
       display: "flex",
@@ -20,6 +20,8 @@ export const FetureCard = ({ text, imageUrl, id, onClick }) => {
       minWidth: "128px",
     },
     image: {
+      
+      display: "block",
       width: "40px",
       height: "40px",
       objectFit: "cover",
@@ -51,7 +53,7 @@ export const FetureCard = ({ text, imageUrl, id, onClick }) => {
         ...(hover ? cardStyles.hover : {}),
       }}
     >
-      {<SvgContent style={cardStyles.image} /> || <div style={cardStyles.image}></div>}
+      <img src={pinIcon} style={cardStyles.image} />
       <p style={cardStyles.text}>{text}</p>
     </div>
   );

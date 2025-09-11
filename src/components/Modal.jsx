@@ -12,12 +12,11 @@ const GlobalModal = ({ visible, onDissmis, children, styles }) => {
         transition: "opacity 0.3s ease",
         backgroundColor: ColorPallate.background,
         borderRadius: "16px",
-        padding: "1.4vw",
+        padding: 5,
         display: "flex",
         flexDirection: "column",
         gap: "16px",
         boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
-        overflowY: "auto",
         scrollbarWidth: "none",
         ...styles
       }}
