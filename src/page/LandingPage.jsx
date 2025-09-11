@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import ButtonCostum from "../components/Button";
 import { FetureCard, InfoCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
-import { FiUnlock } from "react-icons/fi";
+import { firstImgCard } from "../assets/pin.svg";
 
 const LandingPage = ({
   lastPage,
@@ -27,14 +27,11 @@ const LandingPage = ({
       id: "locationStore",
       onClick: () => fetureCardOnClick[0](),
       text: "Lokasi Make Up & SkinCare Store",
-      imgUrl:
-        "https://via.assets.so/img.jpg?w=400&h=400&pattern=waves&fg=ef4444&bg=fee2e2",
+      imgUrl: { firstImgCard },
     },
     {
       id: "searchProduct",
       text: "Pencarian Produk Di Store Terdekat",
-      imgUrl:
-        "https://via.assets.so/img.jpg?w=400&h=400&pattern=waves&fg=ef4444&bg=fee2e2",
     },
     {
       id: "rekomend",
@@ -43,8 +40,6 @@ const LandingPage = ({
           Rekomendasi <br /> Kosmetik
         </>
       ),
-      imgUrl:
-        "https://via.assets.so/img.jpg?w=400&h=400&pattern=waves&fg=ef4444&bg=fee2e2",
     },
   ];
 
@@ -91,7 +86,7 @@ const LandingPage = ({
             <ButtonCostum
               text={user ? "Buka Peta" : "Ayo Mulai"}
               type="primary"
-              onclick={() => user ? setLastPage("map") : buttonOneOnClick()}
+              onclick={() => (user ? setLastPage("map") : buttonOneOnClick())}
             />
             <ButtonCostum
               text="Lebih Lanjut"
@@ -202,7 +197,7 @@ const LandingPageStyles = {
   },
   buttonGroup: {
     display: "flex",
-    gap: "16px",
+    gap: "24px",
     zIndex: 10,
   },
   cardGroup: {
@@ -231,11 +226,12 @@ const LandingPageStyles = {
     position: "absolute",
     top: "0",
     left: "0",
-    width: "clamp(330px, 65vw, 65vw)",
+    width: "clamp(330px, 100vw, 100vw)",
     height: "100dvh",
     backgroundImage:
-      "linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,0.6) 70%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.2) 90%, rgba(255,255,255,0.1) 100%)",
+      "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.4) 80%, rgba(0,0,0,0.2) 90%, rgba(0,0,0,0.1) 100%)",
     zIndex: 5,
+    backdropFilter: "blur(1px)",
     transition: "left 0.5s ease, transform 0.5s ease",
   },
   textBackgroundDissmis: {

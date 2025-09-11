@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export const FetureCard = ({ text, imageUrl, id, onClick }) => {
   const [hover, setHover] = useState(false);
+
+  const SvgContent = imageUrl; 
   const cardStyles = {
     container: {
       display: "flex",
@@ -10,11 +12,11 @@ export const FetureCard = ({ text, imageUrl, id, onClick }) => {
       padding: "12px",
       width: "10vw",
       height: "13dvh",
-      background: "#FFFFFF",
+      background: ColorPallate.background,
       boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
-      borderRadius: "25px",
-      marginTop: "auto",
+      borderRadius: "12px",
       minHeight: "87px",
+      gap: 10,
       minWidth: "128px",
     },
     image: {
@@ -27,10 +29,10 @@ export const FetureCard = ({ text, imageUrl, id, onClick }) => {
       fontSize: "0.7rem",
       fontWeight: "bold",
       textAlign: "left",
-      color: "#333",
+      color: ColorPallate.text,
     },
     hover: {
-      boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px rgba(248, 187, 208, 0.7), 0 0 20px rgba(248, 187, 208, 0.5), 0 0 30px rgba(248, 187, 208, 0.3)`,
+      boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 118, 175, 0.7), 0 0 20px rgba(255, 118, 175, 0.5), 0 0 30px rgba(255, 118, 175, 0.3)`,
       transition: "translate 0.3s ease",
       transform: "translateY(-5%)",
     },
@@ -49,7 +51,7 @@ export const FetureCard = ({ text, imageUrl, id, onClick }) => {
         ...(hover ? cardStyles.hover : {}),
       }}
     >
-      <img src={imageUrl} alt={text} style={cardStyles.image} />
+      {<SvgContent style={cardStyles.image} /> || <div style={cardStyles.image}></div>}
       <p style={cardStyles.text}>{text}</p>
     </div>
   );

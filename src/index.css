@@ -1,7 +1,3 @@
-#root  {
-  padding: 0 !important; 
-}
-
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -17,7 +13,6 @@
 
 .app-container {
   padding: 20px;
-  font-family: sans-serif;
 }
 
 .locations-table {
@@ -71,7 +66,6 @@ p {
 }
 button, .input {
   border-radius: 8px;
-  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;

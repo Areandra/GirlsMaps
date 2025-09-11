@@ -86,6 +86,7 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       <MapContainer
         center={[-0.8975593, 119.8606656]}
         zoom={14}
+        subdomains= {["a", "b", "c", "d"]}
         style={{
           ...mapStyle.container,
         }}
@@ -102,8 +103,8 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       >
         <RecenterMap position={[-0.8975593, 119.8606656]} />
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
         />
         {queryResult?.map((pin, index) => (
           <FlyToMarker

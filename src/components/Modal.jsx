@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import ColorPallate from "../theme/Color";
 
 const GlobalModal = ({ visible, onDissmis, children, styles }) => {
   const eRef = useRef();
@@ -9,7 +10,7 @@ const GlobalModal = ({ visible, onDissmis, children, styles }) => {
         pointerEvents: visible ? "all" : "none",
         opacity: visible ? 1 : 0,
         transition: "opacity 0.3s ease",
-        backgroundColor: "#fff",
+        backgroundColor: ColorPallate.background,
         borderRadius: "16px",
         padding: "1.4vw",
         display: "flex",

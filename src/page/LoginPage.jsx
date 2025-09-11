@@ -276,7 +276,7 @@ const styles = {
     flexDirection: "column",
     gap: 14,
     transition: "bottom 0.3s ease, transform 0.3s ease",
-    boxShadow: `0px 2px 2px rgba(0, 0, 0, 0.25), 0 0 100vw rgba(255, 255, 255, 0.7), 0 0 100vw rgba(255, 255, 255, 0.5), 0 0 100vw rgba(255, 255, 255, 0.3)`,
+    boxShadow: `0px 2px 2px rgba(0, 0, 0, 0.25), 0 0 100vw rgba(50, 50, 50, 0.7), 0 0 100vw rgba(50, 50, 50, 0.5), 0 0 100vw rgba(50, 50, 50, 0.3)`,
   },
   firstPosition: {
     transform: "translateY(150%)",

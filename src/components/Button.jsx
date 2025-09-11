@@ -33,18 +33,18 @@ const ButtonCostum = ({
   };
   const normalButtonStyles = {
     button: {
-      backgroundColor: ColorPallate.primary,
-      borderRadius: "30px",
+      padding: "10px 18px",
+      background: ColorPallate.primaryGradient,
       justifyContent: "center",
-      color: "white",
+      color: "black",
       display: "flex",
       alignItems: "center",
       gap: "8px",
-      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.1)`,
     },
     hover: {
       backgroundColor: ColorPallate.background,
-      color: ColorPallate.primary,
+      color: ColorPallate.secondary,
       scale: hoverScale || 1.05,
       boxShadow: `inset 0 0 0 2px ${ColorPallate.primary}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
     },
@@ -117,8 +117,7 @@ const ButtonCostum = ({
       hover: {
         fontWeight: "bold",
         scale: 1.05,
-        testShadow:
-          "0 0 15px rgba(248, 187, 208, 0.7), 0 0 30px rgba(248, 187, 208, 0.5), 0 0 45px rgba(248, 187, 208, 0.3)",
+        boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 118, 175, 0.7), 0 0 20px rgba(255, 118, 175, 0.5), 0 0 30px rgba(255, 118, 175, 0.3)`,
       },
     };
     const IconComponent = icon;

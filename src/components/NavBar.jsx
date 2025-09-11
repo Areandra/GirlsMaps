@@ -52,7 +52,7 @@ const NavBar = ({
       padding: "8px 14px",
       backgroundColor: ColorPallate.background,
       width: "80vw",
-      borderRadius: "40px",
+      borderRadius: "10px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       transition:
         "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease, height 0.3s ease",
@@ -88,11 +88,11 @@ const NavBar = ({
     },
     slider: {
       position: "absolute",
-      padding: "16px 0",
+      padding: "20px 0",
       left: left - 10 + "px",
       width: size + 20 + "px",
-      backgroundColor: ColorPallate.primary,
-      borderRadius: "20px",
+      background: ColorPallate.primaryGradient,
+      borderRadius: "8px",
       transition: "left 0.3s ease, width 0.3s ease",
       zIndex: -1,
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
@@ -439,7 +439,6 @@ const NavBar = ({
                     windowSize.width > 450
                       ? "clamp(240px, 18vw, 18vw)"
                       : "100%",
-                  borderRadius: 30,
                 },
               }}
               hovercolor={ColorPallate.primary}

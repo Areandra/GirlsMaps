@@ -1,9 +1,10 @@
 const ColorPallate = {
-  primary: "rgba(248, 187, 208, 1)",
-  secondary: "rgba(218, 157, 178, 1)",
-  background: "rgba(255, 255, 255, 1)",
-  text: "rgba(10, 31, 68, 1)",
-  secondaryText: "rgba(225, 225, 225, 1)",
+  primary: "rgba(255, 118, 175, 1)",
+  primaryGradient: "linear-gradient(to right, #FF76AF 0%, #F8494C 100%)",
+  secondary: "rgba(248, 187, 208, 1)",
+  background: "rgba(18, 18, 18, 1)",
+  text: "rgba(255, 255, 255, 0.95)",
+  secondaryText: "rgba(255, 255, 255, 0.6)", // putih dengan transparansi
 };
 
 export default ColorPallate;
