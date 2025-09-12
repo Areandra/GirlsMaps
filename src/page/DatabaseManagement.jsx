@@ -186,6 +186,90 @@ const storeData = [
       },
     ],
   },
+  {
+    namaToko: "Toko Harmoni",
+    alamat: "Jl. Pahlawan No.10, Balikpapan",
+    value: [
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "09.00 - 13.00",
+      "Closed",
+    ],
+    koordinat: [1.267066, 116.831482],
+    product: [
+      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
+      {
+        merek: "Teh Botol Sosro",
+        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
+      },
+    ],
+  },
+  {
+    namaToko: "Toko Harmoni",
+    alamat: "Jl. Pahlawan No.10, Balikpapan",
+    value: [
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "09.00 - 13.00",
+      "Closed",
+    ],
+    koordinat: [1.267066, 116.831482],
+    product: [
+      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
+      {
+        merek: "Teh Botol Sosro",
+        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
+      },
+    ],
+  },
+  {
+    namaToko: "Toko Harmoni",
+    alamat: "Jl. Pahlawan No.10, Balikpapan",
+    value: [
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "09.00 - 13.00",
+      "Closed",
+    ],
+    koordinat: [1.267066, 116.831482],
+    product: [
+      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
+      {
+        merek: "Teh Botol Sosro",
+        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
+      },
+    ],
+  },
+  {
+    namaToko: "Toko Harmoni",
+    alamat: "Jl. Pahlawan No.10, Balikpapan",
+    value: [
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "08.00 - 17.00",
+      "09.00 - 13.00",
+      "Closed",
+    ],
+    koordinat: [1.267066, 116.831482],
+    product: [
+      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
+      {
+        merek: "Teh Botol Sosro",
+        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
+      },
+    ],
+  },
 ];
 
 const DatabaseManagement = () => {
@@ -209,17 +293,19 @@ const DatabaseManagement = () => {
           height: "100vh",
           padding: 8,
           left: 0,
-          borderRight: `2px solid ${ColorPallate.background}`,
+          borderRight: `2px solid ${ColorPallate.inputBorder}`,
           gap: 12,
           alignItems: "center",
+          backgroundColor: ColorPallate.background,
         }}
       >
         <img
           src={logo}
           style={{
             width: 32,
-            border: `2px solid ${ColorPallate.background}`,
+            border: `2px solid ${ColorPallate.inputBorder}`,
             borderRadius: 12,
+            background: ColorPallate.primaryGradient,
           }}
         />
         <div
@@ -240,12 +326,13 @@ const DatabaseManagement = () => {
         <div
           style={{
             padding: "10px 0px 10px 40px",
-            borderBottom: `2px solid ${ColorPallate.background}`,
+            borderBottom: `2px solid ${ColorPallate.inputBorder}`,
+            backgroundColor: ColorPallate.background,
           }}
         >
           <p
             style={{
-              color: "grey",
+              color: ColorPallate.text,
               fontSize: 16,
               textAlign: "left",
               fontWeight: 500,
@@ -260,7 +347,7 @@ const DatabaseManagement = () => {
             flexDirection: "row",
             color: ColorPallate.text,
             justifyContent: "space-between",
-            backgroundColor: ColorPallate.background,
+            backgroundColor: "rgba(18,18,18,1)",
             alignItems: "center",
             paddingInline: 40,
           }}
@@ -284,7 +371,7 @@ const DatabaseManagement = () => {
             style={{
               display: "flex",
               flexDirection: "row",
-              border: `2px solid ${ColorPallate.secondaryText}`,
+              border: `2px solid ${ColorPallate.inputBorder}`,
               borderBlockEnd: "0px",
               padding: 8,
               borderRadius: "10px 10px 0px 0px",
@@ -298,7 +385,7 @@ const DatabaseManagement = () => {
                   key={index}
                   style={{
                     display: "flex",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
@@ -318,7 +405,7 @@ const DatabaseManagement = () => {
               overflow: "auto",
               height: "70vh",
               scrollbarWidth: "none",
-              borderBlockEnd: "2px solid " + ColorPallate.secondaryText,
+              boxShadow: `inset 0px -5px 15px ${ColorPallate.buttonShadow}`,
             }}
           >
             {storeData.map((i, indexG) => (
@@ -333,14 +420,14 @@ const DatabaseManagement = () => {
                 <p
                   style={{
                     display: "flex",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
                     alignItems: "center",
                     padding: 8,
                     gap: 4,
-                    border: `2px solid ${ColorPallate.secondaryText}`,
+                    border: `2px solid ${ColorPallate.inputBorder}`,
                     borderInlineEnd: "0px solid",
                     borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
                   }}
@@ -350,14 +437,14 @@ const DatabaseManagement = () => {
                 <p
                   style={{
                     display: "flex",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
                     alignItems: "center",
                     padding: 8,
                     gap: 4,
-                    border: `2px solid ${ColorPallate.secondaryText}`,
+                    border: `2px solid ${ColorPallate.inputBorder}`,
                     borderInlineEnd: "0px solid",
                     borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
                   }}
@@ -368,13 +455,13 @@ const DatabaseManagement = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
                     padding: 8,
                     gap: 4,
-                    border: `2px solid ${ColorPallate.secondaryText}`,
+                    border: `2px solid ${ColorPallate.inputBorder}`,
                     borderInlineEnd: "0px solid",
                     borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
                   }}
@@ -411,13 +498,13 @@ const DatabaseManagement = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
                     padding: 8,
                     gap: 4,
-                    border: `2px solid ${ColorPallate.secondaryText}`,
+                    border: `2px solid ${ColorPallate.inputBorder}`,
                     borderInlineEnd: "0px solid",
                     borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
                   }}
@@ -443,13 +530,13 @@ const DatabaseManagement = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    color: "grey",
+                    color: ColorPallate.text,
                     fontSize: 12,
                     textAlign: "left",
                     flex: 1,
                     padding: 8,
                     gap: 4,
-                    border: `2px solid ${ColorPallate.secondaryText}`,
+                    border: `2px solid ${ColorPallate.inputBorder}`,
                     borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
                   }}
                 >
