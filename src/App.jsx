@@ -247,7 +247,15 @@ function App() {
           </>
         }
       />
-      <Route path={"/doss/" + user?.uid} element={<DatabaseManagement />} />
+      <Route
+        path={"/doss/" + user?.uid}
+        element={
+          <DatabaseManagement
+            setUrlParams={setUrlParams}
+            urlParams={urlParams}
+          />
+        }
+      />
     </Routes>
   );
 }

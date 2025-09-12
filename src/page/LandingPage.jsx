@@ -15,6 +15,90 @@ const LandingPage = ({
 }) => {
   const [navHeight, setNavHeight] = useState(0);
 
+  const LandingPageStyles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    left: "10vw",
+    width: "80vw",
+    textAlign: windowSize.width > 700 ? "left" : "center",
+    top: 0,
+    position: "fixed",
+    height: "100dvh",
+    transition: "left 0.5s ease, transform 0.5s ease",
+    zIndex: 10,
+  },
+  topGroup: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    gap: "24px",
+    top: 0,
+    maxWidth: "clamp(250px, 75vw, 75vw)",
+  },
+  title: {
+    fontSize: windowSize.width > 700 ? "3rem" : "1.5rem",
+    fontWeight: 500,
+    color: ColorPallate.text,
+  },
+  subtitle: {
+    marginTop: 0,
+    fontSize: "1rem",
+    color: ColorPallate.secondaryText,
+    width: windowSize.width > 700 ? "100vw" : "70vw",
+  },
+  paragraph: {
+    fontSize: "0.75rem",
+    maxWidth: windowSize.width > 700 ? "450px" : "100px" ,
+    color: ColorPallate.secondaryText,
+  },
+  buttonGroup: {
+    display: "flex",
+    gap: "24px",
+    zIndex: 10,
+  },
+  cardGroup: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: "4dvh",
+    transition: "left 0.5s ease, transform 0.5s ease",
+    zIndex: 10,
+  },
+  fetureCardGroup: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "8px",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  dismissCardGroup: {
+    transform: "translateY(150%)",
+  },
+  containerDissmis: {
+    left: "0",
+    transform: "translateX(-100%)",
+  },
+  textBackground: {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    width: "clamp(330px, 100vw, 100vw)",
+    backdropFilter: "blur(20px)",
+    height: "100dvh",
+    backgroundImage:
+      "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
+    zIndex: 5,
+    backdropFilter: "blur(1px)",
+    transition: "left 0.5s ease, transform 0.5s ease",
+  },
+  textBackgroundDissmis: {
+    transform: "translateX(-100%)",
+  },
+};
+
   useLayoutEffect(() => {
     if (navRef.current) {
       setNavHeight(navRef.current.getBoundingClientRect().height);
@@ -151,91 +235,6 @@ const LandingPage = ({
       ></div>
     </>
   );
-};
-
-const LandingPageStyles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    left: "5vw",
-    top: 0,
-    position: "fixed",
-    height: "100dvh",
-    transition: "left 0.5s ease, transform 0.5s ease",
-    zIndex: 10,
-  },
-  topGroup: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    left: "5vw",
-    gap: "24px",
-    top: 0,
-    maxWidth: "clamp(250px, 40vw, 40vw)",
-  },
-  title: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    textAlign: "left",
-    color: ColorPallate.text,
-  },
-  subtitle: {
-    textAlign: "left",
-    marginTop: 0,
-    fontSize: "1rem",
-    color: ColorPallate.secondaryText,
-    width: "100vw",
-  },
-  paragraph: {
-    fontSize: "0.75rem",
-    maxWidth: "600px",
-    textAlign: "left",
-    color: ColorPallate.secondaryText,
-  },
-  buttonGroup: {
-    display: "flex",
-    gap: "24px",
-    zIndex: 10,
-  },
-  cardGroup: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: "4dvh",
-    transition: "left 0.5s ease, transform 0.5s ease",
-    zIndex: 10,
-  },
-  fetureCardGroup: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "8px",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  dismissCardGroup: {
-    transform: "translateY(150%)",
-  },
-  containerDissmis: {
-    left: "0",
-    transform: "translateX(-100%)",
-  },
-  textBackground: {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    width: "clamp(330px, 100vw, 100vw)",
-    backdropFilter: "blur(20px)",
-    height: "100dvh",
-    backgroundImage:
-      "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
-    zIndex: 5,
-    backdropFilter: "blur(1px)",
-    transition: "left 0.5s ease, transform 0.5s ease",
-  },
-  textBackgroundDissmis: {
-    transform: "translateX(-100%)",
-  },
 };
 
 export default LandingPage;

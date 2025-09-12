@@ -1,12 +1,11 @@
 import ColorPallate from "../theme/Color";
 import logo from "../assets/logo.png";
 import {
-  FiChevronDown,
+  FiEdit,
   FiFilter,
   FiGlobe,
   FiMapPin,
   FiPlus,
-  FiShoppingCart,
   FiUploadCloud,
 } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
@@ -15,7 +14,8 @@ import { BsClockFill } from "react-icons/bs";
 import { LuMapPin, LuMapPinHouse } from "react-icons/lu";
 import { FaShop } from "react-icons/fa6";
 import { PiShoppingCartFill } from "react-icons/pi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import GlobalModal from "../components/Modal";
 
 const buttonList = [
   { icon: FiMapPin, onClick: () => {} },
@@ -272,8 +272,558 @@ const storeData = [
   },
 ];
 
-const DatabaseManagement = () => {
+const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
+  const [formData, setFormData] = useState(initialData);
+
+  useEffect(() => {
+    setFormData(initialData);
+  }, [initialData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleJadwalChange = (e, index) => {
+    const newValue = [...formData.value];
+    newValue[index] = e.target.value;
+    setFormData((prev) => ({ ...prev, value: newValue }));
+  };
+  const handleKoordinatChange = (e, index) => {
+    const newKoordinat = [...formData.koordinat];
+    newKoordinat[index] = parseFloat(e.target.value) || 0;
+    setFormData((prev) => ({ ...prev, koordinat: newKoordinat }));
+  };
+  const handleMerekChange = (e, productIndex) => {
+    const newProducts = [...formData.product];
+    newProducts[productIndex].merek = e.target.value;
+    setFormData((prev) => ({ ...prev, product: newProducts }));
+  };
+  const handleNamaProdukChange = (e, productIndex, namaIndex) => {
+    const newProducts = [...formData.product];
+    newProducts[productIndex].namaProduk[namaIndex] = e.target.value;
+    setFormData((prev) => ({ ...prev, product: newProducts }));
+  };
+  const addMerek = () => {
+    setFormData((prev) => ({
+      ...prev,
+      product: [...prev.product, { merek: "", namaProduk: [""] }],
+    }));
+  };
+  const removeMerek = (productIndex) => {
+    const newProducts = formData.product.filter(
+      (_, index) => index !== productIndex
+    );
+    setFormData((prev) => ({ ...prev, product: newProducts }));
+  };
+  const addNamaProduk = (productIndex) => {
+    const newProducts = [...formData.product];
+    newProducts[productIndex].namaProduk.push("");
+    setFormData((prev) => ({ ...prev, product: newProducts }));
+  };
+  const removeNamaProduk = (productIndex, namaIndex) => {
+    const newProducts = [...formData.product];
+    newProducts[productIndex].namaProduk = newProducts[
+      productIndex
+    ].namaProduk.filter((_, index) => index !== namaIndex);
+    setFormData((prev) => ({ ...prev, product: newProducts }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+
+  const styles = {
+    overlay: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0,0,0,0.6)",
+      backdropFilter: "blur(5px)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    },
+    formGroup: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "18px",
+      marginBottom: "24px",
+    },
+    label: { color: ColorPallate.secondaryText, fontSize: "0.8rem" },
+    scheduleItem: {
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+      flex: 1,
+      width: "100%",
+    },
+    dayLabel: { color: ColorPallate.text, width: "80px", flexShrink: 0 },
+    productGroup: {
+      border: `1px solid ${ColorPallate.inputBorder || "#555"}`,
+      padding: "16px",
+      borderRadius: "12px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+    },
+    merekContainer: { display: "flex", gap: "10px" },
+    namaProdukContainer: {
+      display: "flex",
+      gap: "8px",
+      alignItems: "center",
+      marginLeft: "20px",
+    },
+    buttonContainer: {
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: "16px",
+      marginTop: "24px",
+    },
+  };
+
+  return (
+    <div style={styles.overlay}>
+      <GlobalModal
+        visible={isOpen}
+        styles={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          padding: "20px",
+          transform: "translateX(-50%) translateY(-50%)",
+          height: "80vh",
+          width: "70vw",
+          overflow: "auto",
+          zIndex: 10,
+        }}
+        onDissmis={() => onClose()}
+      >
+        <h2 style={{ marginTop: 0, color: ColorPallate.text }}>
+          Edit Data Toko
+        </h2>
+        <form onSubmit={handleSubmit} style={{ margin: 0, padding: 0 }}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Nama Toko</label>
+            <InputForm
+              type="text"
+              name="namaToko"
+              value={formData.namaToko}
+              onChange={handleChange}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Alamat</label>
+            <InputForm
+              name="alamat"
+              value={formData.alamat}
+              onChange={handleChange}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Koordinat</label>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                gap: "12px",
+              }}
+            >
+              <InputForm
+                type="number"
+                step="any"
+                value={formData.koordinat[0]}
+                onChange={(e) => handleKoordinatChange(e, 0)}
+                style={{ container: { flex: 1 } }}
+                placeholder="Latitude"
+              />
+              <InputForm
+                type="number"
+                step="any"
+                value={formData.koordinat[1]}
+                onChange={(e) => handleKoordinatChange(e, 1)}
+                style={{ container: { flex: 1 } }}
+                placeholder="Longitude"
+              />
+            </div>
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Jadwal Buka</label>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "16px",
+              }}
+            >
+              {formData.value.map((jam, index) => (
+                <div key={index} style={styles.scheduleItem}>
+                  <span style={styles.dayLabel}>{days[index]}</span>
+                  <InputForm
+                    type="text"
+                    value={jam}
+                    style={{ container: { flex: 1 } }}
+                    onChange={(e) => handleJadwalChange(e, index)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Produk</label>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "16px",
+              }}
+            >
+              {formData.product.map((prod, productIndex) => (
+                <div key={productIndex} style={styles.productGroup}>
+                  <div style={styles.merekContainer}>
+                    <InputForm
+                      type="text"
+                      value={prod.merek}
+                      onChange={(e) => handleMerekChange(e, productIndex)}
+                      placeholder="Nama Merek"
+                      style={{ container: { flex: 1 } }}
+                    />
+                    <ButtonCostum
+                      text="Hapus"
+                      onclick={() => removeMerek(productIndex)}
+                    />
+                  </div>
+                  {prod.namaProduk.map((nama, namaIndex) => (
+                    <div key={namaIndex} style={styles.namaProdukContainer}>
+                      <InputForm
+                        type="text"
+                        value={nama}
+                        onChange={(e) =>
+                          handleNamaProdukChange(e, productIndex, namaIndex)
+                        }
+                        placeholder="Nama Produk"
+                      />
+                      <ButtonCostum
+                        text="X"
+                        type="textButton"
+                        onclick={() =>
+                          removeNamaProduk(productIndex, namaIndex)
+                        }
+                      />
+                    </div>
+                  ))}
+                  <ButtonCostum
+                    text="+ Tambah Produk"
+                    type="textButton"
+                    onclick={() => addNamaProduk(productIndex)}
+                  />
+                </div>
+              ))}
+            </div>
+            <ButtonCostum
+              text="+ Tambah Merek"
+              type="primary"
+              onclick={addMerek}
+              styles={{ marginTop: "16px" }}
+            />
+          </div>
+
+          <div style={styles.buttonContainer}>
+            <ButtonCostum text="Batal" type="textButton" onclick={onClose} />
+            <ButtonCostum text="Simpan" type="primary" isSubmit={true} />
+          </div>
+        </form>
+      </GlobalModal>
+    </div>
+  );
+};
+
+const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
   const [showFull, setShowFull] = useState(null);
+
+  const styles = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      paddingInline: 40,
+    },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      border: `2px solid ${ColorPallate.inputBorder}`,
+      borderBlockEnd: "0px",
+      padding: 8,
+      borderRadius: "10px 10px 0px 0px",
+      justifyContent: "space-between",
+    },
+    headerCell: {
+      display: "flex",
+      color: ColorPallate.text,
+      fontSize: 12,
+      textAlign: "left",
+      flex: 1,
+      alignItems: "center",
+      gap: 4,
+    },
+    scrollContainer: {
+      overflow: "auto",
+      height: "70vh",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      boxShadow: `inset 0px -5px 15px ${ColorPallate.buttonShadow}`,
+    },
+    tableRow: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    tableCell: {
+      display: "flex",
+      color: ColorPallate.text,
+      fontSize: 12,
+      textAlign: "left",
+      flex: 1,
+      padding: 8,
+      gap: 4,
+      border: `2px solid ${ColorPallate.inputBorder}`,
+      borderInlineEnd: "0px solid",
+    },
+    tableCellColumn: {
+      flexDirection: "column",
+    },
+    tableCellCentered: {
+      justifyContent: "center",
+    },
+    listItemContainer: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    showMoreText: {
+      textAlign: "right",
+      cursor: "pointer",
+      color: ColorPallate.primary,
+      marginTop: 4,
+    },
+  };
+
+  return (
+    <div style={styles.container}>
+      {/* HEADER */}
+      <div style={styles.header}>
+        {tableList.map((i, index) => {
+          const IconComponent = i.icon;
+          return (
+            <p
+              key={index}
+              style={{
+                ...styles.headerCell,
+                transform: `translateX(${3.5 * index}px)`, // Style dinamis tetap di sini
+              }}
+            >
+              <IconComponent size={14} color={"grey"} />
+              {i.value}
+            </p>
+          );
+        })}
+      </div>
+
+      <div style={styles.scrollContainer}>
+        {storeData.map((i, indexG) => {
+          const [hover, setHover] = useState(false);
+          const dynamicBorderStyle = {
+            borderBlockEnd:
+              indexG < storeData.length - 1
+                ? "0px"
+                : `2px solid ${ColorPallate.inputBorder}`,
+          };
+
+          return (
+            <div
+              key={indexG}
+              style={{
+                ...styles.tableRow,
+                ...(hover
+                  ? { boxShadow: ` inset 0 0 0 3px ${ColorPallate.primary}` }
+                  : {}),
+                ...(selectedItem === i
+                  ? { background: ColorPallate.primaryGradient }
+                  : {}),
+              }}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              onClick={() => setSelectedItem(selectedItem === i ? null : i)}
+            >
+              <p
+                style={{
+                  ...styles.tableCell,
+                  alignItems: "center",
+                  ...dynamicBorderStyle,
+                }}
+              >
+                {i.namaToko}
+              </p>
+
+              <p
+                style={{
+                  ...styles.tableCell,
+                  alignItems: "center",
+                  ...dynamicBorderStyle,
+                }}
+              >
+                {i.alamat}
+              </p>
+
+              <div
+                style={{
+                  ...styles.tableCell,
+                  ...styles.tableCellColumn,
+                  ...dynamicBorderStyle,
+                }}
+              >
+                {i.value
+                  .slice(0, indexG + 1 === showFull ? i.value.length : 1)
+                  .map((val, indexChild) => (
+                    <div key={indexChild} style={styles.listItemContainer}>
+                      <p style={{ textAlign: "left" }}>{hari[indexChild]} :</p>
+                      <p style={{ textAlign: "left" }}>{val}</p>
+                    </div>
+                  ))}
+                {i.value.length > 1 && indexG + 1 !== showFull && (
+                  <p
+                    onClick={() => setShowFull(indexG + 1)}
+                    style={styles.showMoreText}
+                  >
+                    ...tampilkan lebih banyak
+                  </p>
+                )}
+              </div>
+              <div
+                style={{
+                  ...styles.tableCell,
+                  ...styles.tableCellColumn,
+                  ...styles.tableCellCentered,
+                  ...dynamicBorderStyle,
+                }}
+              >
+                {i.koordinat.map((coord, index) => (
+                  <div key={index} style={styles.listItemContainer}>
+                    <p style={{ textAlign: "left" }}>
+                      {index === 0 ? "Longitude" : "Latitude"} :
+                    </p>
+                    <p style={{ textAlign: "left" }}>{coord}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Kolom Produk */}
+              <div
+                style={{
+                  ...styles.tableCell,
+                  ...styles.tableCellColumn,
+                  ...styles.tableCellCentered,
+                  ...dynamicBorderStyle,
+                  borderInlineEnd: `2px solid ${ColorPallate.inputBorder}`,
+                }}
+              >
+                {i.product
+                  .slice(0, indexG + 1 === showFull ? i.product.length : 1)
+                  .map((prod, indexChild) => (
+                    <div key={indexChild} style={styles.listItemContainer}>
+                      <p style={{ textAlign: "left", flex: 1 }}>{prod.merek}</p>
+                      <div style={{ ...styles.tableCellColumn, flex: 1 }}>
+                        {prod.namaProduk
+                          .slice(
+                            0,
+                            indexG + 1 === showFull ? i.product.length : 1
+                          )
+                          .map((nama, index) => (
+                            <p style={{ textAlign: "left" }} key={index}>
+                              {nama}
+                            </p>
+                          ))}
+                      </div>
+                    </div>
+                  ))}
+                {i.product.length > 1 && indexG + 1 !== showFull && (
+                  <p
+                    onClick={() => setShowFull(indexG + 1)}
+                    style={styles.showMoreText}
+                  >
+                    ...tampilkan lebih banyak
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const SideBar = ({ buttonList }) => {
+  return (
+    <nav
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        padding: 8,
+        left: 0,
+        borderRight: `2px solid ${ColorPallate.inputBorder}`,
+        gap: 12,
+        alignItems: "center",
+        backgroundColor: ColorPallate.background,
+      }}
+    >
+      <img
+        src={logo}
+        style={{
+          width: 32,
+          border: `2px solid ${ColorPallate.inputBorder}`,
+          borderRadius: 12,
+          background: ColorPallate.primaryGradient,
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        {buttonList.map((i, index) => (
+          <ButtonCostum key={index} type={"navbarButton"} icon={i.icon} />
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+const DatabaseManagement = ({ setUrlParams, urlParams }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showNewModal, setShowNewModal] = useState(false);
+
+  useEffect(() => {
+    const editId = urlParams.get("edit");
+    setShowEditModal(
+      storeData.some(
+        (i) => i.koordinat.toString() === decodeURIComponent(editId)
+      )
+    );
+  }, [urlParams]);
 
   return (
     <div
@@ -286,42 +836,33 @@ const DatabaseManagement = () => {
         flexDirection: "row",
       }}
     >
-      <nav
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-          padding: 8,
-          left: 0,
-          borderRight: `2px solid ${ColorPallate.inputBorder}`,
-          gap: 12,
-          alignItems: "center",
-          backgroundColor: ColorPallate.background,
+      <EditStoreModal
+        isOpen={showEditModal}
+        initialData={selectedItem}
+        onClose={() => setUrlParams({})}
+      />
+      <EditStoreModal
+        isOpen={showNewModal}
+        initialData={{
+          namaToko: "",
+          alamat: "",
+          value: [
+            "00.00 - 00.00",
+            "Closed",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "Closed",
+          ],
+          koordinat: ["Lattitude", "Longitude"],
+          product: [
+            { merek: "Example", namaProduk: ["example...", "example..."] },
+          ],
         }}
-      >
-        <img
-          src={logo}
-          style={{
-            width: 32,
-            border: `2px solid ${ColorPallate.inputBorder}`,
-            borderRadius: 12,
-            background: ColorPallate.primaryGradient,
-          }}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          {buttonList.map((i, index) => (
-            <ButtonCostum key={index} type={"navbarButton"} icon={i.icon} />
-          ))}
-        </div>
-      </nav>
+        onClose={() => setShowNewModal(false)}
+      />
+      <SideBar buttonList={buttonList} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <div
           style={{
@@ -355,237 +896,22 @@ const DatabaseManagement = () => {
           <h2>Store Data</h2>
           <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <InputForm />
-            <ButtonCostum icon={FiFilter} />
-            <ButtonCostum text={"Tambah Pin"} icon={FiPlus} />
+            <ButtonCostum
+              icon={FiEdit}
+              onclick={() =>
+                setUrlParams({ edit: selectedItem.koordinat.toString() })
+              }
+            />
+            <ButtonCostum text={"Tambah Pin"} icon={FiPlus} onclick={() => setShowNewModal(true)}/>
             <ButtonCostum text={"Set Image"} icon={FiUploadCloud} />
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingInline: 40,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              border: `2px solid ${ColorPallate.inputBorder}`,
-              borderBlockEnd: "0px",
-              padding: 8,
-              borderRadius: "10px 10px 0px 0px",
-              justifyContent: "space-between",
-            }}
-          >
-            {tableList.map((i, index) => {
-              const IconComponent = i.icon;
-              return (
-                <p
-                  key={index}
-                  style={{
-                    display: "flex",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    alignItems: "center",
-                    gap: 4,
-                    transform: `translateX(${3.5 * index}px)`,
-                  }}
-                >
-                  <IconComponent size={14} color={"grey"} />
-                  {i.value}
-                </p>
-              );
-            })}
-          </div>
-          <div
-            style={{
-              overflow: "auto",
-              height: "70vh",
-              scrollbarWidth: "none",
-              boxShadow: `inset 0px -5px 15px ${ColorPallate.buttonShadow}`,
-            }}
-          >
-            {storeData.map((i, indexG) => (
-              <div
-                key={indexG}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <p
-                  style={{
-                    display: "flex",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    alignItems: "center",
-                    padding: 8,
-                    gap: 4,
-                    border: `2px solid ${ColorPallate.inputBorder}`,
-                    borderInlineEnd: "0px solid",
-                    borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
-                  }}
-                >
-                  {i.namaToko}
-                </p>
-                <p
-                  style={{
-                    display: "flex",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    alignItems: "center",
-                    padding: 8,
-                    gap: 4,
-                    border: `2px solid ${ColorPallate.inputBorder}`,
-                    borderInlineEnd: "0px solid",
-                    borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
-                  }}
-                >
-                  {i.alamat}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    padding: 8,
-                    gap: 4,
-                    border: `2px solid ${ColorPallate.inputBorder}`,
-                    borderInlineEnd: "0px solid",
-                    borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
-                  }}
-                >
-                  {i.value
-                    .slice(0, indexG + 1 === showFull ? i.value.length - 1 : 1)
-                    .map((i, indexChild) => (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <p style={{ textAlign: "left" }} key={indexChild}>
-                          {hari[indexChild]} :
-                        </p>
-                        <p style={{ textAlign: "left" }} key={indexChild}>
-                          {i}
-                        </p>
-                      </div>
-                    ))}
-                  {indexG + 1 !== showFull && (
-                    <p
-                      onClick={() => setShowFull(indexG + 1)}
-                      style={{ textAlign: "right" }}
-                      key={indexG}
-                    >
-                      ...tampilkan lebih banyak
-                    </p>
-                  )}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    padding: 8,
-                    gap: 4,
-                    border: `2px solid ${ColorPallate.inputBorder}`,
-                    borderInlineEnd: "0px solid",
-                    borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
-                  }}
-                >
-                  {i.koordinat.map((i, index) => (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p style={{ textAlign: "left" }} key={index}>
-                        {index ? "Langitude" : "Longitude"}{" "}
-                      </p>
-                      <p style={{ textAlign: "left" }} key={index}>
-                        {i}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    color: ColorPallate.text,
-                    fontSize: 12,
-                    textAlign: "left",
-                    flex: 1,
-                    padding: 8,
-                    gap: 4,
-                    border: `2px solid ${ColorPallate.inputBorder}`,
-                    borderBlockEnd: indexG < storeData.length - 1 ? "0px" : "",
-                  }}
-                >
-                  {i.product
-                    .slice(0, indexG + 1 === showFull ? i.product.length : 1)
-                    .map((i, indexChild) => (
-                      <div
-                        key={indexChild}
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <p style={{ textAlign: "left", flex: 1 }}>{i.merek}</p>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            flex: 1,
-                          }}
-                        >
-                          {i.namaProduk
-                            .slice(
-                              0,
-                              indexG + 1 === showFull ? i.namaProduk.length : 1
-                            )
-                            .map((i, index) => (
-                              <p style={{ textAlign: "left" }} key={index}>
-                                {i}
-                              </p>
-                            ))}
-                        </div>
-                      </div>
-                    ))}
-
-                  {indexG + 1 !== showFull && (
-                    <p
-                      onClick={() => setShowFull(indexG + 1)}
-                      style={{ textAlign: "right" }}
-                      key={indexG}
-                    >
-                      ...tampilkan lebih banyak
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DataTable
+          tableList={tableList}
+          storeData={storeData}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+        />
       </div>
     </div>
   );
