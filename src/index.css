@@ -57,7 +57,7 @@ h1 {
   line-height: 1.1;
 }
 
-p, h3, h1, img, button, input, span {
+p, h3, h1, img, button, input, span, a, h2, label {
   user-select: none;
 }
 
@@ -78,15 +78,14 @@ button, .input {
 input {
   background: transparent;
   border: none;
-  flex: 1;
   font-size: 12px;
   font-weight: 500;
+  width: 100%;
 }
 input::placeholder{
   color: rgb(169, 169, 169);
   font-size: 12px;
   font-weight: 500;
-  flex: 1;
 
 }
 

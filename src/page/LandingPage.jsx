@@ -43,7 +43,7 @@ const LandingPage = ({
       fontWeight: 600,
       color: ColorPallate.text,
       ...(windowSize.width > 700 ? { width: "80vw" } : {}),
-      marginBottom: 20,
+      marginBlock: 20,
     },
     subtitle: {
       marginBottom: 0,

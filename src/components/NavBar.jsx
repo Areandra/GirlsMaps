@@ -61,7 +61,7 @@ const NavBar = ({
       gap: "2vw",
     },
     navResizeMap: {
-      width: "auto",
+      width: "70vw",
       ...(windowSize.width > 700
         ? { left: "2vw", transform: "translateX(-1%)" }
         : { width: "80vw", transform: "translateX(-50%)" }),
@@ -72,16 +72,16 @@ const NavBar = ({
     navButtonGroup: {
       display: "flex",
       justifyContent: "center",
-      flex: 1,
+      flex: lastPage !== "map"  ? 1 : 0,
       gap: "24px",
       alignItems: "center",
       position: "relative",
       zIndex: 1,
     },
     navAuthButtonGroup: {
+      flex: lastPage !== "map"  ? 1 : 0,
       display: "flex",
       justifyContent: "flex-end",
-      flex: 1,
       gap: "8px",
       alignItems: "center",
       position: "relative",
@@ -100,7 +100,7 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     titleGroup: {
-      flex: windowSize.width > 700 ? 1 : 0,
+      flex: windowSize.width > 700 ? (lastPage !== "map"  ? 1 : 0) : 0,
       justifyContent: "flex-start",
       display: "flex",
       alignItems: "center",
@@ -282,7 +282,7 @@ const NavBar = ({
             ...(lastPage === "map" ? { left: 0 } : { right: 0 }),
             bottom: 0,
             width: "65vw",
-            height: "100dvh",
+            height: windowSize.height - 20,
             padding: "20px",
             borderRadius: 0,
           }}
@@ -335,7 +335,7 @@ const NavBar = ({
           visible={showProfileModal}
           styles={{
             padding: 20,
-            borderRadius: 30,
+            borderRadius: windowSize.width > 700 ? 30 : "30px 30px 0px 00px",
             position: "fixed",
             zIndex: 100,
             gap: 28,
@@ -345,7 +345,7 @@ const NavBar = ({
                   width: "25vw",
                   top:
                     navRef?.current?.getBoundingClientRect?.()?.height +
-                    window.innerHeight * 0.06,
+                    windowSize.height * 0.06,
                   ...(lastPage !== "map"
                     ? { right: "10vw" }
                     : {
@@ -473,6 +473,7 @@ const NavBar = ({
               onclick={() => setShowSideNav(true)}
               type={"textButton"}
               icon={FiAlignLeft}
+              style={{ padding: 4 }}
             />
           </>
         )}
@@ -565,11 +566,12 @@ const NavBar = ({
                 }}
               />
             )}
-            {lastPage !== "map" && (
+            {(lastPage !== "map" && windowSize.width < 700) && (
               <ButtonCostum
                 onclick={() => setShowSideNav(true)}
                 type={"textButton"}
                 icon={FiAlignLeft}
+                style={{ padding: 4 }}
               />
             )}
           </div>

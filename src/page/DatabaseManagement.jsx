@@ -699,7 +699,7 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
                   ))}
                 {i.value.length > 1 && indexG + 1 !== showFull && (
                   <p
-                    onClick={() => setShowFull(indexG + 1)}
+                    onClick={() => {setShowFull(indexG + 1)}}
                     style={styles.showMoreText}
                   >
                     ...tampilkan lebih banyak
