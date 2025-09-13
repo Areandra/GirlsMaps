@@ -4,6 +4,7 @@ import ColorPallate from "../theme/Color";
 import logo from "../assets/logo.png";
 import { InputForm } from "./InputForm";
 import {
+  FiAlignLeft,
   FiEdit,
   FiGrid,
   FiLogOut,
@@ -39,6 +40,7 @@ const NavBar = ({
   const [showProfileModal, setShowProfileModal] = useState(false);
   const containerRef = useRef();
   const navigate = useNavigate();
+  const [showSideNav, setShowSideNav] = useState(false);
 
   const styles = {
     nav: {
@@ -106,7 +108,7 @@ const NavBar = ({
     titleText: {
       color: ColorPallate.primary,
       fontSize: "1rem",
-      fontWeight: "bold",
+      fontWeight: 500,
       textAlign: "left",
       display: "inline",
     },
@@ -203,34 +205,6 @@ const NavBar = ({
     const [hover, setHover] = useState(false);
     return (
       <>
-        {!edit && (
-          <div
-            style={{
-              backgroundColor: ColorPallate.background,
-              borderRadius:
-                windowSize.width > 700
-                  ? "0px 50px 50px 0px"
-                  : "0px 0px 50px 50px",
-              padding: 14,
-              display: "flex",
-              alignItems: "center",
-              transition: "opacity 0.3s ease, transform 0.3s ease",
-              position: "absolute",
-              opacity: 0,
-              ...((showProfileModal ? true : hover)
-                ? {
-                    opacity: 1,
-                    transform:
-                      windowSize.width > 700
-                        ? `translateX(${lastPage === "map" ? "" : "-"}45px)`
-                        : "translateY(45px)",
-                  }
-                : {}),
-            }}
-          >
-            <FiGrid size={18} color={ColorPallate.text} />
-          </div>
-        )}
         <div
           style={{ ...styles.profileContainer, ...style?.container }}
           onClick={() => onClick()}
@@ -248,6 +222,34 @@ const NavBar = ({
               {user?.displayName?.slice(0, 1)}
             </h1>
           )}
+          {!edit && (
+            <div
+              style={{
+                backgroundColor: ColorPallate.background,
+                borderRadius:
+                  windowSize.width > 700
+                    ? "0px 50px 50px 0px"
+                    : "0px 0px 50px 50px",
+                padding: 14,
+                display: "flex",
+                alignItems: "center",
+                transition: "opacity 0.3s ease, transform 0.3s ease",
+                position: "absolute",
+                opacity: 0,
+                ...((showProfileModal ? true : hover)
+                  ? {
+                      opacity: 1,
+                      transform:
+                        windowSize.width > 700
+                          ? `translateX(${lastPage === "map" ? "" : "-"}45px)`
+                          : "translateY(45px)",
+                    }
+                  : {}),
+              }}
+            >
+              <FiGrid size={18} color={ColorPallate.text} />
+            </div>
+          )}
         </div>
       </>
     );
@@ -255,6 +257,79 @@ const NavBar = ({
 
   return (
     <div>
+      <div
+        style={{
+          width: "100vw",
+          height: "100dvh",
+          background: "rgba(18, 18,18, 0.75)",
+          backdropFilter: "blur(5px)",
+          left: 0,
+          position: "absolute",
+          opacity: showSideNav ? 1 : 0,
+          zIndex: 1000,
+          top: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <GlobalModal
+          visible={showSideNav}
+          styles={{
+            position: "fixed",
+            zIndex: 9999,
+            gap: 14,
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+            top: 0,
+            ...(lastPage === "map" ? { left: 0 } : { right: 0 }),
+            bottom: 0,
+            width: "65vw",
+            height: "100dvh",
+            padding: "20px",
+            borderRadius: 0,
+          }}
+        >
+          <div
+            onClick={() => setShowSideNav(false)}
+            style={{ position: "absolute", cursor: "pointer", right: 20 }}
+          >
+            <FiX size={20} color={ColorPallate.text} />
+          </div>
+          <img
+            style={{
+              position: "relative",
+              width: "38px",
+              left: -10,
+              top: -10,
+            }}
+            src={logo}
+          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            {buttonList.map((button, index) => (
+              <div
+                key={button.id}
+                ref={(el) => (ButtonRef.current[index] = el)}
+              >
+                <ButtonCostum
+                  currentPage={currentPage}
+                  id={button.id}
+                  type="navbarButton"
+                  text={button.text}
+                  onclick={() => {
+                    setLastPage(button.id);
+                    setCurrentPage(button.id);
+                    setShowSideNav(false);
+                    buttonAction.navButton?.[index]?.();
+                  }}
+                  onHoverEnter={() => {
+                    setCurrentPage(button.id);
+                  }}
+                  hoverColor={ColorPallate.primary}
+                  activeColor={ColorPallate.primary}
+                />
+              </div>
+            ))}
+          </div>
+        </GlobalModal>
+      </div>
       {user && (
         <GlobalModal
           visible={showProfileModal}
@@ -282,6 +357,7 @@ const NavBar = ({
                   left: 0,
                   bottom: 0,
                   width: "90vw",
+                  height: "75dvh",
                   padding: "5vw",
                 }),
           }}
@@ -383,19 +459,23 @@ const NavBar = ({
         }}
         ref={navRef}
       >
-        <>
+        {(lastPage === "home" ? true : windowSize.width > 700) ? (
           <div style={styles.titleGroup}>
             <img src={logo} alt="" style={styles.logo} />
-            {(lastPage === "home" ? true : windowSize.width > 700) && (
-              <>
-                <h1 style={styles.titleText}>Girls</h1>
-                <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
-                  Map
-                </h1>
-              </>
-            )}
+            <h1 style={styles.titleText}>Girls</h1>
+            <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
+              Map
+            </h1>
           </div>
-        </>
+        ) : (
+          <>
+            <ButtonCostum
+              onclick={() => setShowSideNav(true)}
+              type={"textButton"}
+              icon={FiAlignLeft}
+            />
+          </>
+        )}
         {windowSize?.width > 700 ? (
           <div
             ref={containerRef}
@@ -436,10 +516,7 @@ const NavBar = ({
               placeholder="Cari Toko"
               style={{
                 container: {
-                  width:
-                    windowSize.width > 450
-                      ? "clamp(240px, 18vw, 18vw)"
-                      : "100%",
+                  flex: 1,
                 },
               }}
               hovercolor={ColorPallate.primary}
@@ -486,6 +563,13 @@ const NavBar = ({
                     cursor: "pointer",
                   },
                 }}
+              />
+            )}
+            {lastPage !== "map" && (
+              <ButtonCostum
+                onclick={() => setShowSideNav(true)}
+                type={"textButton"}
+                icon={FiAlignLeft}
               />
             )}
           </div>

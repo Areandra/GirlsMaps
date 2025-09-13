@@ -69,6 +69,7 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       position: "absolute",
       transform: "translateX(-50%) translateY(-50%)",
       zIndex: 1,
+      backgroundColor: "black"
     },
     disbleMap: {
       pointerEvents: "auto",

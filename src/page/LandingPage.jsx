@@ -16,88 +16,90 @@ const LandingPage = ({
   const [navHeight, setNavHeight] = useState(0);
 
   const LandingPageStyles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    left: "10vw",
-    width: "80vw",
-    textAlign: windowSize.width > 700 ? "left" : "center",
-    top: 0,
-    position: "fixed",
-    height: "100dvh",
-    transition: "left 0.5s ease, transform 0.5s ease",
-    zIndex: 10,
-  },
-  topGroup: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    gap: "24px",
-    top: 0,
-    maxWidth: "clamp(250px, 75vw, 75vw)",
-  },
-  title: {
-    fontSize: windowSize.width > 700 ? "3rem" : "1.5rem",
-    fontWeight: 500,
-    color: ColorPallate.text,
-  },
-  subtitle: {
-    marginTop: 0,
-    fontSize: "1rem",
-    color: ColorPallate.secondaryText,
-    width: windowSize.width > 700 ? "100vw" : "70vw",
-  },
-  paragraph: {
-    fontSize: "0.75rem",
-    maxWidth: windowSize.width > 700 ? "450px" : "100px" ,
-    color: ColorPallate.secondaryText,
-  },
-  buttonGroup: {
-    display: "flex",
-    gap: "24px",
-    zIndex: 10,
-  },
-  cardGroup: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: "4dvh",
-    transition: "left 0.5s ease, transform 0.5s ease",
-    zIndex: 10,
-  },
-  fetureCardGroup: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "8px",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  dismissCardGroup: {
-    transform: "translateY(150%)",
-  },
-  containerDissmis: {
-    left: "0",
-    transform: "translateX(-100%)",
-  },
-  textBackground: {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    width: "clamp(330px, 100vw, 100vw)",
-    backdropFilter: "blur(20px)",
-    height: "100dvh",
-    backgroundImage:
-      "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
-    zIndex: 5,
-    backdropFilter: "blur(1px)",
-    transition: "left 0.5s ease, transform 0.5s ease",
-  },
-  textBackgroundDissmis: {
-    transform: "translateX(-100%)",
-  },
-};
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      left: "10vw",
+      width: "80vw",
+      textAlign: windowSize.width > 700 ? "left" : "center",
+      top: 0,
+      position: "fixed",
+      height: "100dvh",
+      transition: "left 0.5s ease, transform 0.5s ease",
+      zIndex: 10,
+    },
+    topGroup: {
+      flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: windowSize.width > 700 ? "flex-start" : "center",
+      gap: "28px",
+      top: 0,
+    },
+    title: {
+      fontSize: windowSize.width > 700 ? "3rem" : "1.5rem",
+      fontWeight: 600,
+      color: ColorPallate.text,
+      ...(windowSize.width > 700 ? { width: "80vw" } : {}),
+      marginBottom: 20,
+    },
+    subtitle: {
+      marginBottom: 0,
+      fontSize: "clamp(12px, 1.25vw, 1rem)",
+      fontWeight: 500,
+      color: ColorPallate.secondaryText,
+      width: windowSize.width > 700 ? "100vw" : "100%",
+    },
+    paragraph: {
+      fontSize: "0.75rem",
+      maxWidth: windowSize.width > 700 ? "450px" : "100%",
+      color: ColorPallate.secondaryText,
+    },
+    buttonGroup: {
+      display: "flex",
+      gap: "24px",
+      zIndex: 10,
+    },
+    cardGroup: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: "4dvh",
+      transition: "left 0.5s ease, transform 0.5s ease",
+      zIndex: 10,
+    },
+    fetureCardGroup: {
+      display: "flex",
+      flexDirection: "row",
+      gap: "8px",
+      justifyContent: "center",
+      alignContent: "center",
+    },
+    dismissCardGroup: {
+      transform: "translateY(150%)",
+    },
+    containerDissmis: {
+      left: "0",
+      transform: "translateX(-100%)",
+    },
+    textBackground: {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "clamp(330px, 100vw, 100vw)",
+      height: "100dvh",
+      backgroundImage:
+        "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
+      zIndex: 5,
+      backdropFilter: "blur(1px)",
+      transition: "left 0.5s ease, transform 0.5s ease",
+    },
+    textBackgroundDissmis: {
+      transform: "translateX(-100%)",
+    },
+  };
 
   useLayoutEffect(() => {
     if (navRef.current) {
@@ -150,18 +152,28 @@ const LandingPage = ({
           <div
             style={{
               marginTop: navHeight + window.innerHeight * 0.03,
+              ...(windowSize.width < 700
+                ? {
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems:
+                      windowSize.width > 700 ? "flex-start" : "center",
+                  }
+                : {}),
             }}
           >
             <h3 style={LandingPageStyles.subtitle}>
               Layan Kami Yang Terbaik Untuk Anda
             </h3>
             <h1 style={LandingPageStyles.title}>
-              Solusi Untuk Kebingungan Anda Terkait SkinCare dan Kosmetik
+              Cari Produk yang Kamu Inginkan, Temukan Lokasinya Seketika
             </h1>
             <p style={LandingPageStyles.paragraph}>
-              Tidak perlu bingung lagi untuk memilih skincare! temukan
-              rekomendasi produk yang tepat untuk kulit anda dan beserta toko
-              terdekat hanya dengan satu klik.
+              Jelajahi peta interaktif kami untuk menemukan toko kosmetik
+              terdekat dan produk yang Anda cari dengan mudah. Semua informasi
+              lokasi dan produk ada dalam satu aplikasi, cepat, akurat, dan
+              praktis.
             </p>
           </div>
           <div style={LandingPageStyles.buttonGroup}>
@@ -182,6 +194,11 @@ const LandingPage = ({
             style={{
               ...LandingPageStyles.cardGroup,
               ...(lastPage != "home" ? LandingPageStyles.dismissCardGroup : {}),
+              ...(windowSize.width < 700
+                ? {
+                    justifyContent: "center",
+                  }
+                : {}),
             }}
           >
             <div
@@ -189,11 +206,11 @@ const LandingPage = ({
                 ...LandingPageStyles.fetureCardGroup,
                 ...(windowSize.width < 450
                   ? {
-                      width: `${150 * 2 + 10}px`,
+                      width: `150px`,
                       justifyContent: "flex-start",
                       overflow: "auto",
                       padding: "8px 5px 8px 3px",
-                      scrollbarWidth: "none",
+                      scrollSnapType: "x mandatory",
                     }
                   : {}),
               }}
@@ -219,6 +236,11 @@ const LandingPage = ({
                   id={i.id}
                   imageUrl={i.imgUrl}
                   onClick={() => i.onClick()}
+                  styles={{
+                    ...(windowSize.width < 700
+                      ? { scrollSnapAlign: "start" }
+                      : {}),
+                  }}
                 />
               ))}
             </div>

@@ -14,6 +14,8 @@ const ButtonCostum = ({
   icon,
   content,
   hoverScale,
+  hoverColor,
+  activeColor,
 }) => {
   const [active, setActive] = useState(false);
   const [hover, setHover] = useState(false);
@@ -56,10 +58,10 @@ const ButtonCostum = ({
         color: ColorPallate.text,
       },
       active: {
-        color: ColorPallate.background,
+        color: activeColor || ColorPallate.background,
       },
       hover: {
-        color: ColorPallate.background,
+        color: hoverColor || ColorPallate.background,
         border: "none",
       },
     };

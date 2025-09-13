@@ -4,7 +4,7 @@ const ColorPallate = {
   secondary: "rgba(248, 187, 208, 1)", // warna label input atau hover icon
   background: "rgba(22, 27, 34, 1)", // background panel login/card
   text: "rgba(245, 245, 245, 1)", // teks utama seperti "Welcome Boss!"
-  secondaryText: "rgba(201, 209, 217, 1)", // teks sekunder, misal "Sudah Punya Akun Sebelumnya?"
+  secondaryText: "rgba(185, 185, 199, 1)", // teks sekunder, misal "Sudah Punya Akun Sebelumnya?"
   inputBackground: "rgba(34, 40, 50, 1)", // optional: background input field
   inputBorder: "rgba(245, 245, 245, 0.3)", // optional: border input
   buttonText: "rgba(255, 255, 255, 1)", // teks tombol Daftar / Sign in
