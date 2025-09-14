@@ -12,23 +12,44 @@ import { auth, db } from "./service/firebaseConfig.jsx";
 import { get, ref } from "firebase/database";
 import { Route } from "react-router-dom";
 import DatabaseManagement from "./page/DatabaseManagement.jsx";
+import { getStoreData } from "./service/crudDB.js";
 
 function App() {
   const [urlParams, setUrlParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(
     urlParams.get("page") || "home"
   );
+  const [loading, setLoading] = useState(true);
+  const [storeData, setStoreData] = useState(null);
   const [lastPage, setPageTo] = useState(urlParams.get("page") || "home");
   const [searchQuery, setSearchQuery] = useState("");
-  const [queryResult, setQueryResult] = useState(storeLocation);
+  const [queryResult, setQueryResult] = useState(storeData);
   const [currentPin, setCurrentPin] = useState(null);
   const [user, setUser] = useState(null);
   const navRef = useRef();
+  const [fuse, setFuse] = useState(null);
 
-  const fuse = new Fuse(storeData, {
-    keys: ["namaToko"],
-    threshold: 0.3,
-  });
+  useEffect(() => {
+    if (!storeData) {
+      const fetchStoreData = async () => {
+        try {
+          const snaps = await getStoreData();
+          setStoreData(snaps || []);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchStoreData();
+    } else if (!fuse) {
+      const fuse = new Fuse(storeData, {
+        keys: ["namaToko"],
+        threshold: 0.3,
+      });
+      setQueryResult(storeData);
+      setFuse(fuse);
+    }
+    if (fuse && loading) setLoading(false);
+  }, [storeData, fuse, loading]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -37,11 +58,9 @@ function App() {
           setLastPage("home");
         }
         const snapshot = await get(ref(db, `admin/${currentUser.uid}`));
-        console.log(snapshot);
         const isAdmin = snapshot.exists();
         setUser({ ...currentUser, admin: isAdmin });
       } else {
-        console.log("Belum login");
         setUser(null);
       }
     });
@@ -69,7 +88,7 @@ function App() {
     if (value) {
       const result = fuse.search(value).map((r) => r.item);
       setQueryResult(result);
-    } else setQueryResult(storeLocation);
+    } else setQueryResult(storeData);
   };
 
   const setLastPage = (p) => {
@@ -77,11 +96,6 @@ function App() {
   };
 
   useEffect(() => {
-    const paramLastPage = urlParams.get("page") || "home";
-    console.log("cek:", lastPage === paramLastPage, {
-      lastPage,
-      paramLastPage,
-    });
     if (lastPage === (urlParams.get("page") || "home")) return;
     setPageTo(urlParams.get("page") || "home");
     setCurrentPage(urlParams.get("page") || "home");
@@ -92,17 +106,17 @@ function App() {
     navButton: [],
     navAuthButton: [
       () => {
-        console.log("is called");
         setCurrentPage("login");
         setLastPage("login");
       },
       () => {
-        console.log("is called");
         setCurrentPage("daftar");
         setLastPage("daftar");
       },
     ],
   };
+
+  if (loading) return <></>;
 
   return (
     <Routes>
@@ -135,7 +149,6 @@ function App() {
               setLastPage={setLastPage}
               lastPage={lastPage}
               buttonOneOnClick={() => {
-                console.log("is called");
                 setCurrentPage("login");
                 setLastPage("login");
               }}

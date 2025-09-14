@@ -67,7 +67,6 @@ const ButtonCostum = ({
     };
 
     useEffect(() => {
-      console.log("Last Page: ", currentPage, id);
       if (currentPage === id) {
         setActive(true);
       } else {

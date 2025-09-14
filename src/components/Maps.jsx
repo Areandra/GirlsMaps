@@ -30,7 +30,7 @@ const FlyToMarker = ({ pin, setCurrentPin, position }) => {
 
   return (
     <Marker
-      position={[pin.Latitude, pin.Longitude]}
+      position={pin.koordinat}
       icon={icon}
       eventHandlers={{
         click: handleClick,
@@ -106,8 +106,8 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
             pin={pin}
             setCurrentPin={setCurrentPin}
             position={[
-              pin.Latitude - (windowSize.width < 700 ? 0.00065 : 0),
-              pin.Longitude,
+              pin.koordinat[0] - (windowSize.width < 700 ? 0.00065 : 0),
+              pin.koordinat[1],
             ]}
           />
         ))}

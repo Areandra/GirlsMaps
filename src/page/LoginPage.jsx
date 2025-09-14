@@ -36,7 +36,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
 
       await reload(userCredential.user);
 
-      console.log("Register sukses:", userCredential.user);
     } catch (error) {
       console.error("Register gagal:", error.message);
     }
@@ -49,7 +48,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         email,
         password
       );
-      console.log("Login sukses:", userCredential.user);
       return;
     } catch (error) {
       console.error("Login gagal:", error.message);
@@ -60,11 +58,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
   const loginWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
-
-      // Data user
-      const user = result.user;
-      console.log("Display Name:", user.displayName);
-      console.log("Photo URL:", user.photoURL);
     } catch (error) {
       console.error(error);
     }

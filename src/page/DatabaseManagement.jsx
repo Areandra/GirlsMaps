@@ -314,7 +314,7 @@ const EditStoreModal = ({
               <ButtonCostum
                 text="Hapus"
                 type="primary"
-                onclick={() => onDel(formData.koordinat)}
+                onclick={() => onDel(formData.selectedItem.namaToko.trim())}
               />
             )}
             <ButtonCostum
@@ -609,8 +609,7 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
     const fetchStoreData = async () => {
       try {
         const snaps = await getStoreData();
-        if (!snaps) throw console.error("snapsKosong");
-        setStoreData(snaps);
+        setStoreData(snaps || []);
         setLoading(false);
         setUpdateData(false);
         return;
@@ -730,7 +729,7 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
               icon={FiUploadCloud}
             />
             <input
-              onChange={(e) => handleUploadImage(e, selectedItem.koordinat)}
+              onChange={(e) => handleUploadImage(e, selectedItem.namaToko.trim())}
               ref={fileInputRef}
               type="file"
               hidden

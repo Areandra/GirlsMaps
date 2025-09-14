@@ -1,5 +1,4 @@
 import { ref, update } from "firebase/database";
-import { useState } from "react";
 import { db } from "./firebaseConfig";
 
 const sendUrlImage = async (id, url) => {
@@ -7,7 +6,6 @@ const sendUrlImage = async (id, url) => {
     await update(ref(db, `/storeData/${id}/`), {
       urlImage: url,
     });
-    console.log("gambar berhasil");
     return;
   } catch (error) {
     console.error(error);
@@ -28,7 +26,6 @@ const handleUploadImage = async (e, id) => {
     }
   );
   const data = await respone.json();
-  console.log("ini urlnya bang", data.secure_url);
 
   sendUrlImage(id, data.secure_url);
 };

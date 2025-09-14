@@ -25,11 +25,5 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log("Persistence set ke Local");
-  })
-  .catch((err) => {
-    console.error("Error persistence:", err.message);
-  });
 
 export { auth, db };

@@ -28,47 +28,49 @@ const dayList = [
   "Minggu",
 ];
 
-const infoList = [
-  {
-    id: "alamat",
-    value: "Alamat Lengkap",
-    icon: FiMapPin,
-  },
-  {
-    id: "time",
-    value: [
-      "00.00 - 00.00",
-      "00.00 - 00.00",
-      "00.00 - 00.00",
-      "00.00 - 00.00",
-      "00.00 - 00.00",
-      "00.00 - 00.00",
-      "Closed",
-    ],
-    icon: FiClock,
-  },
-  {
-    id: "contact",
-    value: "0812-3456-7890",
-    icon: FiPhoneCall,
-  },
-];
-
 const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
   if (dismiss) return;
 
   const [showDeskripsi, setShowDeskripsi] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
   const [showFullDeskripsi, setShowFullDeskripsi] = useState(false);
+  const [deskripsiData, setDeskripsiData] = useState(null);
 
   useEffect(() => {
     console.log("lappor", currentPin);
-    if (currentPin)
+    if (currentPin) {
+      console.log("cp", currentPin);
+      const newData = [
+        {
+          id: "alamat",
+          value: currentPin.alamat || "Alamat Lengkap",
+          icon: FiMapPin,
+        },
+        {
+          id: "openTime",
+          value: currentPin.openTime || [
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "00.00 - 00.00",
+            "Closed",
+          ],
+          icon: FiClock,
+        },
+        {
+          id: "contact",
+          value: currentPin?.contact || "0812-3456-7890",
+          icon: FiPhoneCall,
+        },
+      ];
+      setDeskripsiData(newData);
       setShowDeskripsi((prev) => {
         if (prev) setShowProduct(false);
         return true;
       });
-    else setShowDeskripsi(false);
+    } else setShowDeskripsi(false);
   }, [currentPin]);
 
   const styles = {
@@ -277,11 +279,14 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
           <GlobalModal visible={showDeskripsi} styles={styles.deskripsiModal}>
             <img
               style={styles.img}
-              src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
+              src={
+                 currentPin.urlImage ||
+                "https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
+              }
             ></img>
             <div style={styles.contentContainer}>
               <h1 style={styles.tittleText}>
-                {currentPin?.NamaTempat || "Store Name"}
+                {currentPin?.namaToko || "Store Name"}
               </h1>
               <span style={styles.rating}>
                 <BsFillStarFill size={16} color="gold" />{" "}
@@ -289,7 +294,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
               </span>
               <div style={styles.line}></div>
               <div style={styles.infoContainer}>
-                {infoList.map((i) => {
+                {deskripsiData.map((i) => {
                   const IconComponent = i.icon;
                   return (
                     <div
@@ -303,7 +308,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                       }}
                     >
                       <IconComponent size={16} color="black" />
-                      {i.id !== "time" ? (
+                      {i.id !== "openTime" ? (
                         <p style={styles.lebelInfo}>{i.value}</p>
                       ) : (
                         <div

@@ -33,7 +33,6 @@ export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={() => {
-        console.log("tatekan op");
         onClick();
       }}
       id={id}

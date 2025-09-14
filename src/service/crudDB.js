@@ -12,7 +12,7 @@ export const sendStoreData = async (data) => {
   )
     return;
   try {
-    await set(ref(db, `/storeData/${data.koordinat}`), {
+    await set(ref(db, `/storeData/${data.namaToko.trim()}`), {
       ...data,
     });
     console.log("Berhasil");
@@ -38,6 +38,7 @@ export const getStoreData = async () => {
           merek: j.merek,
           namaProduk: Object.values(j.namaProduk),
         })),
+        urlImage: i.urlImage,
       }));
       console.log("cek bang", cleanData);
       return cleanData;

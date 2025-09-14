@@ -188,10 +188,7 @@ const NavBar = ({
     if (lastPage === "login") return;
 
     const index = buttonList.findIndex((b) => b.id === currentPage);
-    console.log("Index: ", index);
-    console.log("Button Size: ", buttonSize);
     if (index >= 0 && buttonSize[index]) {
-      console.log("Current Page: ", currentPage, index, buttonSize[index]);
       setSize(buttonSize[index].width);
       setLeft(buttonSize[index].left);
     }
@@ -542,7 +539,6 @@ const NavBar = ({
                     type="textButton"
                     icon={FiUnlock}
                     onclick={() => {
-                      console.log("Login");
                       buttonAction.navAuthButton?.[0]?.();
                     }}
                   />
@@ -551,7 +547,6 @@ const NavBar = ({
                   text="Ayo Mulai"
                   style={{ minWidth: "110px" }}
                   onclick={() => {
-                    console.log("Login");
                     buttonAction.navAuthButton?.[1]?.();
                   }}
                 />
