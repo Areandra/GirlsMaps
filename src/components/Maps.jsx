@@ -34,15 +34,8 @@ const FlyToMarker = ({ pin, setCurrentPin, position }) => {
       icon={icon}
       eventHandlers={{
         click: handleClick,
-        mouseover: (e) => e.target.openPopup(),
-        mouseout: (e) => e.target.closePopup(),
       }}
     >
-      <Popup>
-        <div>
-          <h3 style={{ margin: 0, color: ColorPallate.text, textAlign: "center", fontSize: 12}}>{pin.NamaTempat}</h3>
-        </div>
-      </Popup>
     </Marker>
   );
 };

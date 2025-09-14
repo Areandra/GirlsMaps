@@ -11,6 +11,7 @@ export const InputForm = ({
   value,
   onChange,
   clearQuery,
+  name
 }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
@@ -61,6 +62,7 @@ export const InputForm = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        name={name}
         style={{
           ...{ color: ColorPallate.text },
           ...style?.input,

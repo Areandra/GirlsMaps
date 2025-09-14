@@ -16,6 +16,9 @@ import { FaShop } from "react-icons/fa6";
 import { PiShoppingCartFill } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import GlobalModal from "../components/Modal";
+import { useRef } from "react";
+import { handleUploadImage } from "../service/uploadImage";
+import { delStoreData, getStoreData, sendStoreData } from "../service/crudDB";
 
 const buttonList = [
   { icon: FiMapPin, onClick: () => {} },
@@ -32,247 +35,14 @@ const tableList = [
 
 const hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 
-const storeData = [
-  {
-    namaToko: "Toko Sejahtera",
-    alamat: "Jl. Merdeka No.1, Jakarta",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 14.00",
-      "Closed",
-    ],
-    koordinat: [-6.2, 106.816666],
-    product: [
-      {
-        merek: "Le Minerale",
-        namaProduk: ["Air Mineral 600ml", "Air Mineral 1500ml"],
-      },
-      { merek: "Indomie", namaProduk: ["Goreng", "Soto", "Ayam Bawang"] },
-    ],
-  },
-  {
-    namaToko: "Toko Maju",
-    alamat: "Jl. Sudirman No.5, Bandung",
-    value: [
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "10.00 - 15.00",
-      "Closed",
-    ],
-    koordinat: [-6.914744, 107.60981],
-    product: [
-      { merek: "Coca-Cola", namaProduk: ["Coke 330ml", "Coke 600ml"] },
-      { merek: "Sprite", namaProduk: ["Sprite 330ml", "Sprite 600ml"] },
-    ],
-  },
-  {
-    namaToko: "Toko Lestari",
-    alamat: "Jl. Diponegoro No.12, Surabaya",
-    value: [
-      "07.00 - 16.00",
-      "07.00 - 16.00",
-      "07.00 - 16.00",
-      "07.00 - 16.00",
-      "07.00 - 16.00",
-      "08.00 - 12.00",
-      "Closed",
-    ],
-    koordinat: [-7.257472, 112.752088],
-    product: [
-      {
-        merek: "Teh Pucuk",
-        namaProduk: ["Teh Pucuk 350ml", "Teh Pucuk 600ml"],
-      },
-      { merek: "Good Day", namaProduk: ["Cappuccino", "Vanilla"] },
-    ],
-  },
-  {
-    namaToko: "Toko Makmur",
-    alamat: "Jl. Ahmad Yani No.22, Medan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [3.595196, 98.672223],
-    product: [
-      { merek: "Indomie", namaProduk: ["Rendang", "Soto", "Mie Goreng"] },
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-    ],
-  },
-  {
-    namaToko: "Toko Berkah",
-    alamat: "Jl. Pemuda No.7, Semarang",
-    value: [
-      "08.00 - 16.00",
-      "08.00 - 16.00",
-      "08.00 - 16.00",
-      "08.00 - 16.00",
-      "08.00 - 16.00",
-      "09.00 - 12.00",
-      "Closed",
-    ],
-    koordinat: [-7.005145, 110.438125],
-    product: [
-      { merek: "Mizone", namaProduk: ["Mizone 500ml"] },
-      { merek: "Teh Botol Sosro", namaProduk: ["Teh Botol 450ml"] },
-    ],
-  },
-  {
-    namaToko: "Toko Sinar Jaya",
-    alamat: "Jl. Veteran No.3, Yogyakarta",
-    value: [
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "09.00 - 18.00",
-      "10.00 - 14.00",
-      "Closed",
-    ],
-    koordinat: [-7.797068, 110.370529],
-    product: [
-      { merek: "Coca-Cola", namaProduk: ["Coke 500ml"] },
-      { merek: "Pepsi", namaProduk: ["Pepsi 330ml", "Pepsi 600ml"] },
-    ],
-  },
-  {
-    namaToko: "Toko Prima",
-    alamat: "Jl. Pattimura No.9, Makassar",
-    value: [
-      "07.00 - 15.00",
-      "07.00 - 15.00",
-      "07.00 - 15.00",
-      "07.00 - 15.00",
-      "07.00 - 15.00",
-      "08.00 - 12.00",
-      "Closed",
-    ],
-    koordinat: [-5.147665, 119.432731],
-    product: [
-      { merek: "Fanta", namaProduk: ["Fanta 330ml", "Fanta 600ml"] },
-      { merek: "Sprite", namaProduk: ["Sprite 330ml"] },
-    ],
-  },
-  {
-    namaToko: "Toko Harmoni",
-    alamat: "Jl. Pahlawan No.10, Balikpapan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [1.267066, 116.831482],
-    product: [
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-      {
-        merek: "Teh Botol Sosro",
-        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
-      },
-    ],
-  },
-  {
-    namaToko: "Toko Harmoni",
-    alamat: "Jl. Pahlawan No.10, Balikpapan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [1.267066, 116.831482],
-    product: [
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-      {
-        merek: "Teh Botol Sosro",
-        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
-      },
-    ],
-  },
-  {
-    namaToko: "Toko Harmoni",
-    alamat: "Jl. Pahlawan No.10, Balikpapan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [1.267066, 116.831482],
-    product: [
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-      {
-        merek: "Teh Botol Sosro",
-        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
-      },
-    ],
-  },
-  {
-    namaToko: "Toko Harmoni",
-    alamat: "Jl. Pahlawan No.10, Balikpapan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [1.267066, 116.831482],
-    product: [
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-      {
-        merek: "Teh Botol Sosro",
-        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
-      },
-    ],
-  },
-  {
-    namaToko: "Toko Harmoni",
-    alamat: "Jl. Pahlawan No.10, Balikpapan",
-    value: [
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "08.00 - 17.00",
-      "09.00 - 13.00",
-      "Closed",
-    ],
-    koordinat: [1.267066, 116.831482],
-    product: [
-      { merek: "Aqua", namaProduk: ["Aqua 330ml", "Aqua 600ml"] },
-      {
-        merek: "Teh Botol Sosro",
-        namaProduk: ["Teh Botol 450ml", "Teh Botol 600ml"],
-      },
-    ],
-  },
-];
-
-const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
+const EditStoreModal = ({
+  isOpen,
+  onClose,
+  initialData,
+  onSave,
+  setUpdate,
+  onDel,
+}) => {
   const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
@@ -284,7 +54,7 @@ const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleJadwalChange = (e, index) => {
-    const newValue = [...formData.value];
+    const newValue = [...formData.openTime];
     newValue[index] = e.target.value;
     setFormData((prev) => ({ ...prev, value: newValue }));
   };
@@ -328,9 +98,10 @@ const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
     setFormData((prev) => ({ ...prev, product: newProducts }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(formData);
+  const handleSubmit = () => {
+    console.log(formData);
+    onSave?.(formData);
+    setUpdate(true);
     onClose();
   };
 
@@ -410,7 +181,7 @@ const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
         <h2 style={{ marginTop: 0, color: ColorPallate.text }}>
           Edit Data Toko
         </h2>
-        <form onSubmit={handleSubmit} style={{ margin: 0, padding: 0 }}>
+        <div style={{ margin: 0, padding: 0 }}>
           <div style={styles.formGroup}>
             <label style={styles.label}>Nama Toko</label>
             <InputForm
@@ -464,7 +235,7 @@ const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
                 gap: "16px",
               }}
             >
-              {formData.value.map((jam, index) => (
+              {formData.openTime.map((jam, index) => (
                 <div key={index} style={styles.scheduleItem}>
                   <span style={styles.dayLabel}>{days[index]}</span>
                   <InputForm
@@ -539,9 +310,20 @@ const EditStoreModal = ({ isOpen, onClose, initialData, onSave }) => {
 
           <div style={styles.buttonContainer}>
             <ButtonCostum text="Batal" type="textButton" onclick={onClose} />
-            <ButtonCostum text="Simpan" type="primary" isSubmit={true} />
+            {onDel && (
+              <ButtonCostum
+                text="Hapus"
+                type="primary"
+                onclick={() => onDel(formData.koordinat)}
+              />
+            )}
+            <ButtonCostum
+              text="Simpan"
+              type="primary"
+              onclick={() => handleSubmit()}
+            />
           </div>
-        </form>
+        </div>
       </GlobalModal>
     </div>
   );
@@ -630,7 +412,7 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
               }}
             >
               <IconComponent size={14} color={"grey"} />
-              {i.value}
+              {i.openTime}
             </p>
           );
         })}
@@ -689,17 +471,19 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
                   ...dynamicBorderStyle,
                 }}
               >
-                {i.value
-                  .slice(0, indexG + 1 === showFull ? i.value.length : 1)
+                {i.openTime
+                  .slice(0, indexG + 1 === showFull ? i.openTime.length : 1)
                   .map((val, indexChild) => (
                     <div key={indexChild} style={styles.listItemContainer}>
                       <p style={{ textAlign: "left" }}>{hari[indexChild]} :</p>
                       <p style={{ textAlign: "left" }}>{val}</p>
                     </div>
                   ))}
-                {i.value.length > 1 && indexG + 1 !== showFull && (
+                {i.openTime.length > 1 && indexG + 1 !== showFull && (
                   <p
-                    onClick={() => {setShowFull(indexG + 1)}}
+                    onClick={() => {
+                      setShowFull(indexG + 1);
+                    }}
                     style={styles.showMoreText}
                   >
                     ...tampilkan lebih banyak
@@ -811,12 +595,36 @@ const SideBar = ({ buttonList }) => {
   );
 };
 
-const DatabaseManagement = ({ setUrlParams, urlParams }) => {
+const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
+  if (dismiss) return <></>;
   const [selectedItem, setSelectedItem] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
+  const fileInputRef = useRef();
+  const [loading, setLoading] = useState(true);
+  const [storeData, setStoreData] = useState(null);
+  const [updateData, setUpdateData] = useState(false);
 
   useEffect(() => {
+    const fetchStoreData = async () => {
+      try {
+        const snaps = await getStoreData();
+        if (!snaps) throw console.error("snapsKosong");
+        setStoreData(snaps);
+        setLoading(false);
+        setUpdateData(false);
+        return;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (!storeData) {
+      fetchStoreData();
+    } else if (storeData && updateData) fetchStoreData();
+  }, [loading, storeData, updateData]);
+
+  useEffect(() => {
+    if (loading) return;
     const editId = urlParams.get("edit");
     setShowEditModal(
       storeData.some(
@@ -824,6 +632,8 @@ const DatabaseManagement = ({ setUrlParams, urlParams }) => {
       )
     );
   }, [urlParams]);
+
+  if (loading) return <></>;
 
   return (
     <div
@@ -840,13 +650,16 @@ const DatabaseManagement = ({ setUrlParams, urlParams }) => {
         isOpen={showEditModal}
         initialData={selectedItem}
         onClose={() => setUrlParams({})}
+        onSave={sendStoreData}
+        setUpdate={setUpdateData}
+        onDel={delStoreData}
       />
       <EditStoreModal
         isOpen={showNewModal}
         initialData={{
           namaToko: "",
           alamat: "",
-          value: [
+          openTime: [
             "00.00 - 00.00",
             "Closed",
             "00.00 - 00.00",
@@ -861,6 +674,8 @@ const DatabaseManagement = ({ setUrlParams, urlParams }) => {
           ],
         }}
         onClose={() => setShowNewModal(false)}
+        onSave={sendStoreData}
+        setUpdate={setUpdateData}
       />
       <SideBar buttonList={buttonList} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -902,8 +717,24 @@ const DatabaseManagement = ({ setUrlParams, urlParams }) => {
                 setUrlParams({ edit: selectedItem.koordinat.toString() })
               }
             />
-            <ButtonCostum text={"Tambah Pin"} icon={FiPlus} onclick={() => setShowNewModal(true)}/>
-            <ButtonCostum text={"Set Image"} icon={FiUploadCloud} />
+            <ButtonCostum
+              text={"Tambah Pin"}
+              icon={FiPlus}
+              onclick={() => setShowNewModal(true)}
+            />
+            <ButtonCostum
+              onclick={() => {
+                if (selectedItem) fileInputRef.current.click();
+              }}
+              text={"Set Image"}
+              icon={FiUploadCloud}
+            />
+            <input
+              onChange={(e) => handleUploadImage(e, selectedItem.koordinat)}
+              ref={fileInputRef}
+              type="file"
+              hidden
+            ></input>
           </div>
         </div>
         <DataTable

@@ -1,7 +1,9 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ButtonCostum from "../components/Button";
-import { FetureCard, InfoCard } from "../components/Card";
+import { FetureCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
+import service1 from "../assets/Service1.png";
+import service2 from "../assets/Service2.png";
 
 const LandingPage = ({
   lastPage,
@@ -14,6 +16,7 @@ const LandingPage = ({
   setLastPage,
 }) => {
   const [navHeight, setNavHeight] = useState(0);
+  const serviceContainerRef = useRef();
 
   const LandingPageStyles = {
     container: {
@@ -39,8 +42,8 @@ const LandingPage = ({
       top: 0,
     },
     title: {
-      fontSize: windowSize.width > 700 ? "3rem" : "1.5rem",
-      fontWeight: 600,
+      fontSize: windowSize.width > 700 ? "2.75rem" : "1.5rem",
+      fontWeight: 500,
       color: ColorPallate.text,
       ...(windowSize.width > 700 ? { width: "80vw" } : {}),
       marginBlock: 20,
@@ -64,8 +67,7 @@ const LandingPage = ({
     },
     cardGroup: {
       display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
+      flexDirection: "column",
       marginBottom: "4dvh",
       transition: "left 0.5s ease, transform 0.5s ease",
       zIndex: 10,
@@ -73,6 +75,7 @@ const LandingPage = ({
     fetureCardGroup: {
       display: "flex",
       flexDirection: "row",
+      justifyContent: "space-between",
       gap: "8px",
       justifyContent: "center",
       alignContent: "center",
@@ -111,34 +114,47 @@ const LandingPage = ({
     {
       id: "locationStore",
       onClick: () => fetureCardOnClick[0](),
-      text: "Lokasi Make Up & SkinCare Store",
+      text: "Lokasi Store Make Up dan SkinCare",
+      imageUrl: service1,
     },
     {
       id: "searchProduct",
       text: "Pencarian Produk Di Store Terdekat",
-    },
-    {
-      id: "rekomend",
-      text: (
-        <>
-          Rekomendasi <br /> Kosmetik
-        </>
-      ),
+      imageUrl: service2,
     },
   ];
 
-  const infoList = [
-    {
-      id: "store",
-      title: ">30",
-      deskripsi: "Lokasi Ada di DataBase di Kami",
-    },
-    {
-      id: "store",
-      title: ">15",
-      deskripsi: "Inforamsi Produk Ada di DataBase Kami",
-    },
-  ];
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  useEffect(() => {
+    if (activeIndex === null) setActiveIndex(0);
+  }, [activeIndex])
+
+  useEffect(() => {
+    const container = serviceContainerRef.current;
+
+    const handleScroll = () => {
+      const itemWidth = container.children[0].offsetWidth;
+      const index = Math.round(container.scrollLeft / itemWidth);
+      setActiveIndex(index);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+
+    const interval = setInterval(() => {
+      container.scrollBy({
+        left: activeIndex === 0
+          ? container.children[0].offsetWidth
+          : -container.children[0].offsetWidth,
+        behavior: "smooth",
+      });
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, [activeIndex]);
 
   return (
     <>
@@ -196,23 +212,21 @@ const LandingPage = ({
               ...(lastPage != "home" ? LandingPageStyles.dismissCardGroup : {}),
               ...(windowSize.width < 700
                 ? {
-                    justifyContent: "center",
+                    alignItems: "center",
                   }
                 : {}),
             }}
           >
             <div
+              ref={serviceContainerRef}
               style={{
                 ...LandingPageStyles.fetureCardGroup,
-                ...(windowSize.width < 450
-                  ? {
-                      width: `150px`,
-                      justifyContent: "flex-start",
-                      overflow: "auto",
-                      padding: "8px 5px 8px 3px",
-                      scrollSnapType: "x mandatory",
-                    }
-                  : {}),
+                width: 200,
+                justifyContent: "flex-start",
+                overflow: "auto",
+                padding: "10px 14px 10px 14px",
+                scrollSnapType: "x mandatory",
+                scrollbarWidth: "none"
               }}
             >
               {/* (
@@ -234,15 +248,41 @@ const LandingPage = ({
                   key={index}
                   text={i.text}
                   id={i.id}
-                  imageUrl={i.imgUrl}
+                  imageUrl={i.imageUrl}
                   onClick={() => i.onClick()}
                   styles={{
-                    ...(windowSize.width < 700
-                      ? { scrollSnapAlign: "start" }
-                      : {}),
+                    scrollSnapAlign: "start",
                   }}
                 />
               ))}
+            </div>
+            <div
+              style={{
+                width: 228,
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "row", gap: 4 }}>
+                <div
+                  style={{
+                    transition: "width 5s linear",
+                    width: activeIndex === 0 ? 50 : 10,
+                    height: 6,
+                    borderRadius: 20,
+                    background: ColorPallate.primaryGradient,
+                  }}
+                ></div>
+                <div
+                  style={{
+                    transition: "width 5s linear",
+                    width: activeIndex === 1 ? 50 : 10,
+                    height: 6,
+                    borderRadius: 20,
+                    background: ColorPallate.primaryGradient,
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
         )}
