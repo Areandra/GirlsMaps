@@ -25,7 +25,7 @@ const LandingPage = ({
       justifyContent: "center",
       left: "10vw",
       width: "80vw",
-      textAlign: windowSize.width > 700 ? "left" : "center",
+      textAlign: "center",
       top: 0,
       position: "fixed",
       height: "100dvh",
@@ -37,7 +37,7 @@ const LandingPage = ({
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      alignItems: windowSize.width > 700 ? "flex-start" : "center",
+      alignItems: "center",
       gap: "28px",
       top: 0,
     },
@@ -45,19 +45,18 @@ const LandingPage = ({
       fontSize: windowSize.width > 700 ? "2.75rem" : "1.5rem",
       fontWeight: 500,
       color: ColorPallate.text,
-      ...(windowSize.width > 700 ? { width: "80vw" } : {}),
       marginBlock: 20,
+      width: windowSize.width > 700 ? "70vw" : "",
     },
     subtitle: {
-      marginBottom: 0,
-      fontSize: "clamp(12px, 1.25vw, 1rem)",
+      margin: 0,
+      fontSize: windowSize.width > 450 ? "0.75rem" : "10px",
       fontWeight: 500,
       color: ColorPallate.secondaryText,
-      width: windowSize.width > 700 ? "100vw" : "100%",
     },
     paragraph: {
-      fontSize: "0.75rem",
-      maxWidth: windowSize.width > 700 ? "450px" : "100%",
+      fontSize: windowSize.width > 450 ? "0.75rem" : "10px",
+      width: windowSize.width > 700 ? "72vw" : "100%",
       color: ColorPallate.secondaryText,
     },
     buttonGroup: {
@@ -75,7 +74,6 @@ const LandingPage = ({
     fetureCardGroup: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
       gap: "8px",
       justifyContent: "center",
       alignContent: "center",
@@ -89,6 +87,7 @@ const LandingPage = ({
     },
     textBackground: {
       position: "absolute",
+      opacity: 0.9,
       top: "0",
       left: "0",
       width: "clamp(330px, 100vw, 100vw)",
@@ -128,7 +127,7 @@ const LandingPage = ({
 
   useEffect(() => {
     if (activeIndex === null) setActiveIndex(0);
-  }, [activeIndex])
+  }, [activeIndex]);
 
   useEffect(() => {
     const container = serviceContainerRef.current;
@@ -143,9 +142,10 @@ const LandingPage = ({
 
     const interval = setInterval(() => {
       container.scrollBy({
-        left: activeIndex === 0
-          ? container.children[0].offsetWidth
-          : -container.children[0].offsetWidth,
+        left:
+          activeIndex === 0
+            ? container.children[0].offsetWidth
+            : -container.children[0].offsetWidth,
         behavior: "smooth",
       });
     }, 5000);
@@ -168,28 +168,67 @@ const LandingPage = ({
           <div
             style={{
               marginTop: navHeight + window.innerHeight * 0.03,
-              ...(windowSize.width < 700
-                ? {
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems:
-                      windowSize.width > 700 ? "flex-start" : "center",
-                  }
-                : {}),
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <h3 style={LandingPageStyles.subtitle}>
-              Layan Kami Yang Terbaik Untuk Anda
-            </h3>
+            <div
+              style={{
+                padding: "10px 14px",
+                background: ColorPallate.background,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                borderRadius: 20,
+                gap: 10,
+              }}
+            >
+              <div
+                style={{
+                  padding: "4px 10px",
+                  background: ColorPallate.primaryGradient,
+                  borderRadius: 10,
+                  boxShadow: `inset 0 0 0 2px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.1)`,
+                }}
+              >
+                <h3
+                  style={{
+                    ...LandingPageStyles.subtitle,
+                    color: ColorPallate.background,
+                  }}
+                >
+                  #1 & New
+                </h3>
+              </div>
+              <h3 style={LandingPageStyles.subtitle}>
+                The World's First And New
+              </h3>
+            </div>
             <h1 style={LandingPageStyles.title}>
-              Cari Produk yang Kamu Inginkan, Temukan Lokasinya Seketika
+              Know the Product? We'll Find the Store
+              <br />
+              Maps the City's Best{" "}
+              <label
+                style={{
+                  ...LandingPageStyles.title,
+                  background: ColorPallate.primaryGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                Beauty Spots
+              </label>
+              .
             </h1>
             <p style={LandingPageStyles.paragraph}>
-              Jelajahi peta interaktif kami untuk menemukan toko kosmetik
-              terdekat dan produk yang Anda cari dengan mudah. Semua informasi
-              lokasi dan produk ada dalam satu aplikasi, cepat, akurat, dan
-              praktis.
+              Let our interactive map be your compass. Search for your favorite
+              products and brands, and embark on a journey to discover every
+              local store that holds what you're looking for. We provide the
+              location, you make the purchase. It's that simple.
             </p>
           </div>
           <div style={LandingPageStyles.buttonGroup}>
@@ -210,11 +249,7 @@ const LandingPage = ({
             style={{
               ...LandingPageStyles.cardGroup,
               ...(lastPage != "home" ? LandingPageStyles.dismissCardGroup : {}),
-              ...(windowSize.width < 700
-                ? {
-                    alignItems: "center",
-                  }
-                : {}),
+              alignItems: "center",
             }}
           >
             <div
@@ -226,7 +261,7 @@ const LandingPage = ({
                 overflow: "auto",
                 padding: "10px 14px 10px 14px",
                 scrollSnapType: "x mandatory",
-                scrollbarWidth: "none"
+                scrollbarWidth: "none",
               }}
             >
               {/* (

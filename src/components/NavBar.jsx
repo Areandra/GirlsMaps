@@ -5,13 +5,11 @@ import logo from "../assets/logo.png";
 import { InputForm } from "./InputForm";
 import {
   FiAlignLeft,
-  FiEdit,
   FiGrid,
   FiLogOut,
   FiUnlock,
   FiUser,
   FiX,
-  FiXCircle,
 } from "react-icons/fi";
 import GlobalModal from "./Modal";
 import { signOut } from "firebase/auth";
@@ -31,6 +29,8 @@ const NavBar = ({
   navRef,
   windowSize,
   user,
+  queryResult,
+  setCurrentPin,
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
@@ -39,8 +39,10 @@ const NavBar = ({
   const ButtonRef = useRef([]);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const containerRef = useRef();
+  const searchBarRef = useRef();
   const navigate = useNavigate();
   const [showSideNav, setShowSideNav] = useState(false);
+  const [hover, setHover] = useState(false);
 
   const styles = {
     nav: {
@@ -72,14 +74,14 @@ const NavBar = ({
     navButtonGroup: {
       display: "flex",
       justifyContent: "center",
-      flex: lastPage !== "map"  ? 1 : 0,
+      flex: lastPage !== "map" ? 1 : 0,
       gap: "24px",
       alignItems: "center",
       position: "relative",
       zIndex: 1,
     },
     navAuthButtonGroup: {
-      flex: lastPage !== "map"  ? 1 : 0,
+      flex: lastPage !== "map" ? 1 : 0,
       display: "flex",
       justifyContent: "flex-end",
       gap: "8px",
@@ -100,7 +102,7 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     titleGroup: {
-      flex: windowSize.width > 700 ? (lastPage !== "map"  ? 1 : 0) : 0,
+      flex: windowSize.width > 700 ? (lastPage !== "map" ? 1 : 0) : 0,
       justifyContent: "flex-start",
       display: "flex",
       alignItems: "center",
@@ -108,7 +110,7 @@ const NavBar = ({
     titleText: {
       color: ColorPallate.primary,
       fontSize: "1rem",
-      fontWeight: 500,
+      fontWeight: 600,
       textAlign: "left",
       display: "inline",
     },
@@ -459,7 +461,18 @@ const NavBar = ({
         {(lastPage === "home" ? true : windowSize.width > 700) ? (
           <div style={styles.titleGroup}>
             <img src={logo} alt="" style={styles.logo} />
-            <h1 style={styles.titleText}>Girls</h1>
+            <h1
+              style={{
+                ...styles.titleText,
+                background: ColorPallate.primaryGradient,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              Girls
+            </h1>
             <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
               Map
             </h1>
@@ -511,7 +524,8 @@ const NavBar = ({
         {showSearchBar && (
           <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
             <InputForm
-              placeholder="Cari Toko"
+              ref={searchBarRef}
+              placeholder="Cari Toko & Product atau Merek Kesenangan Anda"
               style={{
                 container: {
                   flex: 1,
@@ -523,6 +537,55 @@ const NavBar = ({
               onChange={handleSearch}
               clearQuery={() => setSearchQuery("")}
             />
+            {searchQuery.trim() !== "" && (
+              <GlobalModal
+                visible={searchQuery.trim() !== ""}
+                styles={{
+                  width:
+                    searchBarRef.current.getBoundingClientRect().width - 40,
+                  padding: "12px 2px",
+                  top: searchBarRef.current.getBoundingClientRect().height + 8,
+                  borderRadius: "0px 0px 8px 8px",
+                  position: "absolute",
+                  zIndex: 100,
+                  gap: 4,
+                  transition: "opacity 0.3s ease, transform 0.3s ease",
+                  boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                }}
+              >
+                {queryResult?.map((i, index) => {
+                  return (
+                    <div
+                      onMouseEnter={() => setHover(index + 1)}
+                      onMouseLeave={() => setHover(index + 1)}
+                      onClick={() => {
+                        setSearchQuery("");
+                        setCurrentPin(i);
+                      }}
+                      style={{
+                        padding: "10px 8px",
+                        ...(hover === index + 1
+                          ? { background: ColorPallate.primaryGradient }
+                          : {}),
+                      }}
+                    >
+                      <p
+                        style={{
+                          color: ColorPallate.text,
+                          fontSize: 12,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          textAlign: "left",
+                        }}
+                      >
+                        {i.namaToko}, {i.alamat}
+                      </p>
+                    </div>
+                  );
+                })}
+              </GlobalModal>
+            )}
           </div>
         )}
         {(user ? true : !(lastPage === "map")) && (
@@ -561,7 +624,7 @@ const NavBar = ({
                 }}
               />
             )}
-            {(lastPage !== "map" && windowSize.width < 700) && (
+            {lastPage !== "map" && windowSize.width < 700 && (
               <ButtonCostum
                 onclick={() => setShowSideNav(true)}
                 type={"textButton"}

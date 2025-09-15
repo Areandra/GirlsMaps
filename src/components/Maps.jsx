@@ -21,26 +21,24 @@ const icon = new L.Icon({
 });
 
 const FlyToMarker = ({ pin, setCurrentPin, position }) => {
-  const map = useMap();
-
-  const handleClick = () => {
-    setCurrentPin(pin);
-    map.flyTo(position, 18);
-  };
-
   return (
     <Marker
       position={pin.koordinat}
       icon={icon}
       eventHandlers={{
-        click: handleClick,
+        click: () => setCurrentPin(pin),
       }}
-    >
-    </Marker>
+    ></Marker>
   );
 };
 
-const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
+const Maps = ({
+  lastPage,
+  queryResult,
+  setCurrentPin,
+  windowSize,
+  currentPin,
+}) => {
   const mapRef = useRef();
   const RecenterMap = ({ position }) => {
     const map = useMap();
@@ -51,8 +49,16 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
     useEffect(() => {
       if (lastPage !== "map") {
         map.flyTo(position, 14);
+      } else if (currentPin) {
+        map.flyTo(
+          [
+            currentPin.koordinat[0] - (windowSize.width < 700 ? 0.00065 : 0),
+            currentPin.koordinat[1],
+          ],
+          18
+        );
       }
-    }, [lastPage, position]);
+    }, [lastPage, position, currentPin]);
   };
 
   const mapStyle = {
@@ -62,7 +68,7 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       position: "absolute",
       transform: "translateX(-50%) translateY(-50%)",
       zIndex: 1,
-      backgroundColor: "black"
+      backgroundColor: "black",
     },
     disbleMap: {
       pointerEvents: "auto",
@@ -80,7 +86,7 @@ const Maps = ({ lastPage, queryResult, setCurrentPin, windowSize }) => {
       <MapContainer
         center={[-0.8975593, 119.8606656]}
         zoom={14}
-        subdomains= {["a", "b", "c", "d"]}
+        subdomains={["a", "b", "c", "d"]}
         style={{
           ...mapStyle.container,
         }}

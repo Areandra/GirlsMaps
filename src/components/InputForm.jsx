@@ -11,7 +11,8 @@ export const InputForm = ({
   value,
   onChange,
   clearQuery,
-  name
+  name,
+  ref,
 }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
@@ -40,6 +41,7 @@ export const InputForm = ({
   const IconComponent = icon || FiSearch;
   return (
     <div
+    ref={ref}
       className="input"
       id={id}
       style={{

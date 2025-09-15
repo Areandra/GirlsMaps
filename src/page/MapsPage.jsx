@@ -32,12 +32,11 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
   if (dismiss) return;
 
   const [showDeskripsi, setShowDeskripsi] = useState(false);
-  const [showProduct, setShowProduct] = useState(false);
   const [showFullDeskripsi, setShowFullDeskripsi] = useState(false);
   const [deskripsiData, setDeskripsiData] = useState(null);
 
   useEffect(() => {
-    if (currentPin) {
+    if (currentPin !== null) {
       const newData = [
         {
           id: "alamat",
@@ -64,10 +63,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         },
       ];
       setDeskripsiData(newData);
-      setShowDeskripsi((prev) => {
-        if (prev) setShowProduct(false);
-        return true;
-      });
+      setShowDeskripsi(true);
     } else setShowDeskripsi(false);
   }, [currentPin]);
 
@@ -207,24 +203,6 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         zIndex: 10,
       }}
     >
-      {windowSize.width > 700 && (
-        <ButtonCostum
-          style={{
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            top: windowSize.height * 0.03,
-            right: "1vw",
-          }}
-          text="Cari Produk"
-          icon={FiShoppingBag}
-          type="floatingButton"
-          onclick={() =>
-            setShowProduct((prev) => {
-              if (prev !== showDeskripsi) setShowDeskripsi(prev);
-              return !prev;
-            })
-          }
-        />
-      )}
       <div style={styles.containerModal}>
         {currentPin && (
           <ButtonCostum
@@ -278,7 +256,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
             <img
               style={styles.img}
               src={
-                 currentPin?.urlImage ||
+                currentPin?.urlImage ||
                 "https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
               }
             ></img>
@@ -355,39 +333,44 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                 })}
               </div>
               <div style={styles.line}></div>
+              <h1 style={styles.tittleText}>Product</h1>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              >
+                {currentPin?.product.map((i) => (
+                  <div
+                    style={{
+                      ...styles.lebelInfo,
+                      background: "rgb(15,15,15)",
+                      color: ColorPallate.text,
+                      padding: 18,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <p>{i.merek} :</p>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(300px, 1fr))",
+                        gap: "16px",
+                      }}
+                    >
+                      {i.namaProduk.map((j) => (
+                        <div>
+                          <p>- {j}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={styles.line}></div>
               <ButtonCostum text="Favorit" icon={MdFavorite} />
             </div>
           </GlobalModal>
         )}
       </div>
-      <GlobalModal visible={showProduct} styles={styles.productModal}>
-        <div style={styles.contentContainer}>
-          <h1 style={styles.tittleText}>
-            {currentPin?.NamaTempat || "Cari Produk"}
-          </h1>
-          <span style={styles.rating}>
-            Bingung mencari produk yang Anda butuhkan? Kami menyediakan fitur
-            pencarian lokasi berdasarkan produk pilihan Anda.{" "}
-          </span>
-          <InputForm
-            placeholder="Cari Produk"
-            style={{
-              container: {
-                width: "auto",
-              },
-            }}
-            hovercolor={ColorPallate.primary}
-            color={ColorPallate.background}
-            value={""}
-            onChange={() => {}}
-            clearQuery={() => {}}
-          />
-          <div style={styles.line}></div>
-          <div style={styles.productContainer}></div>
-          <div style={styles.line}></div>
-          <ButtonCostum text="Temukan Produk Anda" icon={PiMapPinSimpleLight} />
-        </div>
-      </GlobalModal>
     </div>
   );
 };

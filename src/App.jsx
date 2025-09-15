@@ -42,7 +42,7 @@ function App() {
       fetchStoreData();
     } else if (!fuse) {
       const fuse = new Fuse(storeData, {
-        keys: ["namaToko"],
+        keys: ["namaToko", "product.merek", "product.namaProduk"],
         threshold: 0.3,
       });
       setQueryResult(storeData);
@@ -137,12 +137,15 @@ function App() {
               navRef={navRef}
               windowSize={windowSize}
               user={user}
+              queryResult={queryResult}
+              setCurrentPin={setCurrentPin}
             />
             <Maps
               lastPage={lastPage}
               queryResult={queryResult}
               setCurrentPin={setCurrentPin}
               windowSize={windowSize}
+              currentPin={currentPin}
             />
             <LandingPage
               user={user}

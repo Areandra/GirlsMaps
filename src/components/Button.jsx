@@ -139,55 +139,6 @@ const ButtonCostum = ({
         {icon && <IconComponent size={18} color={ColorPallate.primary} />}
       </button>
     );
-  } else if (type === "floatingButton") {
-    const floatingButtonStyles = {
-      container: {
-        borderRadius: "8px",
-        transition:
-          "top 0.3s ease, left 0.3s ease, transform 0.3s ease",
-        position: "fixed",
-        zIndex: 100,
-        display: "flex",
-        alignItems: "center",
-        padding: "10px 10px",
-        backgroundColor: ColorPallate.background,
-        gap: 18,
-      },
-    };
-    const IconComponent = icon || FiArrowRight;
-    return (
-      <div style={{ ...floatingButtonStyles.container, ...style }}>
-        <p
-          style={{
-            color: ColorPallate.text,
-            fontSize: 12,
-            fontWeight: 500,
-            transform: "translateX(6px)",
-          }}
-        >
-          {text}
-        </p>
-        <button
-          id={id}
-          style={{
-            ...buttonResetstyles.button,
-            ...normalButtonStyles.button,
-            ...(hover ? normalButtonStyles.hover : {}),
-          }}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          onClick={() => {
-            onclick?.();
-            setActive(!active);
-          }}
-        >
-          <IconComponent
-            size={18}
-            color={!hover ? ColorPallate.background : ColorPallate.primary}
-          />
-        </button>
-      </div>
-    );
   }
   const IconComponent = icon || FiArrowRight;
   return (
