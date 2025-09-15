@@ -58,7 +58,7 @@ const EditStoreModal = ({
   const handleJadwalChange = (e, index) => {
     const newValue = [...formData.openTime];
     newValue[index] = e.target.value;
-    setFormData((prev) => ({ ...prev, value: newValue }));
+    setFormData((prev) => ({ ...prev, openTime: newValue }));
   };
   const handleKoordinatChange = (e, index) => {
     const newKoordinat = [...formData.koordinat];
@@ -675,9 +675,9 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
             "00.00 - 00.00",
             "Closed",
           ],
-          koordinat: ["Lattitude", "Longitude"],
+          koordinat: [0, 0],
           product: [
-            { merek: "Example", namaProduk: ["example...", "example..."] },
+            { merek: "", namaProduk: [""] },
           ],
         }}
         onClose={() => {
