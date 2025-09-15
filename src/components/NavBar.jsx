@@ -6,6 +6,7 @@ import { InputForm } from "./InputForm";
 import {
   FiAlignLeft,
   FiGrid,
+  FiLogIn,
   FiLogOut,
   FiUnlock,
   FiUser,
@@ -53,20 +54,20 @@ const NavBar = ({
       zIndex: 100,
       display: "flex",
       alignItems: "center",
-      padding: "8px 14px",
+      padding: "10px 14px",
       backgroundColor: ColorPallate.background,
       width: "80vw",
-      borderRadius: "10px",
+      borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       transition:
-        "top 0.3s ease, left 0.3s ease, transform 0.3s ease, width 0.3s ease, height 0.3s ease",
+        "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
       gap: "2vw",
     },
     navResizeMap: {
       width: "70vw",
       ...(windowSize.width > 700
-        ? { left: "2vw", transform: "translateX(-1%)" }
-        : { width: "80vw", transform: "translateX(-50%)" }),
+        ? { transform: "translateX(-67%)" }
+        : { width: "80vw" }),
     },
     navDismiss: {
       top: "-10dvh",
@@ -96,7 +97,7 @@ const NavBar = ({
       left: left - 10 + "px",
       width: size + 20 + "px",
       background: ColorPallate.primaryGradient,
-      borderRadius: "8px",
+      borderRadius: "12px",
       transition: "left 0.3s ease, width 0.3s ease",
       zIndex: -1,
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
@@ -607,11 +608,12 @@ const NavBar = ({
                   />
                 )}
                 <ButtonCostum
-                  text="Get Started"
+                  text="Register"
                   style={{ minWidth: "110px" }}
                   onclick={() => {
                     buttonAction.navAuthButton?.[1]?.();
                   }}
+                  icon={FiLogIn}
                 />
               </>
             ) : (

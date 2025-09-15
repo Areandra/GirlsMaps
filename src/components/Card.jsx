@@ -14,7 +14,7 @@ export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
       width: "200px",
       background: ColorPallate.background,
       boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 2px ${ColorPallate.background}`,
-      borderRadius: "12px",
+      borderRadius: "16px",
       minHeight: "120px",
       gap: 10,
       minWidth: "200px",

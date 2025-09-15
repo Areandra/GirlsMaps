@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ColorPallate from "../theme/Color";
 import { FiArrowRight } from "react-icons/fi";
+import { BiBorderRadius } from "react-icons/bi";
 
 const ButtonCostum = ({
   onclick,
@@ -31,11 +32,12 @@ const ButtonCostum = ({
       display: "flex",
       alignItems: "center",
       gap: "8px",
+      borderRadius: 12
     },
   };
   const normalButtonStyles = {
     button: {
-      padding: "10px 18px",
+      padding: "10px 16px",
       background: ColorPallate.primaryGradient,
       justifyContent: "center",
       color: "black",

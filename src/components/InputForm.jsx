@@ -10,7 +10,6 @@ export const InputForm = ({
   type,
   value,
   onChange,
-  clearQuery,
   name,
   ref,
 }) => {
@@ -34,7 +33,7 @@ export const InputForm = ({
       fontSize: "12px",
       alignItems: "center",
       gap: "8px",
-      borderRadius: "6px",
+      borderRadius: "10px",
       justifyContent: "space-between",
       display: "flex",
       boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
-import { FiUser, FiMail, FiLock } from "react-icons/fi";
+import { FiUser, FiMail, FiLock, FiLogIn } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
 import logo from "../assets/logo.png";
 import { auth } from "../service/firebaseConfig";
@@ -199,6 +199,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
                     username,
                   })
           }
+          icon={FiLogIn}
         />
 
         <div style={styles.separator}>
@@ -264,7 +265,7 @@ const styles = {
   loginForm: {
     padding: 35,
     backgroundColor: ColorPallate.background,
-    borderRadius: 10,
+    borderRadius: 20,
     display: "flex",
     flexDirection: "column",
     gap: 14,
@@ -290,7 +291,7 @@ const styles = {
     flex: 1,
     alignItems: "center",
     gap: "8px",
-    borderRadius: "8px",
+    borderRadius: "12px",
     justifyContent: "center",
     display: "flex",
     cursor: "pointer",

@@ -1,6 +1,7 @@
 import ColorPallate from "../theme/Color";
 import logo from "../assets/logo.png";
 import {
+  FiChevronLeft,
   FiDelete,
   FiEdit,
   FiFilter,
@@ -21,11 +22,9 @@ import GlobalModal from "../components/Modal";
 import { useRef } from "react";
 import { handleUploadImage } from "../service/uploadImage";
 import { delStoreData, getStoreData, sendStoreData } from "../service/crudDB";
+import { useNavigate } from "react-router-dom";
 
-const buttonList = [
-  { icon: FiMapPin, onClick: () => {} },
-  { icon: FiGlobe, onClick: () => {} },
-];
+const buttonList = [{ icon: FiMapPin }, { icon: FiGlobe, onClick: () => {} }];
 
 const tableList = [
   { icon: FaShop, value: "Nama Toko" },
@@ -181,17 +180,28 @@ const EditStoreModal = ({
         onDissmis={() => onClose()}
       >
         <h2 style={{ marginTop: 0, color: ColorPallate.text }}>
-          Edit Data Toko
+          Edit Store Data
         </h2>
         <div style={{ margin: 0, padding: 0 }}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Nama Toko</label>
-            <InputForm
-              type="text"
-              name="namaToko"
-              value={formData.namaToko}
-              onChange={handleChange}
-            />
+          <div style={{ display: "flex", flexDirection: "row", gap: 4 }}>
+            <div style={{ ...styles.formGroup, flex: 1 }}>
+              <label style={styles.label}>Store Name</label>
+              <InputForm
+                type="text"
+                name="namaToko"
+                value={formData.namaToko}
+                onChange={handleChange}
+              />
+            </div>
+            <div style={{ ...styles.formGroup, flex: 1 }}>
+              <label style={styles.label}>Contact</label>
+              <InputForm
+                type="text"
+                name="contact"
+                value={formData?.contact}
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Alamat</label>
@@ -273,6 +283,7 @@ const EditStoreModal = ({
                     <ButtonCostum
                       text="Hapus"
                       onclick={() => removeMerek(productIndex)}
+                      icon={FiDelete}
                     />
                   </div>
                   {prod.namaProduk.map((nama, namaIndex) => (
@@ -286,11 +297,11 @@ const EditStoreModal = ({
                         placeholder="Nama Produk"
                       />
                       <ButtonCostum
-                        text="X"
                         type="textButton"
                         onclick={() =>
                           removeNamaProduk(productIndex, namaIndex)
                         }
+                        icon={FiDelete}
                       />
                     </div>
                   ))}
@@ -563,6 +574,8 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
 };
 
 const SideBar = ({ buttonList }) => {
+  const navigate = useNavigate();
+
   return (
     <nav
       style={{
@@ -577,14 +590,10 @@ const SideBar = ({ buttonList }) => {
         backgroundColor: ColorPallate.background,
       }}
     >
-      <img
-        src={logo}
-        style={{
-          width: 32,
-          border: `2px solid ${ColorPallate.inputBorder}`,
-          borderRadius: 12,
-          background: ColorPallate.primaryGradient,
-        }}
+      <ButtonCostum
+        type={"normalButton"}
+        icon={FiChevronLeft}
+        onclick={() => navigate("/")}
       />
       <div
         style={{
@@ -596,7 +605,12 @@ const SideBar = ({ buttonList }) => {
         }}
       >
         {buttonList.map((i, index) => (
-          <ButtonCostum key={index} type={"navbarButton"} icon={i.icon} />
+          <ButtonCostum
+            key={index}
+            type={"navbarButton"}
+            icon={i.icon}
+            onclick={() => i?.onClick()}
+          />
         ))}
       </div>
     </nav>
@@ -665,6 +679,7 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
         isOpen={showNewModal}
         initialData={{
           namaToko: "",
+          contact: "",
           alamat: "",
           openTime: [
             "00.00 - 00.00",
@@ -676,9 +691,7 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
             "Closed",
           ],
           koordinat: [0, 0],
-          product: [
-            { merek: "", namaProduk: [""] },
-          ],
+          product: [{ merek: "", namaProduk: [""] }],
         }}
         onClose={() => {
           setShowNewModal(false);

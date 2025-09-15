@@ -6,7 +6,6 @@ import {
   FiClock,
   FiMapPin,
   FiPhoneCall,
-  FiShoppingBag,
   FiX,
 } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
@@ -15,8 +14,6 @@ import ColorPallate from "../theme/Color";
 import { BsFillStarFill } from "react-icons/bs";
 import { MdFavorite } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { InputForm } from "../components/InputForm";
-import { PiMapPinSimpleLight } from "react-icons/pi";
 
 const dayList = [
   "Senin",
@@ -85,7 +82,8 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
     },
     deskripsiModal: {
       transition: "height 0.3s ease",
-      overflow:
+      overflowX: "hidden",
+      overflowY:
         windowSize.width > 700
           ? "auto"
           : !showFullDeskripsi
@@ -347,12 +345,9 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                       borderRadius: 8,
                     }}
                   >
-                    <p>{i.merek} :</p>
+                    <p style={{fontSize: 14, color: ColorPallate.primary}}>{i.merek} :</p>
                     <div
                       style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                          "repeat(auto-fit, minmax(300px, 1fr))",
                         gap: "16px",
                       }}
                     >

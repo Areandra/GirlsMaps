@@ -1,4 +1,4 @@
-import { get, push, ref, remove, set } from "firebase/database";
+import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
 
 export const sendStoreData = async (data) => {
@@ -8,13 +8,13 @@ export const sendStoreData = async (data) => {
     !data.alamat &&
     !data.openTime &&
     !data.koordinat &&
-    !data.product
+    !data.product &&
+    !data.contact
   )
     return;
   try {
     await set(ref(db, `/storeData/${data.namaToko.trim()}`), {
       ...data,
-      urlImage: data.urlImage || ""
     });
     console.log("Berhasil");
     return;
@@ -39,7 +39,7 @@ export const getStoreData = async () => {
           merek: j.merek,
           namaProduk: Object.values(j.namaProduk),
         })),
-        urlImage: i.urlImage,
+        contact: i.contact,
       }));
       console.log("cek bang", cleanData);
       return cleanData;

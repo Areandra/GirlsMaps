@@ -181,29 +181,28 @@ const LandingPage = ({
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                borderRadius: 20,
-                gap: 10,
+                borderRadius: 12,
+                backgroundBlendMode: "overlay",
+                gap: 8,
               }}
             >
               <div
-                style={{
-                  padding: "4px 10px",
-                  background: ColorPallate.primaryGradient,
-                  borderRadius: 10,
-                  boxShadow: `inset 0 0 0 2px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.1)`,
-                }}
               >
                 <h3
                   style={{
                     ...LandingPageStyles.subtitle,
-                    color: ColorPallate.background,
+                    background: ColorPallate.primaryGradient,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    color: "transparent",
                   }}
                 >
-                  #1 & New
+                  #1 & Best
                 </h3>
               </div>
               <h3 style={LandingPageStyles.subtitle}>
-                The World's First And New
+                Your Beauty Compass
               </h3>
             </div>
             <h1 style={LandingPageStyles.title}>
