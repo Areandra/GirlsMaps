@@ -14,6 +14,7 @@ export const sendStoreData = async (data) => {
   try {
     await set(ref(db, `/storeData/${data.namaToko.trim()}`), {
       ...data,
+      urlImage: data.urlImage || ""
     });
     console.log("Berhasil");
     return;
