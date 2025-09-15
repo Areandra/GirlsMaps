@@ -537,12 +537,12 @@ const NavBar = ({
               onChange={handleSearch}
               clearQuery={() => setSearchQuery("")}
             />
-            {searchQuery.trim() !== "" && (
+            {(searchQuery.trim() !== "" && queryResult.length > 0) && (
               <GlobalModal
                 visible={searchQuery.trim() !== ""}
                 styles={{
                   width:
-                    searchBarRef.current.getBoundingClientRect().width - 40,
+                    searchBarRef.current.getBoundingClientRect().width - 4,
                   padding: "12px 2px",
                   top: searchBarRef.current.getBoundingClientRect().height + 8,
                   borderRadius: "0px 0px 8px 8px",
@@ -598,7 +598,7 @@ const NavBar = ({
               <>
                 {windowSize.width > 510 && (
                   <ButtonCostum
-                    text="Masuk"
+                    text="Sign In"
                     type="textButton"
                     icon={FiUnlock}
                     onclick={() => {
@@ -607,7 +607,7 @@ const NavBar = ({
                   />
                 )}
                 <ButtonCostum
-                  text="Ayo Mulai"
+                  text="Get Started"
                   style={{ minWidth: "110px" }}
                   onclick={() => {
                     buttonAction.navAuthButton?.[1]?.();

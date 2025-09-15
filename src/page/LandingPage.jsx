@@ -233,7 +233,7 @@ const LandingPage = ({
           </div>
           <div style={LandingPageStyles.buttonGroup}>
             <ButtonCostum
-              text={user ? "Buka Peta" : "Ayo Mulai"}
+              text={user ? "Start Exploring" : "Get Started"}
               type="primary"
               onclick={() => (user ? setLastPage("map") : buttonOneOnClick())}
             />

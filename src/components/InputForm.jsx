@@ -16,6 +16,13 @@ export const InputForm = ({
 }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
+  
+  const changeValue = () => {
+    if (onChange) {
+      onChange({ target: { value: "" } });
+    }
+    inputRef.current.focus();
+  };
 
   const searchForm = {
     form: {
@@ -41,7 +48,7 @@ export const InputForm = ({
   const IconComponent = icon || FiSearch;
   return (
     <div
-    ref={ref}
+      ref={ref}
       className="input"
       id={id}
       style={{
@@ -77,7 +84,7 @@ export const InputForm = ({
         />
       ) : (
         <div
-          onClick={() => clearQuery()}
+          onClick={() => changeValue()}
           style={{
             alignContent: "center",
             justifyContent: "center",
@@ -87,9 +94,7 @@ export const InputForm = ({
         >
           <FiX
             size={18}
-            color={
-              hover ? ColorPallate.secondaryText : ColorPallate.background
-            }
+            color={hover ? ColorPallate.secondaryText : ColorPallate.background}
           />
         </div>
       )}

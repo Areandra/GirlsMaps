@@ -1,11 +1,13 @@
 import ColorPallate from "../theme/Color";
 import logo from "../assets/logo.png";
 import {
+  FiDelete,
   FiEdit,
   FiFilter,
   FiGlobe,
   FiMapPin,
   FiPlus,
+  FiSend,
   FiUploadCloud,
 } from "react-icons/fi";
 import ButtonCostum from "../components/Button";
@@ -314,13 +316,19 @@ const EditStoreModal = ({
               <ButtonCostum
                 text="Hapus"
                 type="primary"
-                onclick={() => onDel(formData.selectedItem.namaToko.trim())}
+                onclick={() => {
+                  onDel(formData.namaToko.trim());
+                  onClose();
+                  setUpdate(true);
+                }}
+                icon={FiDelete}
               />
             )}
             <ButtonCostum
               text="Simpan"
               type="primary"
               onclick={() => handleSubmit()}
+              icon={FiSend}
             />
           </div>
         </div>
@@ -331,6 +339,7 @@ const EditStoreModal = ({
 
 const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
   const [showFull, setShowFull] = useState(null);
+  const [hover, setHover] = useState(false);
 
   const styles = {
     container: {
@@ -420,7 +429,6 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
 
       <div style={styles.scrollContainer}>
         {storeData.map((i, indexG) => {
-          const [hover, setHover] = useState(false);
           const dynamicBorderStyle = {
             borderBlockEnd:
               indexG < storeData.length - 1
@@ -433,15 +441,15 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
               key={indexG}
               style={{
                 ...styles.tableRow,
-                ...(hover
+                ...(hover === indexG + 1
                   ? { boxShadow: ` inset 0 0 0 3px ${ColorPallate.primary}` }
                   : {}),
                 ...(selectedItem === i
                   ? { background: ColorPallate.primaryGradient }
                   : {}),
               }}
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
+              onMouseEnter={() => setHover(indexG + 1)}
+              onMouseLeave={() => setHover(indexG + 1)}
               onClick={() => setSelectedItem(selectedItem === i ? null : i)}
             >
               <p
@@ -672,7 +680,10 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
             { merek: "Example", namaProduk: ["example...", "example..."] },
           ],
         }}
-        onClose={() => setShowNewModal(false)}
+        onClose={() => {
+          setShowNewModal(false);
+          setUrlParams({});
+        }}
         onSave={sendStoreData}
         setUpdate={setUpdateData}
       />
@@ -729,7 +740,9 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
               icon={FiUploadCloud}
             />
             <input
-              onChange={(e) => handleUploadImage(e, selectedItem.namaToko.trim())}
+              onChange={(e) =>
+                handleUploadImage(e, selectedItem.namaToko.trim())
+              }
               ref={fileInputRef}
               type="file"
               hidden

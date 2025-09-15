@@ -35,7 +35,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
       });
 
       await reload(userCredential.user);
-
     } catch (error) {
       console.error("Register gagal:", error.message);
     }
@@ -160,7 +159,11 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
               Map
             </h1>
           </div>
-          <h2 style={styles.loginTitle}>Welcome Boss!</h2>
+          <h2 style={styles.loginTitle}>
+            Get Ready To Embark on A Journey
+            <br />
+            With Us
+          </h2>
         </div>
 
         <div
@@ -185,7 +188,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
 
         <ButtonCostum
           type="normalbutton"
-          text={lastPage === "login" ? "Masuk" : "Daftar"}
+          text={lastPage === "login" ? "Sign In" : "Sign Up"}
           onclick={
             lastPage === "login"
               ? () => handleLogin({ email, password })
@@ -211,10 +214,7 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         </div>
 
         <div style={styles.socialContainer}>
-          <button
-            onClick={() => loginWithGoogle()}
-            style={styles.buttonBox}
-          >
+          <button onClick={() => loginWithGoogle()} style={styles.buttonBox}>
             <img
               src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
               alt="google"
@@ -232,12 +232,12 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         >
           <span style={{ color: "grey", fontSize: 12 }}>
             {lastPage === "login"
-              ? "Belum Punya Akun Ya?"
-              : "Sudah Punya Akun Sebelumnya?"}
+              ? "Don't have an account?"
+              : "Already have an account?"}
           </span>
           <ButtonCostum
             type="textButton"
-            text={lastPage === "login" ? "Daftar" : "Masuk"}
+            text={lastPage === "login" ? "Register" : "Log In"}
             onclick={() => handleChangeMode()}
             disbleBackground={true}
           />
