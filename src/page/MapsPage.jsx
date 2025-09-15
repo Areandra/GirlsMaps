@@ -37,9 +37,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
   const [deskripsiData, setDeskripsiData] = useState(null);
 
   useEffect(() => {
-    console.log("lappor", currentPin);
     if (currentPin) {
-      console.log("cp", currentPin);
       const newData = [
         {
           id: "alamat",
@@ -280,7 +278,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
             <img
               style={styles.img}
               src={
-                 currentPin.urlImage ||
+                 currentPin?.urlImage ||
                 "https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
               }
             ></img>
