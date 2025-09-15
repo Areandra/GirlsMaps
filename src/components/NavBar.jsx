@@ -59,8 +59,7 @@ const NavBar = ({
       width: "80vw",
       borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-      transition:
-        "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
+      transition: "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
       gap: "2vw",
     },
     navResizeMap: {
@@ -317,6 +316,8 @@ const NavBar = ({
                     setLastPage(button.id);
                     setCurrentPage(button.id);
                     setShowSideNav(false);
+                    if (button.id === "about" || lastPage === "about")
+                      window.location.reload();
                     buttonAction.navButton?.[index]?.();
                   }}
                   onHoverEnter={() => {
@@ -459,7 +460,7 @@ const NavBar = ({
         }}
         ref={navRef}
       >
-        {(lastPage === "home" ? true : windowSize.width > 700) ? (
+        {(lastPage !== "map" ? true : windowSize.width > 700) ? (
           <div style={styles.titleGroup}>
             <img src={logo} alt="" style={styles.logo} />
             <h1
@@ -510,6 +511,8 @@ const NavBar = ({
                     setLastPage(button.id);
                     setCurrentPage(button.id);
                     buttonAction.navButton?.[index]?.();
+                    if (button.id === "about" || lastPage === "about")
+                      window.location.reload();
                   }}
                   onHoverEnter={() => {
                     setCurrentPage(button.id);
@@ -538,12 +541,11 @@ const NavBar = ({
               onChange={handleSearch}
               clearQuery={() => setSearchQuery("")}
             />
-            {(searchQuery.trim() !== "" && queryResult.length > 0) && (
+            {searchQuery.trim() !== "" && queryResult.length > 0 && (
               <GlobalModal
                 visible={searchQuery.trim() !== ""}
                 styles={{
-                  width:
-                    searchBarRef.current.getBoundingClientRect().width - 4,
+                  width: searchBarRef.current.getBoundingClientRect().width - 4,
                   padding: "12px 2px",
                   top: searchBarRef.current.getBoundingClientRect().height + 8,
                   borderRadius: "0px 0px 8px 8px",

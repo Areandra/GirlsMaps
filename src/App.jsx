@@ -13,6 +13,7 @@ import { get, ref } from "firebase/database";
 import { Route } from "react-router-dom";
 import DatabaseManagement from "./page/DatabaseManagement.jsx";
 import { getStoreData } from "./service/crudDB.js";
+import AboutUsPage from "./page/AboutUsPage.jsx";
 
 function App() {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -28,6 +29,13 @@ function App() {
   const [user, setUser] = useState(null);
   const navRef = useRef();
   const [fuse, setFuse] = useState(null);
+
+  useEffect(() => {
+    if (lastPage === "about") {
+      document.body.style.overflowY = "auto";
+      document.body.style.height = "auto";
+    }
+  }, [lastPage]);
 
   useEffect(() => {
     if (!storeData) {
@@ -148,6 +156,23 @@ function App() {
               currentPin={currentPin}
             />
             <LandingPage
+              user={user}
+              setLastPage={setLastPage}
+              lastPage={lastPage}
+              buttonOneOnClick={() => {
+                setCurrentPage("login");
+                setLastPage("login");
+              }}
+              navRef={navRef}
+              windowSize={windowSize}
+              fetureCardOnClick={[
+                () => {
+                  setLastPage("map");
+                  setCurrentPage("map");
+                },
+              ]}
+            />
+            <AboutUsPage
               user={user}
               setLastPage={setLastPage}
               lastPage={lastPage}

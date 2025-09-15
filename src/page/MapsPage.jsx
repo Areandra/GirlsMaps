@@ -1,5 +1,4 @@
 import {
-  FiChevronDown,
   FiChevronLeft,
   FiChevronRight,
   FiChevronUp,

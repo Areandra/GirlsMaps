@@ -2,7 +2,6 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Popup,
   useMap,
   useMapEvent,
 } from "react-leaflet";
@@ -20,7 +19,7 @@ const icon = new L.Icon({
   popupAnchor: [0, -30],
 });
 
-const FlyToMarker = ({ pin, setCurrentPin, position }) => {
+const FlyToMarker = ({ pin, setCurrentPin }) => {
   return (
     <Marker
       position={pin.koordinat}
@@ -81,43 +80,83 @@ const Maps = ({
     },
   };
   return (
-    <div>
+    <div
+      style={{
+        ...(lastPage === "about"
+          ? {
+              position: "relative",
+              width: "100vw",
+              height: "300dvh",
+              overflowX: "hidden",
+              overflowY: "auto",
+            }
+          : {}),
+      }}
+    >
       {lastPage != "map" && <div style={mapStyle.disbleMap}></div>}
-      <MapContainer
-        center={[-0.8975593, 119.8606656]}
-        zoom={14}
-        subdomains={["a", "b", "c", "d"]}
+      <div
         style={{
-          ...mapStyle.container,
-        }}
-        maxBounds={[
-          [-1.05, 119.75],
-          [-0.75, 120.0],
-        ]}
-        zoomControl={false}
-        maxBoundsViscosity={1.0}
-        minZoom={14}
-        whenCreated={(mapInstance) => {
-          mapRef.current = mapInstance;
+          ...(lastPage === "about"
+            ? {
+                position: "absolute",
+                transform:
+                  "rotate(-10deg) rotateX(-50deg) rotateY(-20deg) rotateZ(-20deg)",
+                left: "68vw",
+                bottom: "62%",
+              }
+            : {}),
         }}
       >
-        <RecenterMap position={[-0.8975593, 119.8606656]} />
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a style={{backgroundColor: transparent}} href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
-        />
-        {queryResult?.map((pin, index) => (
-          <FlyToMarker
-            key={index}
-            pin={pin}
-            setCurrentPin={setCurrentPin}
-            position={[
-              pin.koordinat[0] - (windowSize.width < 700 ? 0.00065 : 0),
-              pin.koordinat[1],
-            ]}
+        <MapContainer
+          center={
+            lastPage !== "about"
+              ? [-0.8975593, 119.8606656]
+              : [-0.8884625032694423, 119.87812283714719]
+          }
+          zoom={14}
+          subdomains={["a", "b", "c", "d"]}
+          style={{
+            ...mapStyle.container,
+            ...(lastPage === "about"
+              ? {
+                  width: "120vw",
+                  height: "120dvh",
+                  borderRadius: 40,
+                  boxShadow: `0 0 0 4px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                }
+              : {}),
+          }}
+          maxBounds={[
+            [-1.05, 119.75],
+            [-0.75, 120.0],
+          ]}
+          zoomControl={false}
+          maxBoundsViscosity={1.0}
+          minZoom={14}
+          whenCreated={(mapInstance) => {
+            mapRef.current = mapInstance;
+          }}
+        >
+          <RecenterMap
+            position={
+              lastPage !== "about"
+                ? [-0.8975593, 119.8606656]
+                : [-0.8884625032694423, 119.87812283714719]
+            }
           />
-        ))}
-      </MapContainer>
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a style={{backgroundColor: transparent}} href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          />
+          {queryResult?.map((pin, index) => (
+            <FlyToMarker
+              key={index}
+              pin={pin}
+              setCurrentPin={setCurrentPin}
+            />
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 };
