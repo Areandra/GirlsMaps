@@ -14,6 +14,7 @@ const LandingPage = ({
   fetureCardOnClick,
   user,
   setLastPage,
+  dissmis
 }) => {
   const [navHeight, setNavHeight] = useState(0);
   const serviceContainerRef = useRef();
@@ -161,7 +162,7 @@ const LandingPage = ({
       <div
         style={{
           ...LandingPageStyles.container,
-          ...(lastPage != "home" ? LandingPageStyles.containerDissmis : {}),
+          ...(lastPage != "home" && !dissmis ? LandingPageStyles.containerDissmis : {}),
         }}
       >
         <div style={LandingPageStyles.topGroup}>

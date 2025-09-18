@@ -1,7 +1,7 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
 
-export const sendStoreData = async (data, id) => {
+export const sendStoreData = async (data) => {
   if (
     !data &&
     !data.namaToko &&
@@ -12,7 +12,7 @@ export const sendStoreData = async (data, id) => {
   )
     return;
   try {
-    await set(ref(db, `/storeData/${id}`), {
+    await set(ref(db, `/storeData/${data.namaToko.trim()}`), {
       ...data,
     });
     console.log("Berhasil");

@@ -34,6 +34,7 @@ function App() {
   const [fuse, setFuse] = useState(null);
   const [update, setUpdateData] = useState(false);
   const [visibleNotif, setVisibleNotif] = useState(false);
+  const [disbleAnimation, setDisbleAnimation] = useState(false);
 
   useEffect(() => {
     if (lastPage === "about") {
@@ -63,9 +64,9 @@ function App() {
       setFuse(fuse);
     }
     if (fuse) {
-      setLoading(false)
-      setUpdateData(false)
-    };
+      setLoading(false);
+      setUpdateData(false);
+    }
   }, [storeData, fuse, loading, update]);
 
   useEffect(() => {
@@ -123,11 +124,15 @@ function App() {
   };
 
   useEffect(() => {
-    if (lastPage === (urlParams.get("page") || "home")) return;
-    setPageTo(urlParams.get("page") || "home");
-    setCurrentPage(urlParams.get("page") || "home");
+    const page = urlParams.get("page");
+    if (lastPage === (page || "home")) return;
+    setPageTo(page || "home");
+    setCurrentPage(page || "home");
     setCurrentPin(null);
-    if (lastPage === "about" && urlParams.get("page")) window.location.reload();
+    if (lastPage === "about" && page !== "about") {
+      setDisbleAnimation(true);
+      window.location.reload();
+    }
   }, [urlParams]);
 
   const navButtonAction = {
@@ -210,6 +215,7 @@ function App() {
                 user={user}
                 setLastPage={setLastPage}
                 lastPage={lastPage}
+                dissmis={disbleAnimation}
                 buttonOneOnClick={() => {
                   setCurrentPage("login");
                   setLastPage("login");
