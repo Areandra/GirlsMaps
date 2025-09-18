@@ -63,7 +63,7 @@ const EditStoreModal = ({
   };
   const handleKoordinatChange = (e, index) => {
     const newKoordinat = [...formData.koordinat];
-    newKoordinat[index] = parseFloat(e.target.value) || 0;
+    newKoordinat[index] = (!isNaN(e.target.value) && e.target.value) ? parseFloat(e.target.value) : e.target.value;
     setFormData((prev) => ({ ...prev, koordinat: newKoordinat }));
   };
   const handleMerekChange = (e, productIndex) => {
@@ -737,7 +737,7 @@ const DatabaseManagement = ({
             "00.00 - 00.00",
             "Closed",
           ],
-          koordinat: [0, 0],
+          koordinat: ["", ""],
           product: [{ merek: "", namaProduk: [""] }],
         }}
         onClose={() => {

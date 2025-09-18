@@ -6,7 +6,7 @@ export const sendStoreData = async (data) => {
 
   if (!data.namaToko || data.namaToko === "") errorType.push("namaToko");
   if (!data.alamat || data.alamat === "") errorType.push("alamat");
-  if (!data.koordinat || data.koordinat.every((c) => c === 0))
+  if (!data.koordinat || data.koordinat.every((c) => isNaN(c)))
     errorType.push("koordinat");
   if (errorType.length > 0) {
     return {
