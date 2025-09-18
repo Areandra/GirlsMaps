@@ -4,12 +4,12 @@ import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
 import Maps from "./components/Maps.jsx";
 import LoginPage from "./page/LoginPage.jsx";
-import { data, Routes, useSearchParams } from "react-router-dom";
+import { Routes, useSearchParams } from "react-router-dom";
 import MapsPage from "./page/MapsPage.jsx";
 import Fuse from "fuse.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./service/firebaseConfig.jsx";
-import { get, ref, update } from "firebase/database";
+import { get, ref } from "firebase/database";
 import { Route } from "react-router-dom";
 import DatabaseManagement from "./page/DatabaseManagement.jsx";
 import { getStoreData } from "./service/crudDB.js";
@@ -32,7 +32,7 @@ function App() {
   const [user, setUser] = useState(null);
   const navRef = useRef();
   const [fuse, setFuse] = useState(null);
-  const [update, setUpdateData] = useState(false);
+  const [updateData, setUpdateData] = useState(false);
   const [visibleNotif, setVisibleNotif] = useState(false);
   const [disbleAnimation, setDisbleAnimation] = useState(false);
 
@@ -44,7 +44,8 @@ function App() {
   }, [lastPage]);
 
   useEffect(() => {
-    if (!storeData || update) {
+    console.log("update berubah", updateData);
+    if (!storeData || updateData) {
       const fetchStoreData = async () => {
         try {
           const snaps = await getStoreData();
@@ -57,7 +58,7 @@ function App() {
       fetchStoreData();
     } else if (!fuse) {
       const fuse = new Fuse(storeData, {
-        keys: ["namaToko", "product.merek", "product.namaProduk"],
+        keys: ["namaToko", "product.merek", "product.namaProduk", "alamat"],
         threshold: 0.3,
       });
       setQueryResult(storeData);
@@ -67,7 +68,7 @@ function App() {
       setLoading(false);
       setUpdateData(false);
     }
-  }, [storeData, fuse, loading, update]);
+  }, [storeData, fuse, loading, updateData]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -119,6 +120,10 @@ function App() {
     } else setQueryResult(storeData);
   };
 
+  useEffect(() => {
+    handleSearch({ target: { value: "" } });
+  }, [storeData]);
+
   const setLastPage = (p) => {
     setUrlParams({ page: p });
   };
@@ -160,7 +165,7 @@ function App() {
     <>
       <GlobalModal
         styles={{
-          position: "absolute",
+          position: "fixed",
           left: "50%",
           bottom: "0px",
           padding: "12px 20px",
@@ -179,7 +184,7 @@ function App() {
             color: "rgba(255, 234, 0, 0.8)",
           }}
         >
-          Warning :
+          Notification :
         </p>
         <p style={{ fontSize: 12, color: ColorPallate.text }}>{notifMassege}</p>
       </GlobalModal>
@@ -272,7 +277,7 @@ function App() {
               dismiss={windowSize.width < 850}
               loading={loading}
               setUpdateData={setUpdateData}
-              storeData={queryResult}
+              storeDatas={queryResult}
               setSearchQuery={setSearchQuery}
               searchQuery={searchQuery}
               handleSearch={handleSearch}

@@ -136,12 +136,12 @@ const NavBar = ({
       position: "relative",
     },
     profileImg: {
-            background: ColorPallate.primaryGradient,
+      background: ColorPallate.primaryGradient,
 
       WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
+      WebkitTextFillColor: "transparent",
+      backgroundClip: "text",
+      color: "transparent",
       textAlign: "center",
       margin: 0,
       fontSize: 16,
@@ -230,7 +230,8 @@ const NavBar = ({
           {!edit && (
             <div
               style={{
-                backgroundColor: lastPage === "map" ? ColorPallate.background : "transparent",
+                backgroundColor:
+                  lastPage === "map" ? ColorPallate.background : "transparent",
                 borderRadius:
                   windowSize.width > 700
                     ? "0px 50px 50px 0px"
@@ -542,6 +543,9 @@ const NavBar = ({
               style={{
                 container: {
                   flex: 1,
+                  ...(queryResult.length > 0 && searchQuery
+                    ? { borderRadius: "10px 10px 0px 0px" }
+                    : {}),
                 },
               }}
               hovercolor={ColorPallate.primary}
@@ -556,7 +560,7 @@ const NavBar = ({
                 styles={{
                   width: searchBarRef.current.getBoundingClientRect().width - 4,
                   padding: "12px 2px",
-                  top: searchBarRef.current.getBoundingClientRect().height + 8,
+                  top: searchBarRef.current.getBoundingClientRect().height + 12,
                   borderRadius: "0px 0px 8px 8px",
                   position: "absolute",
                   zIndex: 100,
@@ -569,7 +573,7 @@ const NavBar = ({
                   return (
                     <div
                       onMouseEnter={() => setHover(index + 1)}
-                      onMouseLeave={() => setHover(index + 1)}
+                      onMouseLeave={() => setHover(0)}
                       onClick={() => {
                         setSearchQuery("");
                         setCurrentPin(i);

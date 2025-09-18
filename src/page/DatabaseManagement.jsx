@@ -43,8 +43,10 @@ const EditStoreModal = ({
   onSave,
   setUpdate,
   onDel,
+  setNotif,
 }) => {
   const [formData, setFormData] = useState(initialData);
+  const [errorType, setErrorType] = useState([]);
 
   useEffect(() => {
     setFormData(initialData);
@@ -99,11 +101,15 @@ const EditStoreModal = ({
     setFormData((prev) => ({ ...prev, product: newProducts }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(formData);
-    onSave?.(formData);
-    setUpdate(true);
-    onClose();
+    const info = await onSave?.(formData);
+    setErrorType(info.errorType);
+    setNotif(info.message);
+    if (info.success) {
+      setUpdate(true);
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
@@ -122,7 +128,7 @@ const EditStoreModal = ({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      zIndex: 1000,
+      zIndex: 10,
     },
     formGroup: {
       display: "flex",
@@ -191,6 +197,15 @@ const EditStoreModal = ({
                 name="namaToko"
                 value={formData.namaToko}
                 onChange={handleChange}
+                style={{
+                  ...(errorType.find((i) => i === "namaToko")
+                    ? {
+                        container: {
+                          boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                        },
+                      }
+                    : {}),
+                }}
               />
             </div>
             <div style={{ ...styles.formGroup, flex: 1 }}>
@@ -209,6 +224,15 @@ const EditStoreModal = ({
               name="alamat"
               value={formData.alamat}
               onChange={handleChange}
+              style={{
+                ...(errorType.find((i) => i === "alamat")
+                  ? {
+                      container: {
+                        boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                      },
+                    }
+                  : {}),
+              }}
             />
           </div>
           <div style={styles.formGroup}>
@@ -225,7 +249,17 @@ const EditStoreModal = ({
                 step="any"
                 value={formData.koordinat[0]}
                 onChange={(e) => handleKoordinatChange(e, 0)}
-                style={{ container: { flex: 1 } }}
+                style={{
+                  container: { flex: 1 },
+                  ...(errorType.find((i) => i === "koordinat")
+                    ? {
+                        container: {
+                          flex: 1,
+                          boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                        },
+                      }
+                    : {}),
+                }}
                 placeholder="Latitude"
               />
               <InputForm
@@ -233,7 +267,17 @@ const EditStoreModal = ({
                 step="any"
                 value={formData.koordinat[1]}
                 onChange={(e) => handleKoordinatChange(e, 1)}
-                style={{ container: { flex: 1 } }}
+                style={{
+                  container: { flex: 1 },
+                  ...(errorType.find((i) => i === "namaToko")
+                    ? {
+                        container: {
+                          flex: 1,
+                          boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                        },
+                      }
+                    : {}),
+                }}
                 placeholder="Longitude"
               />
             </div>
@@ -253,7 +297,9 @@ const EditStoreModal = ({
                   <InputForm
                     type="text"
                     value={jam}
-                    style={{ container: { flex: 1 } }}
+                    style={{
+                      container: { flex: 1 },
+                    }}
                     onChange={(e) => handleJadwalChange(e, index)}
                   />
                 </div>
@@ -278,7 +324,9 @@ const EditStoreModal = ({
                       value={prod.merek}
                       onChange={(e) => handleMerekChange(e, productIndex)}
                       placeholder="Nama Merek"
-                      style={{ container: { flex: 1 } }}
+                      style={{
+                        container: { flex: 1 },
+                      }}
                     />
                     <ButtonCostum
                       text="Hapus"
@@ -295,6 +343,9 @@ const EditStoreModal = ({
                           handleNamaProdukChange(e, productIndex, namaIndex)
                         }
                         placeholder="Nama Produk"
+                        style={{
+                          container: { flex: 1 },
+                        }}
                       />
                       <ButtonCostum
                         type="textButton"
@@ -328,7 +379,7 @@ const EditStoreModal = ({
                 text="Hapus"
                 type="primary"
                 onclick={() => {
-                  onDel(formData.namaToko.trim());
+                  onDel(formData.id);
                   onClose();
                   setUpdate(true);
                 }}
@@ -622,7 +673,7 @@ const DatabaseManagement = ({
   urlParams,
   loading,
   setUpdateData,
-  storeData,
+  storeDatas,
   searchQuery,
   setSearchQuery,
   handleSearch,
@@ -632,6 +683,11 @@ const DatabaseManagement = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const fileInputRef = useRef();
+  const [storeData, setStoreData] = useState([]);
+
+  useEffect(() => {
+    setStoreData(storeDatas);
+  }, [storeDatas]);
 
   useEffect(() => {
     if (loading) return;
@@ -663,10 +719,12 @@ const DatabaseManagement = ({
         onSave={sendStoreData}
         setUpdate={setUpdateData}
         onDel={delStoreData}
+        setNotif={setNotif}
       />
       <EditStoreModal
         isOpen={showNewModal}
         initialData={{
+          id: storeData.length,
           namaToko: "",
           contact: "",
           alamat: "",
@@ -688,6 +746,7 @@ const DatabaseManagement = ({
         }}
         onSave={sendStoreData}
         setUpdate={setUpdateData}
+        setNotif={setNotif}
       />
       <SideBar buttonList={buttonList} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -741,16 +800,21 @@ const DatabaseManagement = ({
             <ButtonCostum
               onclick={() => {
                 if (selectedItem) fileInputRef.current.click();
-                else setNotif("Nothing Item Selected, Please Select One Store For Editting Data");
+                else
+                  setNotif(
+                    "Nothing Item Selected, Please Select One Store For Editting Data"
+                  );
               }}
               text={"Set Image"}
               icon={FiUploadCloud}
             />
             <input
               onChange={(e) => {
-                if (selectedItem)
-                  handleUploadImage(e, selectedItem.namaToko.trim());
-                else setNotif("Nothing Item Selected, Please Select One Store For Setting Store Image");
+                if (selectedItem) handleUploadImage(e, selectedItem.id);
+                else
+                  setNotif(
+                    "Nothing Item Selected, Please Select One Store For Setting Store Image"
+                  );
               }}
               ref={fileInputRef}
               type="file"

@@ -3,7 +3,7 @@ import { db } from "./firebaseConfig";
 
 const sendUrlImage = async (id, url) => {
   try {
-    await update(ref(db, `/storeData/${id}/`), {
+    await update(ref(db, `/girlsMapsDB/features/${id}/properties`), {
       urlImage: url,
     });
     return;
