@@ -115,7 +115,7 @@ const AboutUsPage = ({
         <div
           style={{
             ...AboutUsPageStyles.topGroup,
-            height: "75dvh",
+            height: windowSize.width > 700 ? "75dvh" : "65dvh",
             justifyContent: "flex-end",
           }}
         >
@@ -221,12 +221,45 @@ const AboutUsPage = ({
                     color: "transparent",
                   }}
                 >
-                  Our Mission
+                  Our Mission{" "}
                 </label>
                 To provide an accurate interactive map, authentic reviews, and a
                 supportive community.
               </p>
             </div>
+          </div>
+        </div>
+        <div style={AboutUsPageStyles.topGroup}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <h1 style={AboutUsPageStyles.title}>
+              Mapping the World of{" "}
+              <label
+                style={{
+                  ...AboutUsPageStyles.title,
+                  background: ColorPallate.primaryGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                Beauty
+              </label>
+              ,<br />
+              Just for You.
+            </h1>
+            <p style={AboutUsPageStyles.paragraph}>
+              We believe finding your favorite beauty products should be a
+              delightful adventure, not a tiring hunt. That's why GirlsMap was
+              born.
+            </p>
           </div>
         </div>
       </div>

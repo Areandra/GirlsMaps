@@ -158,7 +158,7 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
       margin: 0,
     },
     lebelInfo: {
-      color: ColorPallate.text,
+      color: ColorPallate.secondaryText,
       textAlign: "left",
       fontSize: 12,
       alignItems: "center",
@@ -262,8 +262,10 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                 {currentPin?.namaToko || "Store Name"}
               </h1>
               <span style={styles.rating}>
-                <BsFillStarFill size={16} color="gold" />{" "}
-                {currentPin?.rate || "0.0"} {currentPin?.rater || "(000)"}
+                {currentPin?.rate && <BsFillStarFill size={16} color="gold" />}
+                {currentPin?.rate ||
+                  "Information of This Store Rating Currently Not Available"}{" "}
+                {currentPin?.rater || ""}
               </span>
               <div style={styles.line}></div>
               <div style={styles.infoContainer}>
@@ -275,12 +277,16 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                       style={{
                         display: "flex",
                         flexDirection: "row",
-                        alignItems: i.id !== "time" ? "center" : "flex-start",
+                        alignItems: "flex-start",
                         gap: 14,
                         justifyContent: "flex-start",
                       }}
                     >
-                      <IconComponent size={16} color="black" />
+                      <div style={{
+                        minWidth: 16,
+                      }}>
+                        <IconComponent size={16} color={ColorPallate.text} />
+                      </div>
                       {i.id !== "openTime" ? (
                         <p style={styles.lebelInfo}>{i.value}</p>
                       ) : (
@@ -334,30 +340,43 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
               <div
                 style={{ display: "flex", flexDirection: "column", gap: 10 }}
               >
-                {currentPin?.product.map((i) => (
-                  <div
-                    style={{
-                      ...styles.lebelInfo,
-                      background: "rgb(15,15,15)",
-                      color: ColorPallate.text,
-                      padding: 18,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <p style={{fontSize: 14, color: ColorPallate.primary}}>{i.merek} :</p>
-                    <div
-                      style={{
-                        gap: "16px",
-                      }}
-                    >
-                      {i.namaProduk.map((j) => (
-                        <div>
-                          <p>- {j}</p>
+                {currentPin?.product.lenght !== 0 &&
+                currentPin?.product[0].merek !== "" ? (
+                  <>
+                    {currentPin?.product.map((i) => (
+                      <div
+                        style={{
+                          ...styles.lebelInfo,
+                          background: "rgba(15, 15,15, 0.5)",
+                          color: ColorPallate.text,
+                          padding: 18,
+                          borderRadius: 8,
+                        }}
+                      >
+                        <p
+                          style={{ fontSize: 14, color: ColorPallate.primary }}
+                        >
+                          {i.merek} :
+                        </p>
+                        <div
+                          style={{
+                            gap: "16px",
+                          }}
+                        >
+                          {i.namaProduk.map((j) => (
+                            <div>
+                              <p>- {j}</p>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <p style={styles.lebelInfo}>
+                    Information of This Store Product Currently not Available
+                  </p>
+                )}
               </div>
               <div style={styles.line}></div>
               <ButtonCostum text="Favorit" icon={MdFavorite} />

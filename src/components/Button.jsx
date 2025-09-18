@@ -60,10 +60,10 @@ const ButtonCostum = ({
         color: ColorPallate.text,
       },
       active: {
-        color: activeColor || ColorPallate.background,
+        color: activeColor || "rgba(22, 27, 34, 1)",
       },
       hover: {
-        color: hoverColor || ColorPallate.background,
+        color: hoverColor || "rgba(22, 27, 34, 1)",
         border: "none",
       },
     };
@@ -104,7 +104,7 @@ const ButtonCostum = ({
         {icon && (
           <IconComponent
             size={18}
-            color={hover ? ColorPallate.background : ColorPallate.primary}
+            color={hover ? "rgba(22, 27, 34, 1)" : ColorPallate.primary}
           />
         )}
       </button>
@@ -165,7 +165,7 @@ const ButtonCostum = ({
           {text}
           <IconComponent
             size={18}
-            color={!hover ? ColorPallate.background : ColorPallate.primary}
+            color={!hover ? "rgba(22, 27, 34, 1)" : ColorPallate.primary}
           />
         </>
       )}

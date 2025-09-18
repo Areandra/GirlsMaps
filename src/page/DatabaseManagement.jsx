@@ -617,32 +617,21 @@ const SideBar = ({ buttonList }) => {
   );
 };
 
-const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
-  if (dismiss) return <></>;
+const DatabaseManagement = ({
+  setUrlParams,
+  urlParams,
+  loading,
+  setUpdateData,
+  storeData,
+  searchQuery,
+  setSearchQuery,
+  handleSearch,
+  setNotif,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const fileInputRef = useRef();
-  const [loading, setLoading] = useState(true);
-  const [storeData, setStoreData] = useState(null);
-  const [updateData, setUpdateData] = useState(false);
-
-  useEffect(() => {
-    const fetchStoreData = async () => {
-      try {
-        const snaps = await getStoreData();
-        setStoreData(snaps || []);
-        setLoading(false);
-        setUpdateData(false);
-        return;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (!storeData) {
-      fetchStoreData();
-    } else if (storeData && updateData) fetchStoreData();
-  }, [loading, storeData, updateData]);
 
   useEffect(() => {
     if (loading) return;
@@ -726,14 +715,18 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
             flexDirection: "row",
             color: ColorPallate.text,
             justifyContent: "space-between",
-            backgroundColor: "rgba(18,18,18,1)",
+            backgroundColor: "rgba(18,18,18,0)",
             alignItems: "center",
             paddingInline: 40,
           }}
         >
           <h2>Store Data</h2>
           <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <InputForm />
+            <InputForm
+              value={searchQuery}
+              onChange={handleSearch}
+              clearQuery={() => setSearchQuery("")}
+            />
             <ButtonCostum
               icon={FiEdit}
               onclick={() =>
@@ -748,14 +741,17 @@ const DatabaseManagement = ({ setUrlParams, urlParams, dismiss }) => {
             <ButtonCostum
               onclick={() => {
                 if (selectedItem) fileInputRef.current.click();
+                else setNotif("Nothing Item Selected, Please Select One Store For Editting Data");
               }}
               text={"Set Image"}
               icon={FiUploadCloud}
             />
             <input
-              onChange={(e) =>
-                handleUploadImage(e, selectedItem.namaToko.trim())
-              }
+              onChange={(e) => {
+                if (selectedItem)
+                  handleUploadImage(e, selectedItem.namaToko.trim());
+                else setNotif("Nothing Item Selected, Please Select One Store For Setting Store Image");
+              }}
               ref={fileInputRef}
               type="file"
               hidden

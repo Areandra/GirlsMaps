@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
 import { FiUser, FiMail, FiLock, FiLogIn } from "react-icons/fi";
@@ -14,16 +14,36 @@ import {
   reload,
 } from "firebase/auth";
 
-const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
+const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginErrorMessege, setLoginErrorMessege] = useState({
+    message: "",
+    errorType: [],
+  });
 
-  const handleChangeMode = () =>
+  const handleChangeMode = () => {
     setLastPage(lastPage === "login" ? "daftar" : "login");
+    setLoginErrorMessege({
+      message: "",
+      errorType: [],
+    });
+  };
 
   const handleRegister = async ({ email, password, username }) => {
     try {
+      if (!username) {
+        const err = new Error("Username cannot be empty");
+        err.code = "auth/username-is-empty";
+        throw err;
+      }
+      if (password.length < 8) {
+        const err = new Error("Username cannot be under 8 length");
+        err.code = "auth/password-is-to-short";
+        throw err;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -37,26 +57,96 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
       await reload(userCredential.user);
     } catch (error) {
       console.error("Register gagal:", error.message);
+
+      let errorMessage = [];
+      let errorType = [];
+
+      if (!username || !email || !password) {
+        if (!email) {
+          errorMessage.push(`${errorMessage.length > 0 ? ", " : ""}Email`);
+          errorType.push("email");
+        }
+        if (!password) {
+          errorMessage.push(
+            `${errorMessage.length > 0 ? " and " : ""}Password`
+          );
+          errorType.push("password");
+        }
+        errorMessage.push(" Cannot be Empty");
+      } else {
+        switch (error.code) {
+          case "auth/invalid-email":
+            errorMessage.push("Email Format is Invalid");
+            errorType.push("email");
+            break;
+          case "auth/email-already-in-use":
+            errorMessage.push("Email Already in Use");
+            errorType.push("email");
+            break;
+          case "auth/username-is-empty":
+            errorMessage.push("Username Cannot be Empty");
+            errorType.push("username");
+            break;
+          case "auth/password-is-to-short":
+            errorMessage.push("Password is to Short, Password Minimal Length is 8");
+            errorType.push("password");
+            break;
+          default:
+            errorMessage.push("Terjadi kesalahan, coba lagi.");
+            errorType.push("");
+        }
+      }
+
+      setLoginErrorMessege({
+        message: errorMessage.join(""),
+        errorType,
+      });
     }
   };
 
   const handleLogin = async ({ email, password }) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
       return;
     } catch (error) {
-      console.error("Login gagal:", error.message);
-      throw error;
+      console.error("Login gagal:", error.code);
+      let errorMasege = [];
+      let errorType = [];
+      if (!password || !email) {
+        if (!email) {
+          errorMasege.push("Email");
+          errorType.push("email");
+        }
+        if (!password) {
+          errorMasege.push(`${!email ? " and " : ""}Password`);
+          errorType.push("password");
+        }
+        errorMasege.push(" Cannot be Empty");
+      } else {
+        switch (error.code) {
+          case "auth/invalid-email":
+            errorMasege.push("Email Format is Invalid");
+            errorType.push("email");
+            break;
+          case "auth/invalid-credential":
+            errorMasege.push("Email or Password is Invalid");
+            errorType.push("email");
+            errorType.push("password");
+            break;
+          default:
+            errorMasege.push("Terjadi kesalahan, coba lagi.");
+        }
+      }
+      setLoginErrorMessege({
+        message: errorMasege.join(""),
+        errorType: errorType,
+      });
     }
   };
 
   const loginWithGoogle = async () => {
     try {
-      const result = await signInWithPopup(auth, new GoogleAuthProvider());
+      await signInWithPopup(auth, new GoogleAuthProvider());
     } catch (error) {
       console.error(error);
     }
@@ -72,17 +162,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         value: username,
         onChange: (e) => setUsername(e.target.value),
       },
-      wrapperStyle: {
-        display: "flex",
-        gap: "4px",
-        flexDirection: "column",
-      },
-      labelStyle: {
-        color: ColorPallate.primary,
-        textAlign: "left",
-        fontSize: 12,
-        flex: 1,
-      },
     },
     {
       key: "email",
@@ -92,17 +171,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         placeholder: "example@gmail.com",
         value: email,
         onChange: (e) => setEmail(e.target.value),
-      },
-      wrapperStyle: {
-        display: "flex",
-        gap: "4px",
-        flexDirection: "column",
-      },
-      labelStyle: {
-        color: ColorPallate.primary,
-        textAlign: "left",
-        fontSize: 12,
-        flex: 1,
       },
     },
     {
@@ -114,17 +182,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
         placeholder: "enter...",
         value: password,
         onChange: (e) => setPassword(e.target.value),
-      },
-      wrapperStyle: {
-        display: "flex",
-        gap: "4px",
-        flexDirection: "column",
-      },
-      labelStyle: {
-        color: ColorPallate.primary,
-        textAlign: "left",
-        fontSize: 12,
-        flex: 1,
       },
     },
   ].filter(Boolean);
@@ -165,7 +222,19 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
             With Us
           </h2>
         </div>
-
+        {loginErrorMessege.errorType.length !== 0 && (
+          <div style={styles.separator}>
+            <p
+              style={{
+                textAlign: "center",
+                color: ColorPallate.inputBorder,
+                fontSize: "12px",
+              }}
+            >
+              {loginErrorMessege.message}
+            </p>
+          </div>
+        )}
         <div
           style={{
             gap: "12px",
@@ -174,16 +243,39 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize, setUser }) => {
             marginBottom: "10px",
           }}
         >
-          {inputFields.map((field) =>
-            field.wrapperStyle ? (
-              <div key={field.key} style={field.wrapperStyle}>
-                <p style={field.labelStyle}>{field.text}</p>
-                <InputForm {...field.spread} />
-              </div>
-            ) : (
-              <InputForm key={field.key} {...field} />
-            )
-          )}
+          {inputFields.map((field) => (
+            <div
+              key={field.key}
+              style={{
+                display: "flex",
+                gap: "4px",
+                flexDirection: "column",
+              }}
+            >
+              <p
+                style={{
+                  color: ColorPallate.primary,
+                  textAlign: "left",
+                  fontSize: 12,
+                  flex: 1,
+                }}
+              >
+                {field.text}
+              </p>
+              <InputForm
+                {...field.spread}
+                style={{
+                  ...(loginErrorMessege.errorType.find((i) => i === field.key)
+                    ? {
+                        container: {
+                          boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                        },
+                      }
+                    : {}),
+                }}
+              />
+            </div>
+          ))}
         </div>
 
         <ButtonCostum

@@ -15,7 +15,7 @@ const icon = new L.Icon({
   iconUrl: logo,
   iconRetinaUrl: logo,
   iconSize: [24, 24],
-  iconAnchor: [12, 24],
+  iconAnchor: [12, 12],
   popupAnchor: [0, -30],
 });
 
@@ -86,7 +86,7 @@ const Maps = ({
           ? {
               position: "relative",
               width: "100vw",
-              height: "300dvh",
+              height: "200dvh",
               overflowX: "hidden",
               overflowY: "auto",
             }
@@ -102,7 +102,7 @@ const Maps = ({
                 transform:
                   "rotate(-10deg) rotateX(-50deg) rotateY(-20deg) rotateZ(-20deg)",
                 left: "68vw",
-                bottom: "62%",
+                bottom: "43%",
               }
             : {}),
         }}
@@ -111,7 +111,7 @@ const Maps = ({
           center={
             lastPage !== "about"
               ? [-0.8975593, 119.8606656]
-              : [-0.8884625032694423, 119.87812283714719]
+              : [-0.8784625032694423, 119.87812283714719]
           }
           zoom={14}
           subdomains={["a", "b", "c", "d"]}
@@ -121,8 +121,11 @@ const Maps = ({
               ? {
                   width: "120vw",
                   height: "120dvh",
-                  borderRadius: 40,
-                  boxShadow: `0 0 0 4px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                  borderRadius: 18,
+                  WebkitMaskImage:
+                    "radial-gradient(circle at center, rgba(0,0,0,1), rgba(0,0,0,0))",
+                  maskImage:
+                    "radial-gradient(circle at center, rgba(0,0,0,1), rgba(0,0,0,0))",
                 }
               : {}),
           }}
@@ -141,7 +144,7 @@ const Maps = ({
             position={
               lastPage !== "about"
                 ? [-0.8975593, 119.8606656]
-                : [-0.8884625032694423, 119.87812283714719]
+                : [-0.913625032694423, 119.87812283714719]
             }
           />
           <TileLayer
@@ -149,11 +152,7 @@ const Maps = ({
             attribution='&copy; <a style={{backgroundColor: transparent}} href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
           />
           {queryResult?.map((pin, index) => (
-            <FlyToMarker
-              key={index}
-              pin={pin}
-              setCurrentPin={setCurrentPin}
-            />
+            <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
           ))}
         </MapContainer>
       </div>

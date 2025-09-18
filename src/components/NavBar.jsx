@@ -55,7 +55,8 @@ const NavBar = ({
       display: "flex",
       alignItems: "center",
       padding: "10px 14px",
-      backgroundColor: ColorPallate.background,
+      backgroundColor: "rgba(22, 27, 34, 0.7)",
+      backdropFilter: "blur(6px)",
       width: "80vw",
       borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -131,11 +132,16 @@ const NavBar = ({
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
       height: "38px",
       padding: 2,
-      background: ColorPallate.primaryGradient,
+      background: "transparent",
       position: "relative",
     },
     profileImg: {
-      color: ColorPallate.background,
+            background: ColorPallate.primaryGradient,
+
+      WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
       textAlign: "center",
       margin: 0,
       fontSize: 16,
@@ -224,7 +230,7 @@ const NavBar = ({
           {!edit && (
             <div
               style={{
-                backgroundColor: ColorPallate.background,
+                backgroundColor: lastPage === "map" ? ColorPallate.background : "transparent",
                 borderRadius:
                   windowSize.width > 700
                     ? "0px 50px 50px 0px"
@@ -415,7 +421,10 @@ const NavBar = ({
                 text="Log Out"
                 style={{ flex: 1 }}
                 icon={FiLogOut}
-                onclick={() => signOut(auth)}
+                onclick={() => {
+                  signOut(auth);
+                  window.location.reload();
+                }}
               />
             </div>
             {user?.admin && (

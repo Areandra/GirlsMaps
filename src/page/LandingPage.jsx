@@ -263,20 +263,6 @@ const LandingPage = ({
                 scrollbarWidth: "none",
               }}
             >
-              {/* (
-                <InfoCard
-                  title={
-                    <span>
-                      Kami Telah
-                      <br />
-                      <span style={{ color: ColorPallate.text }}>
-                        Mengumpulkan
-                      </span>
-                    </span>
-                  }
-                  infoList={infoList}
-                />
-              )*/}
               {fetuereCardList.map((i, index) => (
                 <FetureCard
                   key={index}

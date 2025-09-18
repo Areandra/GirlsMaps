@@ -1,19 +1,18 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
 
-export const sendStoreData = async (data) => {
+export const sendStoreData = async (data, id) => {
   if (
     !data &&
     !data.namaToko &&
     !data.alamat &&
     !data.openTime &&
     !data.koordinat &&
-    !data.product &&
-    !data.contact
+    !data.product
   )
     return;
   try {
-    await set(ref(db, `/storeData/${data.namaToko.trim()}`), {
+    await set(ref(db, `/storeData/${id}`), {
       ...data,
     });
     console.log("Berhasil");
@@ -40,6 +39,7 @@ export const getStoreData = async () => {
           namaProduk: Object.values(j.namaProduk),
         })),
         contact: i.contact,
+        urlImage: i.urlImage,
       }));
       console.log("cek bang", cleanData);
       return cleanData;

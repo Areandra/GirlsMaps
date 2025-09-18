@@ -54,6 +54,7 @@ export const InputForm = ({
         ...searchForm.form,
         ...(hover ? searchForm.hover : {}),
         ...style?.container,
+        ...style?.important
       }}
       onMouseEnter={() => {
         setHover(true);

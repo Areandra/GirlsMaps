@@ -1,0 +1,153 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.877946, -0.8888343]
+      },
+      "properties": {
+        "namaToko": "BNS Zone",
+        "alamat": "Jl. Letjen Jl. S. Parman No.44, Besusu Tengah, Palu Timur, Palu City, Central Sulawesi",
+        "openTime": ["08.00 - 22.00","08.00 - 22.00","08.00 - 22.00","08.00 - 22.00","08.00 - 22.00","08.00 - 22.00","08.00 - 22.00"],
+        "product": [
+          {"merek": "wardah", "namaProduk": ["wardah UV Shield acne calming","Renew Your anti aging facial wash","Renew You Toner Essence","Acnederm Acne care micellar water","perfect bright cooling bright facial wash"]},
+          {"merek": "kahf", "namaProduk": ["facial wash","sunscreen","antiperspirant deodorant","beard serum","hair and body wash"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.8911143, -0.8485596]
+      },
+      "properties": {
+        "namaToko": "Cahaya Shop",
+        "alamat": "Jl. Roviga, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["08.00 - 23.00","08.00 - 23.00","08.00 - 23.00","08.00 - 23.00","08.00 - 23.00","08.00 - 23.00","08.00 - 23.00"],
+        "contact": "082194577850",
+        "product": [
+          {"merek": "pigeon teen", "namaProduk": ["jelly glow sleeping mask"]},
+          {"merek": "facetology", "namaProduk": ["facetology face wash","micellar water","sunscreen"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.85377, -0.85377]
+      },
+      "properties": {
+        "namaToko": "Ce Arra",
+        "alamat": "Jl. RE Martadinata, Tondo, Kec. Mantikulore, Kota Palu, Sulawesi Tengah",
+        "openTime": ["00.00 - 00.00","Closed","00.00 - 00.00","00.00 - 00.00","00.00 - 00.00","00.00 - 00.00","Closed"],
+        "product": [
+          {"merek": "facetolgy", "namaProduk": ["micellar water","sunscreen","facial wash"]},
+          {"merek": "wardah", "namaProduk": ["sunscreen wardah UV shield acne calming",""]},
+          {"merek": "skintific", "namaProduk": ["peeling solution","setting spray lock the look","matte fit serum sunscreen","perfect stay velvet mmatte cushion","peptide brightning lip serum"]},
+          {"merek": "make over", "namaProduk": ["two way cake","cushion make over power stay","make over intense lip cream"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.8789689, -0.8837542]
+      },
+      "properties": {
+        "namaToko": "Ceria Kosmetik",
+        "alamat": "Jl. Tombolotutu No.106, Talise, Kec. Mantikulore, Kota Palu, Sulawesi Tengah",
+        "openTime": ["08.30 - 21.00","08.30 - 21.00","08.30 - 21.00","08.30 - 21.00","08.30 - 21.00","08.30 - 21.00","08.30 - 12.00"],
+        "product": [
+          {"merek": "Britney lipcream", "namaProduk": [""]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.891954, -0.847973]
+      },
+      "properties": {
+        "namaToko": "Guzel Cosmetics",
+        "alamat": "Jl. Soekarno Hatta No.99, Tondo, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["08.30 - 22.00","08.30 - 22.00","08.30 - 22.00","08.30 - 22.00","08.30 - 22.00","08.30 - 22.00","15.30 - 22.00"],
+        "product": [
+          {"merek": "Hanasui", "namaProduk": ["Vitamin C serum"]},
+          {"merek": "The Originote", "namaProduk": ["gluta bright B3 serum","peeling serum","retinol b3 serum"]},
+          {"merek": "G2G", "namaProduk": ["brightning moisturizer","micellar water"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.884175, -0.887125]
+      },
+      "properties": {
+        "namaToko": "HN Beauty",
+        "alamat": "Jl. Tombolotutu No.162, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["09.00 - 21.00","09.00 - 21.00","09.00 - 21.00","09.00 - 21.00","09.00 - 21.00","09.00 - 21.00","10.00 - 22.00"],
+        "product": [
+          {"merek": "Wardah", "namaProduk": ["Renew You intensive serum","sunscreen warddah UV shield acne calming","lightning liquid concealer"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.8820367, -0.8856801]
+      },
+      "properties": {
+        "namaToko": "Lins Beauty Skin",
+        "alamat": "Jl. Tombolotutu No.132, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00"],
+        "product": [
+          {"merek": "hanasui", "namaProduk": ["lipcream","retinol"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.884121, -0.8868011]
+      },
+      "properties": {
+        "namaToko": "Namira Cosmetic",
+        "alamat": "Jl. Tombolotutu, Talise, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["10.00 - 22.00","10.00 - 22.00","10.00 - 22.00","10.00 - 22.00","10.00 - 22.00","10.00 - 22.00","Closed"],
+        "product": [
+          {"merek": "G2G", "namaProduk": ["micellar water"]},
+          {"merek": "Y.O.U", "namaProduk": ["two way cake"]}
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.8768305, -0.8931146]
+      },
+      "properties": {
+        "namaToko": "New Central stationery & Cosmetics",
+        "alamat": "Besusu Tengah, Kec. Palu Tim., Kota Palu, Sulawesi Tengah",
+        "openTime": ["09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","09.00 - 22.00","15.00 - 22.00"],
+        "product": [
+          {"merek": "O.TWO.O", "namaProduk": ["Eyebrow powder","Drop Foundation Fond De Teint Goutte"]},
+          {"merek": "skintific", "namaProduk": ["anti acne serum","brightning serum","peptide brightning lip serum"]},
+          {"merek": "Wardah", "namaProduk": ["susncreen Wardah UV shield acne calming","acnederm acne care micellar water","acnederm pure refining toner","wardah glasting liquid lip","wardah colorfit velvet matte lip"]},
+          {"merek": "facetology", "namaProduk": ["susnscreen","facial wash","micellar water"]},
+          {"merek": "make over", "namaProduk": ["two way cake","cushion make over powerstay","make over powerstay transferproof","make over powerstay glazed lock lip pigment"]}
+        ]
+      }
+    }
+  ]
+}
