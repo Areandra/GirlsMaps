@@ -4,6 +4,7 @@ import { FetureCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
 import service1 from "../assets/Service1.png";
 import service2 from "../assets/Service2.png";
+import { FiChevronRight } from "react-icons/fi";
 
 const LandingPage = ({
   lastPage,
@@ -14,7 +15,7 @@ const LandingPage = ({
   fetureCardOnClick,
   user,
   setLastPage,
-  dissmis
+  dissmis,
 }) => {
   const [navHeight, setNavHeight] = useState(0);
   const serviceContainerRef = useRef();
@@ -88,7 +89,7 @@ const LandingPage = ({
     },
     textBackground: {
       position: "absolute",
-      opacity: 0.9,
+      opacity: 1,
       top: "0",
       left: "0",
       width: "clamp(330px, 100vw, 100vw)",
@@ -162,7 +163,9 @@ const LandingPage = ({
       <div
         style={{
           ...LandingPageStyles.container,
-          ...(lastPage != "home" && !dissmis ? LandingPageStyles.containerDissmis : {}),
+          ...(lastPage != "home" && !dissmis
+            ? LandingPageStyles.containerDissmis
+            : {}),
         }}
       >
         <div style={LandingPageStyles.topGroup}>
@@ -177,7 +180,7 @@ const LandingPage = ({
           >
             <div
               style={{
-                padding: "10px 14px",
+                padding: "8px 14px",
                 background: ColorPallate.background,
                 display: "flex",
                 flexDirection: "row",
@@ -187,8 +190,7 @@ const LandingPage = ({
                 gap: 8,
               }}
             >
-              <div
-              >
+              <div>
                 <h3
                   style={{
                     ...LandingPageStyles.subtitle,
@@ -202,9 +204,7 @@ const LandingPage = ({
                   #1 & Best
                 </h3>
               </div>
-              <h3 style={LandingPageStyles.subtitle}>
-                Your Beauty Compass
-              </h3>
+              <h3 style={LandingPageStyles.subtitle}>Your Beauty Compass</h3>
             </div>
             <h1 style={LandingPageStyles.title}>
               Know the Product? We'll Find the Store
@@ -233,6 +233,7 @@ const LandingPage = ({
           </div>
           <div style={LandingPageStyles.buttonGroup}>
             <ButtonCostum
+              icon={!user ? FiChevronRight : FiMap}
               text={user ? "Start Exploring" : "Get Started"}
               type="primary"
               onclick={() => (user ? setLastPage("map") : buttonOneOnClick())}

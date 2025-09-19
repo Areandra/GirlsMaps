@@ -40,6 +40,9 @@ function App() {
     if (lastPage === "about") {
       document.body.style.overflowY = "auto";
       document.body.style.height = "auto";
+    } else {
+      document.body.style.overflowY = "hidden";
+      document.body.style.height = "100dvh";
     }
   }, [lastPage]);
 
@@ -134,10 +137,6 @@ function App() {
     setPageTo(page || "home");
     setCurrentPage(page || "home");
     setCurrentPin(null);
-    if (lastPage === "about" && page !== "about") {
-      setDisbleAnimation(true);
-      window.location.reload();
-    }
   }, [urlParams]);
 
   const navButtonAction = {

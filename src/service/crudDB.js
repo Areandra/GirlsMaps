@@ -3,7 +3,7 @@ import { db } from "./firebaseConfig";
 
 export const sendStoreData = async (data) => {
   const errorType = [];
-
+  if (!data.id) throw new Error();
   if (!data.namaToko || data.namaToko === "") errorType.push("namaToko");
   if (!data.alamat || data.alamat === "") errorType.push("alamat");
   if (!data.koordinat || data.koordinat.every((c) => isNaN(c)))

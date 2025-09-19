@@ -54,13 +54,14 @@ const NavBar = ({
       zIndex: 100,
       display: "flex",
       alignItems: "center",
-      padding: "10px 14px",
+      padding: "6px 14px",
       backgroundColor: "rgba(22, 27, 34, 0.7)",
       backdropFilter: "blur(6px)",
       width: "80vw",
       borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-      transition: "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
+      transition:
+        "transform 0.3s ease, width 0.3s ease, height 0.3s ease, left 0.3s ease, right 0.3s ease",
       gap: "2vw",
     },
     navResizeMap: {
@@ -93,9 +94,9 @@ const NavBar = ({
     },
     slider: {
       position: "absolute",
-      padding: "18px 0",
-      left: left - 10 + "px",
-      width: size + 20 + "px",
+      padding: "16px 0",
+      left: left - 5 + "px",
+      width: size + 10 + "px",
       background: ColorPallate.primaryGradient,
       borderRadius: "12px",
       transition: "left 0.3s ease, width 0.3s ease",
@@ -116,8 +117,9 @@ const NavBar = ({
       display: "inline",
     },
     logo: {
-      width: "2rem",
-      height: "2rem",
+      width: "1.75rem",
+      height: "1.75rem",
+      alignSelf: "center",
     },
     dissmisAuthButton: {
       right: 0,
@@ -128,16 +130,15 @@ const NavBar = ({
       display: "flex",
       alignItems: "center",
       borderRadius: "100%",
-      width: "38px",
+      width: "32px",
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
-      height: "38px",
+      height: "32px",
       padding: 2,
       background: "transparent",
       position: "relative",
     },
     profileImg: {
       background: ColorPallate.primaryGradient,
-
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
       backgroundClip: "text",
@@ -158,8 +159,8 @@ const NavBar = ({
   ];
 
   useEffect(() => {
+    if (windowSize.width < 700) return;
     if (!containerRef.current && !ButtonRef.current) return;
-    if (lastPage === "login") return;
     const updateButtonSize = () => {
       let buttonLists = [];
       const containerLeft = containerRef?.current?.getBoundingClientRect().left;
@@ -190,9 +191,10 @@ const NavBar = ({
     return () => {
       observer.disconnect();
     };
-  }, [lastPage]);
+  }, []);
 
   useEffect(() => {
+    if (windowSize.width < 700) return;
     if (lastPage === "login") return;
 
     const index = buttonList.findIndex((b) => b.id === currentPage);
@@ -323,8 +325,7 @@ const NavBar = ({
                     setLastPage(button.id);
                     setCurrentPage(button.id);
                     setShowSideNav(false);
-                    if (button.id === "about" || lastPage === "about")
-                      window.location.reload();
+
                     buttonAction.navButton?.[index]?.();
                   }}
                   onHoverEnter={() => {
@@ -521,8 +522,6 @@ const NavBar = ({
                     setLastPage(button.id);
                     setCurrentPage(button.id);
                     buttonAction.navButton?.[index]?.();
-                    if (button.id === "about" || lastPage === "about")
-                      window.location.reload();
                   }}
                   onHoverEnter={() => {
                     setCurrentPage(button.id);
@@ -560,7 +559,7 @@ const NavBar = ({
                 styles={{
                   width: searchBarRef.current.getBoundingClientRect().width - 4,
                   padding: "12px 2px",
-                  top: searchBarRef.current.getBoundingClientRect().height + 12,
+                  top: searchBarRef.current.getBoundingClientRect().height + 4,
                   borderRadius: "0px 0px 8px 8px",
                   position: "absolute",
                   zIndex: 100,
@@ -569,7 +568,7 @@ const NavBar = ({
                   boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
                 }}
               >
-                {queryResult?.map((i, index) => {
+                {queryResult?.slice(0, 12).map((i, index) => {
                   return (
                     <div
                       onMouseEnter={() => setHover(index + 1)}
@@ -615,6 +614,7 @@ const NavBar = ({
                 {windowSize.width > 510 && (
                   <ButtonCostum
                     text="Sign In"
+                    style={{ paddingBlock: 7.2 }}
                     type="textButton"
                     icon={FiUnlock}
                     onclick={() => {
@@ -624,7 +624,7 @@ const NavBar = ({
                 )}
                 <ButtonCostum
                   text="Register"
-                  style={{ minWidth: "110px" }}
+                  style={{ minWidth: "110px", padding: 7.2 }}
                   onclick={() => {
                     buttonAction.navAuthButton?.[1]?.();
                   }}

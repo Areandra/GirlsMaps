@@ -1,22 +1,17 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect } from "react";
 import ButtonCostum from "../components/Button";
 import ColorPallate from "../theme/Color";
-import service1 from "../assets/Service1.png";
-import service2 from "../assets/Service2.png";
-import { FiArrowDownLeft, FiArrowDownRight } from "react-icons/fi";
+import { FiCheckCircle, FiMap, FiSearch } from "react-icons/fi";
+import { FaGrinStars } from "react-icons/fa";
+import {
+  BsFillMoonStarsFill,
+  BsFillRocketTakeoffFill,
+  BsRocketTakeoff,
+  BsRocketTakeoffFill,
+} from "react-icons/bs";
+import { AiFillRocket } from "react-icons/ai";
 
-const AboutUsPage = ({
-  lastPage,
-  buttonOneOnClick,
-  buttonTwoOnClick,
-  navRef,
-  windowSize,
-  user,
-  setLastPage,
-}) => {
-  const [navHeight, setNavHeight] = useState(0);
-  const serviceContainerRef = useRef();
-
+const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
   const AboutUsPageStyles = {
     container: {
       display: "flex",
@@ -65,12 +60,6 @@ const AboutUsPage = ({
     },
   };
 
-  useLayoutEffect(() => {
-    if (navRef.current) {
-      setNavHeight(navRef.current.getBoundingClientRect().height);
-    }
-  }, [navRef]);
-
   return (
     <>
       <div
@@ -110,6 +99,14 @@ const AboutUsPage = ({
               delightful adventure, not a tiring hunt. That's why GirlsMap was
               born.
             </p>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <ButtonCostum
+              icon={!user ? FiCheckCircle : FiMap}
+              text={user ? "Start Exploring" : "Join Our Comunity"}
+              type="primary"
+              onclick={() => setLastPage("map")}
+            />
           </div>
         </div>
         <div
@@ -199,29 +196,53 @@ const AboutUsPage = ({
                 <br />
                 <label
                   style={{
-                    ...AboutUsPageStyles.paragraph,
-                    background: ColorPallate.primaryGradient,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    color: "transparent",
+                    color: ColorPallate.text,
+                    gap: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    marginBlockEnd: 8,
+                    fontSize: 14,
                   }}
                 >
-                  Our Vision{" "}
+                  Our{""}
+                  <label
+                    style={{
+                      background: ColorPallate.primaryGradient,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    }}
+                  >
+                    Vision
+                  </label>
+                  <BsFillMoonStarsFill color="rgba(255, 242, 0, 1)" />
                 </label>
                 To become the go-to platform for every Indonesian woman to
-                discover and support local beauty spots.{" "}
+                discover and support local beauty spots. <br />
+                <br />
                 <label
                   style={{
-                    ...AboutUsPageStyles.paragraph,
-                    background: ColorPallate.primaryGradient,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    color: "transparent",
+                    fontSize: 14,
+                    gap: 8,
+                    display: "flex",
+                    alignItems: "center",
+                    marginBlockEnd: 8,
                   }}
                 >
-                  Our Mission{" "}
+                  Our
+                  <label
+                    style={{
+                      background: ColorPallate.primaryGradient,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    }}
+                  >
+                    Mission
+                  </label>
+                  <BsRocketTakeoffFill color="rgba(168, 241, 126, 1)" />
                 </label>
                 To provide an accurate interactive map, authentic reviews, and a
                 supportive community.

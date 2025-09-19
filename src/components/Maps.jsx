@@ -9,14 +9,12 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useRef } from "react";
 import logo from "../assets/pin.svg";
-import ColorPallate from "../theme/Color";
 
 const icon = new L.Icon({
   iconUrl: logo,
   iconRetinaUrl: logo,
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
-  popupAnchor: [0, -30],
+  iconSize: [16, 16],
+  iconAnchor: [8, 16],
 });
 
 const FlyToMarker = ({ pin, setCurrentPin }) => {
@@ -67,7 +65,7 @@ const Maps = ({
       position: "absolute",
       transform: "translateX(-50%) translateY(-50%)",
       zIndex: 1,
-      backgroundColor: "black",
+      backgroundColor: "rgba(51, 51, 51, 1)",
     },
     disbleMap: {
       pointerEvents: "auto",
@@ -82,6 +80,8 @@ const Maps = ({
   return (
     <div
       style={{
+        transition:
+          "height 0.3s ease, width 0.2s ease, left 0.3s ease, right 0.3s ease,bottom 0.3s ease",
         ...(lastPage === "about"
           ? {
               position: "relative",
@@ -96,6 +96,7 @@ const Maps = ({
       {lastPage != "map" && <div style={mapStyle.disbleMap}></div>}
       <div
         style={{
+          transition: "transform 0.5s ease, left 0.5s ease, bottom 0.5s ease",
           ...(lastPage === "about"
             ? {
                 position: "absolute",
@@ -108,6 +109,7 @@ const Maps = ({
         }}
       >
         <MapContainer
+          key={lastPage === "about" ? "about" : "main"}
           center={
             lastPage !== "about"
               ? [-0.8975593, 119.8606656]
@@ -148,8 +150,8 @@ const Maps = ({
             }
           />
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a style={{backgroundColor: transparent}} href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            attribution="&copy; Stadia Maps &copy; OpenStreetMap contributors"
           />
           {queryResult?.map((pin, index) => (
             <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
