@@ -202,7 +202,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 display: "flex",
               }}
             >
-              <p
+              <div
                 style={{
                   ...AboutUsPageStyles.paragraph,
                   width: windowSize.width > 700 ? "45vw" : "",
@@ -276,7 +276,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   </li>
                   <li>Build a supportive and empowering beauty community.</li>
                 </ul>
-              </p>
+              </div>
             </div>
           </div>
         </div>

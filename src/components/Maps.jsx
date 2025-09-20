@@ -13,8 +13,8 @@ import logo from "../assets/pin.svg";
 const icon = new L.Icon({
   iconUrl: logo,
   iconRetinaUrl: logo,
-  iconSize: [16, 16],
-  iconAnchor: [8, 16],
+  iconSize: [20, 20],
+  iconAnchor: [10, 20],
 });
 
 const FlyToMarker = ({ pin, setCurrentPin }) => {
@@ -138,6 +138,7 @@ const Maps = ({
           zoomControl={false}
           maxBoundsViscosity={1.0}
           minZoom={14}
+          maxZoom={16}
           whenCreated={(mapInstance) => {
             mapRef.current = mapInstance;
           }}
@@ -150,8 +151,8 @@ const Maps = ({
             }
           />
           <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            attribution="&copy; Stadia Maps &copy; OpenStreetMap contributors"
+            url="https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            attribution="&copy; Source: Esri, DeLorme, NAVTEQ, USGS, etc."
           />
           {queryResult?.map((pin, index) => (
             <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
