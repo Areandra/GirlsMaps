@@ -102,12 +102,12 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         ? {
             left: "50%",
             width: "90vw",
-            height: "70vh ",
+            height: "70dvh ",
           }
         : {
             left: "50%",
             width: "90vw",
-            height: "40vh ",
+            height: "40dvh ",
           }),
     },
     img: {

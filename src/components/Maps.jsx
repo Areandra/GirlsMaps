@@ -87,7 +87,7 @@ const Maps = ({
           ? {
               position: "relative",
               width: "100vw",
-              height: "200dvh",
+              height: "200vh",
               overflowX: "hidden",
               overflowY: "auto",
             }
