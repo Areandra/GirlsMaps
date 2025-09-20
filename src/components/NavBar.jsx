@@ -187,7 +187,7 @@ const NavBar = ({
     },
     profileImg: {
       background: ColorPallate.primaryGradient,
-      ...(user.photoURL
+      ...(user?.photoURL
         ? {}
         : {
             WebkitBackgroundClip: "text",

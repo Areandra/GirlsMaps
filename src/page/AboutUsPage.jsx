@@ -633,7 +633,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             <p style={AboutUsPageStyles.paragraph}>
               A small team with a big vision.
             </p>
-            <div style={{ display: "flex", justifyContent: "center" }}><div
+            <div
               style={{
                 width: "100%", // biar grid bisa melebar
                 display: "grid",
@@ -644,6 +644,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 <div
                   key={idx}
                   style={{
+                    marginInline: "auto",
                     marginBlockStart: "5vh",
                     display: "flex",
                     flexDirection: "column",
@@ -711,7 +712,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   )}
                 </div>
               ))}
-            </div></div>
+            </div>
           </div>
         </div>
         <div
@@ -725,8 +726,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
               textAlign: "center",
               width: "100vvw", // biar grid bisa melebar
               display: "grid",
