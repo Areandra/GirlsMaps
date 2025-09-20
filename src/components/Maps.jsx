@@ -49,7 +49,7 @@ const Maps = ({
       } else if (currentPin) {
         map.flyTo(
           [
-            currentPin.koordinat[0] - (windowSize.width < 700 ? 0.00065 : 0),
+            currentPin.koordinat[0] - (windowSize.width < 700 ? 0.0005778 : 0),
             currentPin.koordinat[1],
           ],
           16
