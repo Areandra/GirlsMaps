@@ -52,7 +52,7 @@ const Maps = ({
             currentPin.koordinat[0] - (windowSize.width < 700 ? 0.00065 : 0),
             currentPin.koordinat[1],
           ],
-          18
+          16
         );
       }
     }, [lastPage, position, currentPin]);
