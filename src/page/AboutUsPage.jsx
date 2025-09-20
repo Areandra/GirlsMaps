@@ -71,7 +71,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
     },
     {
       name: "Muh. Ariel aka Areandra",
-      role: "Software Engineer and Programmer",
+      role: "Junior Fullstack Software Engineer and Programmer",
       imgSrc: aril,
     },
   ];
