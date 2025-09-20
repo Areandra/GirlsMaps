@@ -1,15 +1,12 @@
-import { useLayoutEffect } from "react";
 import ButtonCostum from "../components/Button";
 import ColorPallate from "../theme/Color";
-import { FiCheckCircle, FiMap, FiSearch } from "react-icons/fi";
-import { FaGrinStars } from "react-icons/fa";
-import {
-  BsFillMoonStarsFill,
-  BsFillRocketTakeoffFill,
-  BsRocketTakeoff,
-  BsRocketTakeoffFill,
-} from "react-icons/bs";
-import { AiFillRocket } from "react-icons/ai";
+import { FiCheckCircle, FiMap } from "react-icons/fi";
+import { BsFillMoonStarsFill, BsRocketTakeoffFill } from "react-icons/bs";
+import { RiUserCommunityLine } from "react-icons/ri";
+import { BiCheckDouble } from "react-icons/bi";
+import { GiJourney } from "react-icons/gi";
+import { MdSupportAgent } from "react-icons/md";
+import logo from "../assets/logo.png";
 
 const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
   const AboutUsPageStyles = {
@@ -59,6 +56,29 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       transform: "translateX(-100%)",
     },
   };
+
+  const ourValues = [
+    {
+      title: "Community First",
+      body: "We believe true strength comes from collaboration and sharing",
+      icon: RiUserCommunityLine,
+    },
+    {
+      title: "Authenticity",
+      body: "Every review is honest, transparent, and from real experiences.",
+      icon: BiCheckDouble,
+    },
+    {
+      title: "Empowerment",
+      body: "Supporting women to share, learn, and grow together.",
+      icon: MdSupportAgent,
+    },
+    {
+      title: "Innovation",
+      body: "Constantly evolving to create the best experience possible",
+      icon: GiJourney,
+    },
+  ];
 
   return (
     <>
@@ -219,7 +239,8 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   <BsFillMoonStarsFill color="rgba(255, 242, 0, 1)" />
                 </label>
                 To become the go-to platform for every Indonesian woman to
-                discover and support local beauty spots. <br />
+                discover, support, and share local beauty spots with ease and
+                joy. <br />
                 <br />
                 <label
                   style={{
@@ -227,7 +248,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     gap: 8,
                     display: "flex",
                     alignItems: "center",
-                    marginBlockEnd: 8,
                   }}
                 >
                   Our
@@ -244,13 +264,31 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   </label>
                   <BsRocketTakeoffFill color="rgba(168, 241, 126, 1)" />
                 </label>
-                To provide an accurate interactive map, authentic reviews, and a
-                supportive community.
+                <ul
+                  style={{
+                    paddingInline: 16,
+                    marginBlockStart: 8,
+                  }}
+                >
+                  <li>Provide an accurate, interactive beauty map.</li>
+                  <li>
+                    Deliver authentic reviews from real community members.
+                  </li>
+                  <li>Build a supportive and empowering beauty community.</li>
+                </ul>
               </p>
             </div>
           </div>
         </div>
-        <div style={AboutUsPageStyles.topGroup}>
+        <div
+          style={{
+            ...AboutUsPageStyles.topGroup,
+            justifyContent: "flex-end",
+            marginBlock: "15vh",
+            height: "auto",
+            width: "auto",
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -260,7 +298,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             }}
           >
             <h1 style={AboutUsPageStyles.title}>
-              Mapping the World of{" "}
+              Why Choose{" "}
               <label
                 style={{
                   ...AboutUsPageStyles.title,
@@ -271,15 +309,240 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   color: "transparent",
                 }}
               >
-                Beauty
+                Girls
               </label>
-              ,<br />
-              Just for You.
+              Map?
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
-              We believe finding your favorite beauty products should be a
-              delightful adventure, not a tiring hunt. That's why GirlsMap was
-              born.
+              With GirlsMap, you’re not just finding products — you’re joining a
+              supportive community that values authenticity and empowerment.
+              Together, we make beauty exploration fun, trustworthy, and
+              inspiring.{" "}
+              <label
+                style={{
+                  background: ColorPallate.primaryGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                Our Values
+              </label>
+              ?.
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                width: "100%", // biar grid bisa melebar
+                marginBlock: "8vh",
+              }}
+            >
+              {ourValues.map((i, idx) => {
+                const IconComponent = i.icon;
+                return (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 20,
+                      ...((idx + 1) % 2 !== 0
+                        ? {
+                            borderInlineEnd: `1px ${ColorPallate.background} solid`,
+                          }
+                        : {
+                            borderInlineStart: `1px ${ColorPallate.background} solid`,
+                          }),
+                      ...(idx < 2
+                        ? {
+                            borderBlockEnd: `1px ${ColorPallate.background} solid`,
+                            borderRadius: `0px 0px ${
+                              (idx + 1) % 2 !== 0 ? 12 : 0
+                            }px ${(idx + 1) % 2 === 0 ? 12 : 0}px`,
+                          }
+                        : {
+                            borderBlockStart: `1px ${ColorPallate.background} solid`,
+                            borderRadius: `${(idx + 1) % 2 == 0 ? 12 : 0}px ${
+                              (idx + 1) % 2 !== 0 ? 12 : 0
+                            }px 0px 0px`,
+                          }),
+                      gap: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        padding: 8,
+                        borderRadius: "50%",
+                        background: ColorPallate.primaryGradient,
+                        boxShadow: `inset 0 0 0 2px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.1)`,
+                      }}
+                    >
+                      <IconComponent color={"rgb(18,18,18)"} size={20} />
+                    </div>
+                    <p
+                      style={{
+                        ...AboutUsPageStyles.subtitle,
+                        color: ColorPallate.text,
+                      }}
+                    >
+                      {i.title}
+                    </p>
+                    <p
+                      style={{
+                        ...AboutUsPageStyles.paragraph,
+                        width: "auto",
+                      }}
+                    >
+                      {i.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            ...AboutUsPageStyles.topGroup,
+            justifyContent: "flex-end",
+            marginBlockEnd: "15vh",
+            height: "auto",
+            width: "auto",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                padding: "20px",
+                background: ColorPallate.background,
+                boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 4px ${ColorPallate.background}`,
+                borderRadius: "16px",
+                gap: 10,
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                maskImage:
+                  "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                backgroundSize: "cover",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "16px",
+                }}
+              >
+                <img
+                  src={logo}
+                  alt="Girls Map Logo"
+                  style={{ width: "40px", height: "40px", marginRight: "16px" }}
+                />
+                <h1
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: "600",
+                    color: "#FFFFFF",
+                    margin: "0",
+                  }}
+                >
+                  <label
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      background:
+                        "linear-gradient(to right, #FF76AF 0%, #F8494C 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      marginBottom: "24px",
+                      paddingLeft: "4px",
+                    }}
+                  >
+                    Girls
+                  </label>
+                  Map
+                </h1>
+              </div>
+              <div style={{ textAlign: "centers" }}>
+                <p
+                  style={{
+                    backgroundColor: ColorPallate.background,
+                    color: ColorPallate.text,
+                    padding: "16px 20px",
+                    borderRadius: "14px",
+                    marginBottom: "12px",
+                    fontSize: "14px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    display: "flex",
+                    alignItems: "center",
+                    transition: "background-color 0.3s ease",
+                  }}
+                >
+                  30+{" "}
+                  <label
+                    style={{
+                      background: ColorPallate.primaryGradient,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      color: "transparent",
+                      marginInline: 4
+                    }}
+                  >
+                    Beauty
+                  </label>{" "}
+                  Stores already mapped in Palu
+                </p>
+                <p
+                  style={{
+                    color: ColorPallate.text,
+                    backgroundColor: ColorPallate.background,
+                    padding: "16px 20px",
+                    borderRadius: "14px",
+                    marginBottom: "12px",
+                    fontSize: "14px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    display: "flex",
+                    alignItems: "center",
+                    transition: "background-color 0.3s ease",
+                  }}
+                >
+                  Dozens of Products listed and growing
+                </p>
+              </div>
+            </div>
+            <h1 style={AboutUsPageStyles.title}>
+              <label
+                style={{
+                  ...AboutUsPageStyles.title,
+                  background: ColorPallate.primaryGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                Community
+              </label>{" "}
+              Today?
+            </h1>
+            <p style={AboutUsPageStyles.paragraph}>
+              We are just getting started — and we’re proud of it! <br />
+              (Soon, expanding to more cities across Indonesia!)
             </p>
           </div>
         </div>

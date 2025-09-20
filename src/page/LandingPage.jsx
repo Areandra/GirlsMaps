@@ -4,7 +4,7 @@ import { FetureCard } from "../components/Card";
 import ColorPallate from "../theme/Color";
 import service1 from "../assets/Service1.png";
 import service2 from "../assets/Service2.png";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronRight, FiMap } from "react-icons/fi";
 
 const LandingPage = ({
   lastPage,
