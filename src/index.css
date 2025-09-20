@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Poppins;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -124,7 +124,7 @@ input:focus {
     0.7
   ) !important; /* Latar belakang gelap transparan */
   color: rgba(185, 185, 199, 1) !important; /* Teks putih */
-  border-radius: 50px;
+  border-radius: 8px;
   padding: 4px 12px !important;
   margin: 16px !important;
   font-family: Poppins;
@@ -141,4 +141,24 @@ input:focus {
 }
 .leaflet-control-attribution a:hover {
   text-decoration: underline;
+}
+
+.leaflet-tooltip.custom-tooltip {
+  font-size: 10px;
+  background: rgba(
+    22,
+    27,
+    34,
+    0.7
+  ) !important; /* Latar belakang gelap transparan */
+  color: rgba(185, 185, 199, 1) !important; /* Teks putih */
+  border-radius: 8px;
+  padding: 4px 12px !important;
+  font-family: Poppins;
+  user-select: none;
+  border: none;
+}
+
+.leaflet-tooltip.custom-tooltip::before {
+  display: none !important;
 }

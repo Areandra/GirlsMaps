@@ -12,7 +12,7 @@ import GlobalModal from "../components/Modal";
 import ColorPallate from "../theme/Color";
 import { BsFillStarFill } from "react-icons/bs";
 import { MdFavorite } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const dayList = [
   "Senin",
@@ -30,6 +30,17 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
   const [showDeskripsi, setShowDeskripsi] = useState(false);
   const [showFullDeskripsi, setShowFullDeskripsi] = useState(false);
   const [deskripsiData, setDeskripsiData] = useState(null);
+  const deskripsiRef = useRef();
+
+  useEffect(() => {
+    if (deskripsiRef.current && !showFullDeskripsi) {
+      console.log("panggil");
+      deskripsiRef.current.scrollTo({
+        top: 0,
+        behavior: "auto",
+      });
+    }
+  }, [showFullDeskripsi]);
 
   useEffect(() => {
     if (currentPin !== null) {
@@ -111,8 +122,13 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
           }),
     },
     img: {
+      transition: "height 0.3s ease",
       borderRadius: "10px",
       width: "100%",
+      objectFit: "cover",
+      ...(windowSize.width < 700 && !showFullDeskripsi
+        ? { minHeight: windowSize.height * 0.4 - 68 }
+        : {}),
       boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
     tittleText: {
@@ -214,7 +230,11 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
           />
         )}
         {showDeskripsi && (
-          <GlobalModal visible={showDeskripsi} styles={styles.deskripsiModal}>
+          <GlobalModal
+            ref={deskripsiRef}
+            visible={showDeskripsi}
+            styles={styles.deskripsiModal}
+          >
             <img
               style={styles.img}
               src={
@@ -247,9 +267,11 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
                         justifyContent: "flex-start",
                       }}
                     >
-                      <div style={{
-                        minWidth: 16,
-                      }}>
+                      <div
+                        style={{
+                          minWidth: 16,
+                        }}
+                      >
                         <IconComponent size={16} color={ColorPallate.text} />
                       </div>
                       {i.id !== "openTime" ? (

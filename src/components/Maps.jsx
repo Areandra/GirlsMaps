@@ -5,11 +5,13 @@ import {
   useMap,
   useMapEvent,
   AttributionControl,
+  Tooltip,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo from "../assets/pin.svg";
+import ColorPallate from "../theme/Color";
 
 const icon = new L.Icon({
   iconUrl: logo,
@@ -18,15 +20,31 @@ const icon = new L.Icon({
   iconAnchor: [10, 20],
 });
 
-const FlyToMarker = ({ pin, setCurrentPin }) => {
+const FlyToMarker = ({ pin, setCurrentPin, currentPin }) => {
+  const [hover, setHover] = useState([]);
+
   return (
     <Marker
       position={pin.koordinat}
       icon={icon}
       eventHandlers={{
+        mouseover: () => setHover(pin.koordinat),
+        mouseout: () => setHover([]),
         click: () => setCurrentPin(pin),
       }}
-    ></Marker>
+    >
+      {(currentPin === pin || hover === pin.koordinat) && (
+        <Tooltip
+          key={pin.namaToko}
+          permanent
+          direction="top"
+          offset={[0, -20]}
+          className="custom-tooltip"
+        >
+          {pin.namaToko}
+        </Tooltip>
+      )}
+    </Marker>
   );
 };
 
@@ -157,7 +175,12 @@ const Maps = ({
             attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
           />
           {queryResult?.map((pin, index) => (
-            <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
+            <FlyToMarker
+              key={pin.namaToko}
+              pin={pin}
+              setCurrentPin={setCurrentPin}
+              currentPin={currentPin}
+            />
           ))}
           <AttributionControl
             prefix='<a href="https://leafletjs.com">Leaflet</a>'

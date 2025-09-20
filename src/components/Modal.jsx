@@ -1,11 +1,10 @@
 import { useRef } from "react";
 import ColorPallate from "../theme/Color";
 
-const GlobalModal = ({ visible, onDissmis, children, styles }) => {
-  const eRef = useRef();
+const GlobalModal = ({ visible, onDissmis, children, styles, ref }) => {
   return (
     <div
-      ref={eRef}
+      ref={ref}
       style={{
         pointerEvents: visible ? "all" : "none",
         opacity: visible ? 1 : 0,
@@ -20,7 +19,7 @@ const GlobalModal = ({ visible, onDissmis, children, styles }) => {
         scrollbarWidth: "none",
         zIndex: 999,
         backdropFilter: "blur(8px)",
-        ...styles
+        ...styles,
       }}
     >
       {children}
@@ -28,4 +27,4 @@ const GlobalModal = ({ visible, onDissmis, children, styles }) => {
   );
 };
 
-export default GlobalModal
+export default GlobalModal;

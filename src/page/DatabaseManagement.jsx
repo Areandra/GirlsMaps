@@ -63,7 +63,10 @@ const EditStoreModal = ({
   };
   const handleKoordinatChange = (e, index) => {
     const newKoordinat = [...formData.koordinat];
-    newKoordinat[index] = (!isNaN(e.target.value) && e.target.value) ? parseFloat(e.target.value) : e.target.value;
+    newKoordinat[index] =
+      !isNaN(e.target.value) && e.target.value
+        ? parseFloat(e.target.value)
+        : e.target.value;
     setFormData((prev) => ({ ...prev, koordinat: newKoordinat }));
   };
   const handleMerekChange = (e, productIndex) => {
@@ -510,7 +513,7 @@ const DataTable = ({ tableList, storeData, selectedItem, setSelectedItem }) => {
                   : {}),
               }}
               onMouseEnter={() => setHover(indexG + 1)}
-              onMouseLeave={() => setHover(indexG + 1)}
+              onMouseLeave={() => setHover(0)}
               onClick={() => setSelectedItem(selectedItem === i ? null : i)}
             >
               <p
@@ -809,8 +812,10 @@ const DatabaseManagement = ({
             />
             <input
               onChange={(e) => {
-                if (selectedItem) handleUploadImage(e, selectedItem.id);
-                else
+                if (selectedItem) {
+                  const message = handleUploadImage(e, selectedItem.id);
+                  setNotif(message);
+                } else
                   setNotif(
                     "Nothing Item Selected, Please Select One Store For Setting Store Image"
                   );
