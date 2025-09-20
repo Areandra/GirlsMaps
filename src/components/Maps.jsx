@@ -123,7 +123,7 @@ const Maps = ({
             ...(lastPage === "about"
               ? {
                   width: "120vw",
-                  height: "120dvh",
+                  height: "120vh",
                   borderRadius: 18,
                   WebkitMaskImage:
                     "radial-gradient(circle at center, rgba(0,0,0,1), rgba(0,0,0,0))",

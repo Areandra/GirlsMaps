@@ -22,7 +22,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       zIndex: 10,
     },
     topGroup: {
-      height: "85dvh",
+      height: "85vh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -132,7 +132,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
         <div
           style={{
             ...AboutUsPageStyles.topGroup,
-            height: windowSize.width > 700 ? "75dvh" : "65dvh",
+            height: windowSize.width > 700 ? "75vh" : "65vh",
             justifyContent: "flex-end",
           }}
         >
