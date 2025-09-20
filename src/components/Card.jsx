@@ -1,10 +1,6 @@
 import ColorPallate from "../theme/Color";
-import { useState } from "react";
-import pinIcon from "../assets/pin.svg";
 
 export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
-  const [hover, setHover] = useState(false);
-
   const cardStyles = {
     container: {
       display: "flex",
@@ -19,7 +15,7 @@ export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
       gap: 10,
       minWidth: "200px",
       backgroundImage: `url(${imageUrl})`,
-      backgroundSize: "cover"
+      backgroundSize: "cover",
     },
     text: {
       fontSize: "0.7rem",
@@ -30,8 +26,6 @@ export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
   };
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
       onClick={() => {
         onClick();
       }}

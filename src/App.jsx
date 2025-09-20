@@ -209,6 +209,7 @@ function App() {
                 user={user}
                 queryResult={queryResult}
                 setCurrentPin={setCurrentPin}
+                setNotif={setNotif}
               />
               <Maps
                 lastPage={lastPage}

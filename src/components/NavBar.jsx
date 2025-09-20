@@ -9,11 +9,10 @@ import {
   FiLogIn,
   FiLogOut,
   FiUnlock,
-  FiUser,
   FiX,
 } from "react-icons/fi";
 import GlobalModal from "./Modal";
-import { signOut } from "firebase/auth";
+import { linkWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +31,7 @@ const NavBar = ({
   user,
   queryResult,
   setCurrentPin,
+  setNotif,
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
@@ -44,6 +44,54 @@ const NavBar = ({
   const navigate = useNavigate();
   const [showSideNav, setShowSideNav] = useState(false);
   const [hover, setHover] = useState(false);
+
+  const provider = new GoogleAuthProvider();
+
+  const handleLinkGoogle = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      setNotif("❌ No logged-in user. Please login first.");
+      return;
+    }
+
+    try {
+      const result = await linkWithPopup(user, provider);
+
+      const newPhotoURL = result.user.photoURL;
+
+      if (newPhotoURL && user.photoURL !== newPhotoURL) {
+        await updateProfile(user, {
+          photoURL: newPhotoURL,
+        });
+        console.log("User photoURL successfully updated.");
+      }
+      setNotif("✅ Success! Your account is now linked with Google.");
+    } catch (error) {
+      console.error("Link error:", error);
+
+      let message = "❌";
+
+      switch (error.code) {
+        case "auth/provider-already-linked":
+          message += "This Google account is already linked to your account.";
+          break;
+        case "auth/credential-already-in-use":
+          message += "This Google account is already used by another user.";
+          break;
+        case "auth/popup-closed-by-user":
+          message += "Popup closed before completing the sign-in.";
+          break;
+        case "auth/network-request-failed":
+          message += "Network error. Please try again later.";
+          break;
+        default:
+          message += "Failed to link Google account";
+      }
+
+      setNotif(message);
+    }
+  };
 
   const styles = {
     nav: {
@@ -139,10 +187,14 @@ const NavBar = ({
     },
     profileImg: {
       background: ColorPallate.primaryGradient,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-      color: "transparent",
+      ...(user.photoURL
+        ? {}
+        : {
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            color: "transparent",
+          }),
       textAlign: "center",
       margin: 0,
       fontSize: 16,
@@ -412,12 +464,31 @@ const NavBar = ({
               Hi, {user?.displayName}
             </h1>
             <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-              <ButtonCostum
-                type="normalButton"
-                text={user?.admin ? "Admin" : "Pengguna"}
-                icon={FiUser}
-                style={{ flex: 1 }}
-              />
+              <button
+                onClick={() => handleLinkGoogle()}
+                style={{
+                  backgroundColor: ColorPallate.text,
+                  color: "black",
+                  border: "none",
+                  outline: "none",
+                  fontSize: "12px",
+                  flex: 1,
+                  alignItems: "center",
+                  gap: "8px",
+                  borderRadius: "12px",
+                  justifyContent: "center",
+                  display: "flex",
+                  cursor: "pointer",
+                  boxShadow: `inset 0 0 0 2px ${ColorPallate.secondaryText}, inset 0 4px 8px rgba(0, 0, 0, 0.2)`,
+                }}
+              >
+                <img
+                  src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
+                  alt="google"
+                  style={{ width: 18, height: 18 }}
+                />
+                Google
+              </button>
               <ButtonCostum
                 type="normalButton"
                 text="Log Out"

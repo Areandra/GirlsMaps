@@ -6,18 +6,18 @@ const sendUrlImage = async (id, url) => {
     await update(ref(db, `/girlsMapsDB/features/${id}/properties`), {
       urlImage: url,
     });
-    return "Image Is Succsesfuly Uploaded";
+    return "✅ Image Is Succsesfuly Uploaded";
   } catch (error) {
     console.error(error);
 
-    let userMessage = "An unexpected error occurred. Please try again later.";
+    let userMessage = "❌ An unexpected error occurred. Please try again later.";
 
     if (error.message.includes("permission_denied")) {
       userMessage =
-        "You don't have permission to perform this action. Please ensure you're logged in and have the necessary access rights.";
+        "❌ You don't have permission to perform this action. Please ensure you're logged in and have the necessary access rights.";
     } else if (error.message.includes("network-request-failed")) {
       userMessage =
-        "We couldn't upload your image due to a network issue. Please check your internet connection and try again.";
+        "❌ We couldn't upload your image due to a network issue. Please check your internet connection and try again.";
     }
 
     return userMessage;

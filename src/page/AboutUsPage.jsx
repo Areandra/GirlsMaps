@@ -7,6 +7,7 @@ import { BiCheckDouble } from "react-icons/bi";
 import { GiJourney } from "react-icons/gi";
 import { MdSupportAgent } from "react-icons/md";
 import logo from "../assets/logo.png";
+import aril from "../assets/Aril.jpg";
 
 const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
   const AboutUsPageStyles = {
@@ -57,6 +58,24 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
     },
   };
 
+  const teamList = [
+    {
+      name: "Salsabila ",
+      role: "Project Manager, System Analyst, Tester And Documenter",
+      imgSrc: "",
+    },
+    {
+      name: "Putu Kelvin Desta Pratama",
+      role: "System and Database Designer, UI/UX Designer ",
+      imgSrc: "",
+    },
+    {
+      name: "Muh. Ariel aka Areandra",
+      role: "Software Engineer and Programmer",
+      imgSrc: aril,
+    },
+  ];
+
   const ourValues = [
     {
       title: "Community First",
@@ -77,6 +96,41 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       title: "Innovation",
       body: "Constantly evolving to create the best experience possible",
       icon: GiJourney,
+    },
+  ];
+
+  const footerList = [
+    {
+      tittle: "Features",
+      list: ["Maps", "Search Product"],
+      onclick: [() => setLastPage("map"), () => setLastPage("map")],
+    },
+    {
+      tittle: "Company",
+      list: ["GirlsMap", "About Us"],
+      onclick: [() => setLastPage("home"), () => setLastPage("about")],
+    },
+    {
+      tittle: "Attribution",
+      list: ["Leaflet", "Esri", "DeLorme", "NAVTEQ"],
+      onclick: [
+        () => window.open("https://leafletjs.com", "_blank"),
+        () => window.open("https://www.esri.com", "_blank"),
+        () => window.open("https://www.esri.com", "_blank"),
+        () => window.open("https://www.esri.com", "_blank"),
+      ],
+    },
+    {
+      tittle: "Connect",
+      list: ["Contoct Us", "Instagram"],
+      onclick: [
+        () => {},
+        () =>
+          window.open(
+            "https://www.instagram.com/byteb24?igsh=NnR2bDU3aGdiYWll",
+            "_blank"
+          ),
+      ],
     },
   ];
 
@@ -579,6 +633,158 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             <p style={AboutUsPageStyles.paragraph}>
               A small team with a big vision.
             </p>
+            <div
+              style={{
+                width: "100%", // biar grid bisa melebar
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              }}
+            >
+              {teamList.map((i, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    marginBlockStart: "5vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    padding: "4px",
+                    maxWidth: "300px",
+                    width: "65vw",
+                    background: ColorPallate.background,
+                    boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 2px ${ColorPallate.background}`,
+                    borderRadius: "16px",
+                    height: "86.67vw",
+                    maxHeight: "400px",
+                    minWidth: "200px",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: 12,
+                      position: "relative",
+                      zIndex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                    }}
+                  >
+                    {" "}
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        color: ColorPallate.text,
+                      }}
+                    >
+                      {i.name}
+                    </p>
+                    <p
+                      style={{
+                        ...AboutUsPageStyles.paragraph,
+                        width: "90%",
+                        textAlign: "left",
+                        color: ColorPallate.secondaryText,
+                      }}
+                    >
+                      {i.role}
+                    </p>
+                  </div>
+                  {i.imgSrc && (
+                    <img
+                      style={{
+                        position: "absolute",
+                        maxWidth: "300px",
+                        width: "65vw",
+                        height: "86.67vw",
+                        maxHeight: "400px",
+                        borderRadius: 12,
+                        WebkitMaskImage:
+                          "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                        maskImage:
+                          "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                      }}
+                      src={i.imgSrc}
+                      alt=""
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            ...AboutUsPageStyles.topGroup,
+            justifyContent: "flex-end",
+            marginBlockEnd: "50px",
+            height: "auto",
+            width: "auto",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+              width: "100vvw", // biar grid bisa melebar
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+              borderBlockStart: `2px ${ColorPallate.background} solid`,
+              paddingBlock: "3vh",
+            }}
+          >
+            <div>
+              <img
+                onClick={() => setLastPage("home")}
+                style={{
+                  width: 30,
+                  paddingBlockStart: "2vh",
+                  cursor: "pointer",
+                }}
+                src={logo}
+              />
+            </div>
+            {footerList.map((i, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: 12,
+                  position: "relative",
+                  zIndex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                {" "}
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    color: ColorPallate.text,
+                  }}
+                >
+                  {i.tittle}
+                </p>
+                {i.list.map((j, idxj) => (
+                  <a
+                    onClick={() => i.onclick[idxj]()}
+                    key={idxj}
+                    style={{
+                      ...AboutUsPageStyles.paragraph,
+                      width: "90%",
+                      textAlign: "left",
+                      color: ColorPallate.secondaryText,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {j}
+                  </a>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

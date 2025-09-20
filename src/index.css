@@ -43,6 +43,14 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+a:hover {
+  background: linear-gradient(to right, #ff76af 0%, #f8494c 100%);
+  -webkit-backdrop-filter: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-decoration: none;
+}
 
 body {
   margin: 0;
