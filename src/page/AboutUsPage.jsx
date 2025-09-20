@@ -284,7 +284,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
           style={{
             ...AboutUsPageStyles.topGroup,
             justifyContent: "flex-end",
-            marginBlock: "15vh",
+            marginBlock: "20vh",
             height: "auto",
             width: "auto",
           }}
@@ -336,7 +336,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 width: "100%", // biar grid bisa melebar
-                marginBlock: "8vh",
+                marginBlockStart: "8vh",
               }}
             >
               {ourValues.map((i, idx) => {
@@ -410,7 +410,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
           style={{
             ...AboutUsPageStyles.topGroup,
             justifyContent: "flex-end",
-            marginBlockEnd: "15vh",
+            marginBlockEnd: "20vh",
             height: "auto",
             width: "auto",
           }}
@@ -487,8 +487,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     marginBottom: "12px",
                     fontSize: "14px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
-                    display: "flex",
-                    alignItems: "center",
                     transition: "background-color 0.3s ease",
                   }}
                 >
@@ -500,7 +498,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       color: "transparent",
-                      marginInline: 4
                     }}
                   >
                     Beauty
@@ -525,7 +522,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 </p>
               </div>
             </div>
-            <h1 style={AboutUsPageStyles.title}>
+            <h1 style={{ ...AboutUsPageStyles.title, marginBlockStart: 0 }}>
               <label
                 style={{
                   ...AboutUsPageStyles.title,
@@ -543,6 +540,44 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             <p style={AboutUsPageStyles.paragraph}>
               We are just getting started — and we’re proud of it! <br />
               (Soon, expanding to more cities across Indonesia!)
+            </p>
+          </div>
+        </div>
+        <div
+          style={{
+            ...AboutUsPageStyles.topGroup,
+            justifyContent: "flex-end",
+            marginBlockEnd: "20vh",
+            height: "auto",
+            width: "auto",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <h1 style={{ ...AboutUsPageStyles.title, marginBlockStart: 0 }}>
+              Meet The
+              <label
+                style={{
+                  ...AboutUsPageStyles.title,
+                  background: ColorPallate.primaryGradient,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                {" "}
+                Team`s
+              </label>
+            </h1>
+            <p style={AboutUsPageStyles.paragraph}>
+              A small team with a big vision.
             </p>
           </div>
         </div>

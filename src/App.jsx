@@ -41,6 +41,10 @@ function App() {
       document.body.style.overflowY = "auto";
       document.body.style.height = "auto";
     } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "instant"
+      });
       document.body.style.overflowY = "hidden";
       document.body.style.height = "100dvh";
     }

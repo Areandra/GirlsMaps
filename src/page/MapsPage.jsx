@@ -101,49 +101,14 @@ const MapsPage = ({ dismiss, navRef, currentPin, windowSize }) => {
         : showFullDeskripsi
         ? {
             left: "50%",
-            width: "80vw",
+            width: "90vw",
             height: "70vh ",
           }
         : {
             left: "50%",
-            width: "80vw",
+            width: "90vw",
             height: "40vh ",
           }),
-    },
-    productModal: {
-      transition: "height 0.3s ease",
-      overflow:
-        windowSize.width > 700
-          ? "auto"
-          : !showFullDeskripsi
-          ? "hidden"
-          : "auto",
-      boxShadow: `0px 8px 8px rgba(0, 0, 0, 0.25)`,
-      flexDirection: "column",
-      borderRadius: "10px",
-      display: "flex",
-      gap: 16,
-      ...(windowSize.width > 700
-        ? {
-            width: "22vw",
-            height: 520,
-          }
-        : showFullDeskripsi
-        ? {
-            left: "50%",
-            width: "80vw",
-            height: "70vh ",
-          }
-        : {
-            left: "50%",
-            width: "80vw",
-            height: "40vh ",
-          }),
-      right: "2vw",
-      top:
-        navRef?.current?.getBoundingClientRect?.()?.height +
-        window.innerHeight * 0.06,
-      position: "fixed",
     },
     img: {
       borderRadius: "10px",

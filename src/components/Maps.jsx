@@ -4,6 +4,7 @@ import {
   Marker,
   useMap,
   useMapEvent,
+  AttributionControl,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -49,7 +50,7 @@ const Maps = ({
       } else if (currentPin) {
         map.flyTo(
           [
-            currentPin.koordinat[0] - (windowSize.width < 700 ? 0.0005778 : 0),
+            currentPin.koordinat[0] - (windowSize.width < 700 ? 0.0026 : 0),
             currentPin.koordinat[1],
           ],
           16
@@ -65,7 +66,7 @@ const Maps = ({
       position: "absolute",
       transform: "translateX(-50%) translateY(-50%)",
       zIndex: 1,
-      backgroundColor: "rgba(51, 51, 51, 1)",
+      backgroundColor: "rgba(71, 71, 73, 1)",
     },
     disbleMap: {
       pointerEvents: "auto",
@@ -109,7 +110,7 @@ const Maps = ({
         }}
       >
         <MapContainer
-          key={lastPage === "about" ? "about" : "main"}
+          key={lastPage}
           center={
             lastPage !== "about"
               ? [-0.8975593, 119.8606656]
@@ -137,11 +138,12 @@ const Maps = ({
           ]}
           zoomControl={false}
           maxBoundsViscosity={1.0}
-          minZoom={14}
+          minZoom={13}
           maxZoom={16}
           whenCreated={(mapInstance) => {
             mapRef.current = mapInstance;
           }}
+          attributionControl={false}
         >
           <RecenterMap
             position={
@@ -152,11 +154,15 @@ const Maps = ({
           />
           <TileLayer
             url="https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-            attribution="&copy; Source: Esri, DeLorme, NAVTEQ, USGS, etc."
+            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
           />
           {queryResult?.map((pin, index) => (
             <FlyToMarker key={index} pin={pin} setCurrentPin={setCurrentPin} />
           ))}
+          <AttributionControl
+            prefix='<a href="https://leafletjs.com">Leaflet</a>'
+            position="bottomleft"
+          />
         </MapContainer>
       </div>
     </div>

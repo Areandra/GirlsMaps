@@ -1,6 +1,7 @@
 const ColorPallate = {
   primary: "rgba(255, 118, 175, 1)", // pink utama, dipakai teks logo "GirlsMap" & ikon
   primaryGradient: "linear-gradient(to right, #FF76AF 0%, #F8494C 100%)", // untuk tombol Daftar
+  mapBackground: "rgb(71,71,73)",
   secondary: "rgba(248, 187, 208, 1)", // warna label input atau hover icon
   background: "rgba(22, 27, 34, 0.7)", // background panel login/card
   text: "rgba(245, 245, 245, 1)", // teks utama seperti "Welcome Boss!"

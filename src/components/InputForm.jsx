@@ -36,7 +36,7 @@ export const InputForm = ({
       borderRadius: "10px",
       justifyContent: "space-between",
       display: "flex",
-      boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 2px 8px ${ColorPallate.buttonShadow}`,
+      boxShadow: `inset 0 0 0 2px ${ColorPallate.background}`,
     },
     hover: {
       backgroundColor: "transparent",

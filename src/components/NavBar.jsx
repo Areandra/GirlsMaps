@@ -48,16 +48,16 @@ const NavBar = ({
   const styles = {
     nav: {
       position: "fixed",
-      top: "3dvh",
+      top: windowSize.width > 700 ? "3dvh" : "2dvh",
       left: "50%",
       transform: "translateX(-50%)",
       zIndex: 100,
       display: "flex",
       alignItems: "center",
       padding: "6px 14px",
-      backgroundColor: "rgba(22, 27, 34, 0.7)",
+      backgroundColor: ColorPallate.background,
       backdropFilter: "blur(6px)",
-      width: "80vw",
+      width: windowSize.width > 700 ? "80vw" : "85vw",
       borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       transition:
@@ -68,7 +68,7 @@ const NavBar = ({
       width: "70vw",
       ...(windowSize.width > 700
         ? { transform: "translateX(-67%)" }
-        : { width: "80vw" }),
+        : { width: "85vw" }),
     },
     navDismiss: {
       top: "-10dvh",
@@ -268,11 +268,11 @@ const NavBar = ({
       <div
         style={{
           width: "100vw",
-          height: "100dvh",
+          height: "100lvh",
           background: "rgba(18, 18,18, 0.75)",
           backdropFilter: "blur(5px)",
           left: 0,
-          position: "absolute",
+          position: "fixed",
           opacity: showSideNav ? 1 : 0,
           zIndex: 1000,
           top: 0,
@@ -290,7 +290,7 @@ const NavBar = ({
             ...(lastPage === "map" ? { left: 0 } : { right: 0 }),
             bottom: 0,
             width: "65vw",
-            height: windowSize.height - 20,
+            height: "100lvh",
             padding: "20px",
             borderRadius: 0,
           }}

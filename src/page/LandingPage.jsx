@@ -95,9 +95,9 @@ const LandingPage = ({
       width: "clamp(330px, 100vw, 100vw)",
       height: "100dvh",
       backgroundImage:
-        "linear-gradient(to right, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 1) 40%, rgba(18, 18, 18, 0.8) 60%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0.4) 80%, rgba(18, 18, 18, 0.2) 90%, rgba(18, 18, 18, 0.1) 100%)",
+        "linear-gradient(to right, rgba(16, 18, 22, 1) 0%, rgba(16, 18, 22, 1) 40%, rgba(16, 18, 22, 0.8) 60%, rgba(16, 18, 22, 0.6) 70%, rgba(16, 18, 22, 0.4) 80%, rgba(16, 18, 22, 0.2) 90%, rgba(16, 18, 22, 0.1) 100%)",
       zIndex: 5,
-      backdropFilter: "blur(1px)",
+      backdropFilter: "blur(4px)",
       transition: "left 0.5s ease, transform 0.5s ease",
     },
     textBackgroundDissmis: {
