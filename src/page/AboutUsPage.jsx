@@ -633,7 +633,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             <p style={AboutUsPageStyles.paragraph}>
               A small team with a big vision.
             </p>
-            <div
+            <div style={{ display: "flex", justifyContent: "center" }}><div
               style={{
                 width: "100%", // biar grid bisa melebar
                 display: "grid",
@@ -711,7 +711,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   )}
                 </div>
               ))}
-            </div>
+            </div></div>
           </div>
         </div>
         <div
