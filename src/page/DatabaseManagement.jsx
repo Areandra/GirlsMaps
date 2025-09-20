@@ -102,7 +102,6 @@ const EditStoreModal = ({
   };
 
   const handleSubmit = async () => {
-    console.log(formData);
     const info = await onSave?.(formData);
     setErrorType(info.errorType);
     setNotif(info.message);

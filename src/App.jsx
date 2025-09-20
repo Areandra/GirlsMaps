@@ -43,7 +43,7 @@ function App() {
     } else {
       window.scrollTo({
         top: 0,
-        behavior: "instant"
+        behavior: "instant",
       });
       document.body.style.overflowY = "hidden";
       document.body.style.height = "100dvh";
@@ -51,12 +51,10 @@ function App() {
   }, [lastPage]);
 
   useEffect(() => {
-    console.log("update berubah", updateData);
     if (!storeData || updateData) {
       const fetchStoreData = async () => {
         try {
           const snaps = await getStoreData();
-          console.log(JSON.stringify(snaps));
           setStoreData(snaps || []);
         } catch (error) {
           console.error(error);

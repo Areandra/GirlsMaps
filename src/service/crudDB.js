@@ -63,9 +63,7 @@ export const getStoreData = async () => {
   try {
     const snaps = await get(ref(db, "/girlsMapsDB/features"));
     if (snaps.exists()) {
-      console.log("snap:", JSON.stringify(snaps.val()));
       const data = Object.values(snaps.val());
-      console.log("data:", data);
       const cleanData = data.map((i, index) => ({
         id: index,
         namaToko: i.properties.namaToko,
@@ -82,7 +80,6 @@ export const getStoreData = async () => {
         contact: i.properties.contact || "",
         urlImage: i.properties.urlImage || "",
       }));
-      console.log("cek bang", cleanData);
       return cleanData;
     }
   } catch (error) {
