@@ -1,9 +1,9 @@
-import { get, ref, remove, set } from "firebase/database";
+import { get, push, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
 
 export const sendStoreData = async (data) => {
   const errorType = [];
-  if (!data.id) throw new Error();
+  if (data.id === null) throw new Error();
   if (!data.namaToko || data.namaToko === "") errorType.push("namaToko");
   if (!data.alamat || data.alamat === "") errorType.push("alamat");
   if (!data.koordinat || data.koordinat.every((c) => isNaN(c)))
@@ -20,7 +20,7 @@ export const sendStoreData = async (data) => {
     await set(ref(db, `/girlsMapsDB/features/${data.id}`), {
       geometry: {
         coordinates: [data.koordinat[1], data.koordinat[0]],
-        type: "Point"
+        type: "Point",
       },
       properties: {
         namaToko: data.namaToko,
@@ -29,8 +29,9 @@ export const sendStoreData = async (data) => {
         product: data.product,
         contact: data.contact || "",
         urlImage: data.urlImage || "",
+        review: data.review || [],
       },
-      type: "Feature"
+      type: "Feature",
     });
     console.log("Berhasil");
     return {
@@ -41,7 +42,8 @@ export const sendStoreData = async (data) => {
   } catch (error) {
     console.error(error);
 
-    let userMessage = "❌ An unexpected error occurred. Please try again later.";
+    let userMessage =
+      "❌ An unexpected error occurred. Please try again later.";
 
     if (error.message.includes("permission_denied")) {
       userMessage =
@@ -56,6 +58,17 @@ export const sendStoreData = async (data) => {
       errorType: [],
       message: userMessage,
     };
+  }
+};
+
+export const updateStoreReview = async (id, value) => {
+  try {
+    await set(ref(db, `/girlsMapsDB/features/${id}/review`), {
+      value,
+    });
+    console.log("Berhasil");
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -92,5 +105,82 @@ export const delStoreData = async (id) => {
     await remove(ref(db, `/girlsMapsDB/features/${id}`));
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getUserData = async (id, optionalpath) => {
+  try {
+    if (!id) throw new Error();
+    const snaps = await get(
+      ref(db, optionalpath ? `/users/${id}/${optionalpath}` : `/users/${id}`)
+    );
+    return snaps.val() || {};
+  } catch (error) {
+    console.log("error:", error.code);
+  }
+};
+
+export const setUserData = async (id, values, optionalpath) => {
+  try {
+    console.log(id, values, optionalpath);
+    if (id === null) throw new Error();
+    await set(
+      ref(db, optionalpath ? `/users/${id}/${optionalpath}` : `/users/${id}`),
+      values
+    );
+    console.log("berhasil");
+    return {
+      status: "berhasi",
+      messege: "✅ Store Succsesfuly Save On Your Profile Menu",
+    };
+  } catch (error) {
+    console.log("error:", error.code);
+    let userMessage =
+      "❌ An unexpected error occurred. Please try again later.";
+
+    if (error.message.includes("permission_denied")) {
+      userMessage =
+        "❌ You don't have permission to perform this action. Please ensure you're logged in and have the necessary access rights.";
+    } else if (error.message.includes("network-request-failed")) {
+      userMessage =
+        "❌ We couldn't upload your data due to a network issue. Please check your internet connection and try again.";
+    }
+
+    return {
+      success: false,
+      message: userMessage,
+    };
+  }
+};
+
+export const delUserData = async (uid, optionalpath) => {
+  try {
+    console.log(optionalpath);
+    if (uid === null) throw new Error();
+    await remove(
+      ref(db, optionalpath ? `/users/${uid}/${optionalpath}` : `/users/${uid}`)
+    );
+    console.log("berhasil");
+    return {
+      status: "berhasi",
+      messege: "✅ Store Deleted",
+    };
+  } catch (error) {
+    console.log("error:", error.code);
+    let userMessage =
+      "❌ An unexpected error occurred. Please try again later.";
+
+    if (error.message.includes("permission_denied")) {
+      userMessage =
+        "❌ You don't have permission to perform this action. Please ensure you're logged in and have the necessary access rights.";
+    } else if (error.message.includes("network-request-failed")) {
+      userMessage =
+        "❌ We couldn't upload your data due to a network issue. Please check your internet connection and try again.";
+    }
+
+    return {
+      success: false,
+      message: userMessage,
+    };
   }
 };

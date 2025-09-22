@@ -8,6 +8,7 @@ import {
   FiGrid,
   FiLogIn,
   FiLogOut,
+  FiTrash,
   FiUnlock,
   FiX,
 } from "react-icons/fi";
@@ -15,6 +16,7 @@ import GlobalModal from "./Modal";
 import { linkWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { PiNavigationArrow } from "react-icons/pi";
 
 const NavBar = ({
   dismiss,
@@ -32,6 +34,8 @@ const NavBar = ({
   queryResult,
   setCurrentPin,
   setNotif,
+  favoriteStore,
+  handleDelStorage,
 }) => {
   const [size, setSize] = useState();
   const [left, setLeft] = useState();
@@ -44,6 +48,8 @@ const NavBar = ({
   const navigate = useNavigate();
   const [showSideNav, setShowSideNav] = useState(false);
   const [hover, setHover] = useState(false);
+  const [hoverFS, setHoverFS] = useState(false);
+  const favoriteCardRef = useRef();
 
   const provider = new GoogleAuthProvider();
 
@@ -108,8 +114,7 @@ const NavBar = ({
       width: windowSize.width > 700 ? "80vw" : "85vw",
       borderRadius: "16px",
       boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-      transition:
-        "transform 0.3s ease, width 0.3s ease, height 0.3s ease, left 0.3s ease, right 0.3s ease",
+      transition: "0.3s ease",
       gap: "2vw",
     },
     navResizeMap: {
@@ -138,7 +143,7 @@ const NavBar = ({
       alignItems: "center",
       position: "relative",
       zIndex: 1,
-      transition: "transform 0.3s ease out, right 0.3s ease out",
+      transition: "0.3s ease",
     },
     slider: {
       position: "absolute",
@@ -147,7 +152,7 @@ const NavBar = ({
       width: size + 10 + "px",
       background: ColorPallate.primaryGradient,
       borderRadius: "12px",
-      transition: "left 0.3s ease, width 0.3s ease",
+      transition: "0.3s ease",
       zIndex: -1,
       boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
     },
@@ -178,9 +183,9 @@ const NavBar = ({
       display: "flex",
       alignItems: "center",
       borderRadius: "100%",
-      width: "32px",
-      boxShadow: `inset 0 0 0 3px ${ColorPallate.secondary}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
-      height: "32px",
+      width: "36px",
+      boxShadow: `inset 0 0 0 3px ${ColorPallate.background}, inset 0 4px 8px rgba(0, 0, 0, 0.2),  0px 4px 4px rgba(0, 0, 0, 0.25)`,
+      height: "36px",
       padding: 2,
       background: "transparent",
       position: "relative",
@@ -293,7 +298,7 @@ const NavBar = ({
                 padding: 14,
                 display: "flex",
                 alignItems: "center",
-                transition: "opacity 0.3s ease, transform 0.3s ease",
+                transition: "0.3s ease",
                 position: "absolute",
                 opacity: 0,
                 ...((showProfileModal ? true : hover)
@@ -337,7 +342,7 @@ const NavBar = ({
             position: "fixed",
             zIndex: 9999,
             gap: 14,
-            transition: "opacity 0.3s ease, transform 0.3s ease",
+            transition: "0.3s ease",
             top: 0,
             ...(lastPage === "map" ? { left: 0 } : { right: 0 }),
             bottom: 0,
@@ -395,12 +400,14 @@ const NavBar = ({
         <GlobalModal
           visible={showProfileModal}
           styles={{
+            overflow: "auto",
             padding: 20,
-            borderRadius: windowSize.width > 700 ? 30 : "30px 30px 0px 00px",
+            borderRadius: windowSize.width > 700 ? 30 : "20px 20px 0px 00px",
             position: "fixed",
             zIndex: 100,
             gap: 28,
-            transition: "opacity 0.3s ease, transform 0.3s ease",
+            height: "75dvh",
+            transition: "0.3s ease",
             ...(windowSize.width > 700
               ? {
                   width: "25vw",
@@ -418,7 +425,6 @@ const NavBar = ({
                   left: 0,
                   bottom: 0,
                   width: "90vw",
-                  height: "75dvh",
                   padding: "5vw",
                 }),
           }}
@@ -531,6 +537,179 @@ const NavBar = ({
                 />
               </div>
             )}
+            <div
+              style={{
+                background: ColorPallate.background,
+                padding: "30px 10px",
+                borderRadius: 20,
+              }}
+            >
+              <h1 style={styles.titleText}>Favorite Store</h1>
+              <div
+                style={{
+                  gap: 20,
+                  width: "100%",
+                  display: "grid",
+                  marginBlockStart: 10,
+                  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                }}
+              >
+                {!favoriteStore.length && (
+                  <p
+                    style={{
+                      fontSize: 12,
+                      width: "100%",
+                      fontStyle: "italic",
+                      color: ColorPallate.secondaryText,
+                    }}
+                  >
+                    Your Favorite Store Is Currently Empty Explore Ours Maps and
+                    Save Our Favorite Location
+                  </p>
+                )}
+                {queryResult
+                  .filter((i) => favoriteStore.includes(i.id))
+                  .map((i, idx) => (
+                    <div
+                      ref={favoriteCardRef}
+                      onMouseEnter={() => setHoverFS(idx + 1)}
+                      onMouseLeave={() => setHoverFS(0)}
+                      key={idx}
+                      style={{
+                        transition: "0.3s ease",
+                        overflow: "hidden",
+                        position: "relative",
+                        marginInline: "auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-end",
+                        padding: "6px 6px",
+                        width: "90%",
+                        background: ColorPallate.background,
+                        boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 2px ${ColorPallate.background}`,
+                        borderRadius: "16px",
+                        height: "280px",
+                        backgroundSize: "cover",
+                        ...(hoverFS === idx + 1
+                          ? {
+                              boxShadow: ` inset 0 0 0 3px ${ColorPallate.primary}`,
+                            }
+                          : {}),
+                      }}
+                    >
+                      <ButtonCostum
+                        icon={FiTrash}
+                        onclick={() => {
+                          handleDelStorage(i.id);
+                        }}
+                        style={{
+                          width: 46,
+                          padding: 12,
+                          scale: 0.75,
+                          position: "absolute",
+                          right: hoverFS === idx + 1 ? 10 : 0,
+                          ...(hoverFS === idx + 1
+                            ? {}
+                            : { transform: "translateX(200%)" }),
+                          top: 10,
+                          zIndex: 2,
+                          transition: "0.3s ease",
+                        }}
+                      />{" "}
+                      <ButtonCostum
+                        onclick={() => {
+                          setLastPage("map");
+                          setShowProfileModal(false);
+                          setTimeout(() => {
+                            setCurrentPin(i);
+                          }, 150);
+                        }}
+                        icon={PiNavigationArrow}
+                        style={{
+                          width: 46,
+                          padding: 12,
+                          scale: 0.75,
+                          position: "absolute",
+                          right: hoverFS === idx + 1 ? 10 : 0,
+                          ...(hoverFS === idx + 1
+                            ? {}
+                            : { transform: "translateX(200%)" }),
+                          top: 50,
+                          zIndex: 2,
+                          transition: "0.3s ease",
+                        }}
+                      />
+                      <div
+                        style={{
+                          padding: "4px 12px",
+                          position: "relative",
+                          zIndex: 1,
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 8,
+                        }}
+                      >
+                        {" "}
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            textAlign: "left",
+                            color: ColorPallate.text,
+                          }}
+                        >
+                          {i.namaToko}
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 12,
+                            width: "100%",
+                            textAlign: "left",
+                            fontStyle: "italic",
+                            color: ColorPallate.secondaryText,
+                          }}
+                        >
+                          {i.alamat}
+                        </p>
+                        <span
+                          style={{
+                            width: "100%",
+                            textAlign: "left",
+                            color: ColorPallate.secondaryText,
+                            fontSize: "12px",
+                            marginBlock: "-6px",
+                            padding: 0,
+                          }}
+                        >
+                          {i?.rate && <BsFillStarFill size={16} color="gold" />}
+                          {i?.rate ||
+                            "Information of This Store Rating Currently Not Available"}{" "}
+                          {i?.rater || ""}
+                        </span>
+                        <p style={{}}>{i.description}</p>
+                      </div>
+                      {i.urlImage && (
+                        <img
+                          style={{
+                            position: "absolute",
+                            width:
+                              favoriteCardRef?.current?.getBoundingClientRect()
+                                .width - 12,
+                            height: "280px",
+                            maxHeight: "400px",
+                            borderRadius: 12,
+                            WebkitMaskImage:
+                              "linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 60%)",
+                            maskImage:
+                              "linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 60%)",
+                          }}
+                          src={i.urlImage}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </div>
           </div>
         </GlobalModal>
       )}
@@ -635,7 +814,7 @@ const NavBar = ({
                   position: "absolute",
                   zIndex: 100,
                   gap: 4,
-                  transition: "opacity 0.3s ease, transform 0.3s ease",
+                  transition: "0.3s ease",
                   boxShadow: `inset 0 0 0 2px ${ColorPallate.inputBorder}, 0 4px 8px ${ColorPallate.buttonShadow}`,
                 }}
               >

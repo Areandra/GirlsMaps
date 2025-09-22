@@ -12,7 +12,7 @@ import { auth, db } from "./service/firebaseConfig.jsx";
 import { get, ref } from "firebase/database";
 import { Route } from "react-router-dom";
 import DatabaseManagement from "./page/DatabaseManagement.jsx";
-import { getStoreData } from "./service/crudDB.js";
+import { delUserData, getStoreData, getUserData } from "./service/crudDB.js";
 import AboutUsPage from "./page/AboutUsPage.jsx";
 import GlobalModal from "./components/Modal.jsx";
 import ColorPallate from "./theme/Color.jsx";
@@ -33,8 +33,11 @@ function App() {
   const navRef = useRef();
   const [fuse, setFuse] = useState(null);
   const [updateData, setUpdateData] = useState(false);
+  const [updateFS, setUpdateFS] = useState(false);
   const [visibleNotif, setVisibleNotif] = useState(false);
   const [disbleAnimation, setDisbleAnimation] = useState(false);
+
+  const [favoriteStore, setFavoriteStore] = useState([]);
 
   useEffect(() => {
     if (lastPage === "about") {
@@ -49,6 +52,25 @@ function App() {
       document.body.style.height = "100dvh";
     }
   }, [lastPage]);
+
+  useEffect(() => {
+    console.log("Dipanggin", updateFS);
+    if (user?.uid) {
+      const fetchFavoriteStore = async () => {
+        console.log(user.uid);
+        try {
+          const snaps = await getUserData(user.uid, "favoriteStore");
+          const data = Object.values(snaps) || [];
+          console.log("inimi", data);
+          setFavoriteStore(data);
+          setUpdateFS(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchFavoriteStore();
+    }
+  }, [user, updateFS]);
 
   useEffect(() => {
     if (!storeData || updateData) {
@@ -125,6 +147,12 @@ function App() {
     } else setQueryResult(storeData);
   };
 
+  const handleDelStorage = async (id) => {
+    const res = await delUserData(user.uid, "favoriteStore", id);
+    setNotif(res.messege);
+    setUpdateFS(true);
+  };
+
   useEffect(() => {
     handleSearch({ target: { value: "" } });
   }, [storeData]);
@@ -195,6 +223,7 @@ function App() {
           element={
             <>
               <NavBar
+                storeData={storeData}
                 dismiss={lastPage === "login" || lastPage === "daftar"}
                 buttonAction={navButtonAction}
                 currentPage={currentPage}
@@ -210,6 +239,9 @@ function App() {
                 queryResult={queryResult}
                 setCurrentPin={setCurrentPin}
                 setNotif={setNotif}
+                favoriteStore={favoriteStore}
+                handleDelStorage={handleDelStorage}
+                SetUpdateFS={setUpdateFS}
               />
               <Maps
                 lastPage={lastPage}
@@ -259,6 +291,10 @@ function App() {
                 currentPin={currentPin}
                 windowSize={windowSize}
                 setCurrentPin={setCurrentPin}
+                user={user}
+                SetUpdateFS={setUpdateFS}
+                setNotif={setNotif}
+                favoriteStore={favoriteStore}
               />
               <LoginPage
                 lastPage={lastPage}

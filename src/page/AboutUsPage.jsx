@@ -60,18 +60,22 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
 
   const teamList = [
     {
-      name: "Salsabila ",
-      role: "Project Manager, System Analyst, Tester And Documenter",
+      name: "Salsabila",
+      title: "Project Manager",
+      description:
+        "System Analysis, QA & Tech Documentation", 
       imgSrc: "",
     },
     {
       name: "Putu Kelvin Desta Pratama",
-      role: "System and Database Designer, UI/UX Designer ",
+      title: "Product Designer",
+      description: "UI/UX, System & Database Architecture",
       imgSrc: "",
     },
     {
       name: "Muh. Ariel aka Areandra",
-      role: "Junior Fullstack Software Engineer and Programmer",
+      title: "Full-Stack Software Engineer",
+      description: "Software Development & Implementation",
       imgSrc: aril,
     },
   ];
@@ -627,7 +631,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 }}
               >
                 {" "}
-                Team`s
+                Team
               </label>
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
@@ -635,7 +639,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             </p>
             <div
               style={{
-                width: "100%", // biar grid bisa melebar
+                width: "100%",
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
               }}
@@ -684,12 +688,24 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     <p
                       style={{
                         ...AboutUsPageStyles.paragraph,
-                        width: "90%",
+                        width: "100%",
                         textAlign: "left",
                         color: ColorPallate.secondaryText,
                       }}
                     >
-                      {i.role}
+                      {i.title}
+                    </p>
+                    <p
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        color: ColorPallate.secondaryText,
+                        fontSize: "12px",
+                        marginTop: "-4px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {i.description}
                     </p>
                   </div>
                   {i.imgSrc && (
@@ -702,9 +718,9 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                         maxHeight: "400px",
                         borderRadius: 12,
                         WebkitMaskImage:
-                          "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                          "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 85%)",
                         maskImage:
-                          "linear-gradient(to bottom, rgba(0,0,0,1)70%, rgba(0,0,0,0))",
+                          "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 85%)",
                       }}
                       src={i.imgSrc}
                       alt=""

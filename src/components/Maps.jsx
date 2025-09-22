@@ -99,8 +99,7 @@ const Maps = ({
   return (
     <div
       style={{
-        transition:
-          "height 0.3s ease, width 0.2s ease, left 0.3s ease, right 0.3s ease,bottom 0.3s ease",
+        transition: "0.3s ease",
         ...(lastPage === "about"
           ? {
               position: "relative",
@@ -115,7 +114,7 @@ const Maps = ({
       {lastPage != "map" && <div style={mapStyle.disbleMap}></div>}
       <div
         style={{
-          transition: "transform 0.5s ease, left 0.5s ease, bottom 0.5s ease",
+          transition: "0.3s ease",
           ...(lastPage === "about"
             ? {
                 position: "absolute",

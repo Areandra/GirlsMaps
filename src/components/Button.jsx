@@ -25,14 +25,14 @@ const ButtonCostum = ({
       border: "none",
       outline: "none",
       boxShadow: "none",
-      transition: "none",
+      transition: "0.1s ease",
       cursor: "pointer",
       fontSize: "12px",
       justifyContent: "center",
       display: "flex",
       alignItems: "center",
       gap: "8px",
-      borderRadius: 12
+      borderRadius: 12,
     },
   };
   const normalButtonStyles = {
