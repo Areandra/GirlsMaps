@@ -16,6 +16,7 @@ import { delUserData, getStoreData, getUserData } from "./service/crudDB.js";
 import AboutUsPage from "./page/AboutUsPage.jsx";
 import GlobalModal from "./components/Modal.jsx";
 import ColorPallate from "./theme/Color.jsx";
+import useWindowSize from "./hooks/windowResizer.jsx";
 
 function App() {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -28,15 +29,14 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [queryResult, setQueryResult] = useState(storeData);
   const [notifMassege, setNotifMassege] = useState("");
-  const [currentPin, setCurrentPin] = useState(null);
+  const [currentPin, setPin] = useState(null);
   const [user, setUser] = useState(null);
   const navRef = useRef();
   const [fuse, setFuse] = useState(null);
   const [updateData, setUpdateData] = useState(false);
   const [updateFS, setUpdateFS] = useState(false);
   const [visibleNotif, setVisibleNotif] = useState(false);
-  const [disbleAnimation, setDisbleAnimation] = useState(false);
-
+  const windowSize = useWindowSize();
   const [favoriteStore, setFavoriteStore] = useState([]);
 
   useEffect(() => {
@@ -114,11 +114,6 @@ function App() {
     return () => unsubscribe();
   }, [lastPage]);
 
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
   useEffect(() => {
     if (notifMassege) {
       setVisibleNotif(true);
@@ -128,14 +123,6 @@ function App() {
       }, 5000);
     }
   }, [notifMassege]);
-
-  useLayoutEffect(() => {
-    const handleResize = () =>
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -158,15 +145,31 @@ function App() {
   }, [storeData]);
 
   const setLastPage = (p) => {
-    setUrlParams({ page: p });
+    const newParams = new URLSearchParams(urlParams);
+    newParams.set("page", p);
+    setUrlParams(newParams);
+  };
+
+  const setCurrentPin = (p) => {
+    const newParams = new URLSearchParams(urlParams);
+    if (!p) newParams.delete("pinData");
+    else newParams.set("pinData", JSON.stringify(p));
+    setUrlParams(newParams);
   };
 
   useEffect(() => {
     const page = urlParams.get("page");
-    if (lastPage === (page || "home")) return;
-    setPageTo(page || "home");
-    setCurrentPage(page || "home");
-    setCurrentPin(null);
+    const pinData = urlParams.get("pinData");
+    if (lastPage !== (page || "home")) {
+      setPageTo(page || "home");
+      setCurrentPage(page || "home");
+      setCurrentPage(page || "home");
+      setCurrentPin(null);
+    }
+    if (currentPin !== decodeURIComponent(pinData)) {
+      setPin(JSON.parse(decodeURIComponent(pinData)));
+    }
+    console.log("ulang")
   }, [urlParams]);
 
   const navButtonAction = {
@@ -254,7 +257,6 @@ function App() {
                 user={user}
                 setLastPage={setLastPage}
                 lastPage={lastPage}
-                dissmis={disbleAnimation}
                 buttonOneOnClick={() => {
                   setCurrentPage("login");
                   setLastPage("login");

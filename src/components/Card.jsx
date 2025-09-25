@@ -1,6 +1,6 @@
 import ColorPallate from "../theme/Color";
 
-export const FetureCard = ({ text, imageUrl, id, onClick, styles }) => {
+export const Card = ({ text, imageUrl, id, onClick, styles, chidren }) => {
   const cardStyles = {
     container: {
       display: "flex",

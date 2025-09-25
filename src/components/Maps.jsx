@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import logo from "../assets/pin.svg";
-import ColorPallate from "../theme/Color";
 
 const icon = new L.Icon({
   iconUrl: logo,
@@ -33,7 +32,7 @@ const FlyToMarker = ({ pin, setCurrentPin, currentPin }) => {
         click: () => setCurrentPin(pin),
       }}
     >
-      {(currentPin === pin || hover === pin.koordinat) && (
+      {(currentPin?.namaToko == pin.namaToko || hover === pin.koordinat) && (
         <Tooltip
           key={pin.namaToko}
           permanent
@@ -69,7 +68,7 @@ const Maps = ({
         map.flyTo(
           [
             currentPin.koordinat[0] - (windowSize.width < 700 ? 0.0026 : 0),
-            currentPin.koordinat[1],
+            currentPin.koordinat[1] - (windowSize.width > 700 ? windowSize.width * 0.000004 : 0),
           ],
           16
         );
@@ -93,7 +92,7 @@ const Maps = ({
       top: 0,
       width: "100vw",
       height: "100dvh",
-      zIndex: 10,
+      zIndex: 5,
     },
   };
   return (
@@ -114,7 +113,7 @@ const Maps = ({
       {lastPage != "map" && <div style={mapStyle.disbleMap}></div>}
       <div
         style={{
-          transition: "0.3s ease",
+          transition: lastPage === "about" ? "0.3s ease" : "",
           ...(lastPage === "about"
             ? {
                 position: "absolute",
@@ -127,7 +126,7 @@ const Maps = ({
         }}
       >
         <MapContainer
-          key={lastPage}
+          key={lastPage === "about" ? "about" : ""}
           center={
             lastPage !== "about"
               ? [-0.8975593, 119.8606656]

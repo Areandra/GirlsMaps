@@ -8,6 +8,8 @@ import { GiJourney } from "react-icons/gi";
 import { MdSupportAgent } from "react-icons/md";
 import logo from "../assets/logo.png";
 import aril from "../assets/Aril.jpg";
+import caca from "../assets/caca.jpg";
+import kelpin from "../assets/kelpin.jpg";
 
 const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
   const AboutUsPageStyles = {
@@ -19,7 +21,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       width: "80vw",
       top: 0,
       position: "absolute",
-      transition: "left 0.5s ease, transform 0.5s ease",
+      transition: lastPage != "about" ? "" : "0.3s ease",
       zIndex: 10,
     },
     topGroup: {
@@ -53,8 +55,9 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       zIndex: 10,
     },
     containerDissmis: {
-      left: "0",
-      transform: "translateX(-100%)",
+      bottom: 0,
+      transform: "translateY(100%)",
+      opacity: 0,
     },
   };
 
@@ -62,15 +65,14 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
     {
       name: "Salsabila",
       title: "Project Manager",
-      description:
-        "System Analysis, QA & Tech Documentation", 
-      imgSrc: "",
+      description: "System Analysis, QA & Tech Documentation",
+      imgSrc: caca,
     },
     {
       name: "Putu Kelvin Desta Pratama",
       title: "Product Designer",
       description: "UI/UX, System & Database Architecture",
-      imgSrc: "",
+      imgSrc: kelpin,
     },
     {
       name: "Muh. Ariel aka Areandra",
@@ -712,9 +714,11 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     <img
                       style={{
                         position: "absolute",
+                        objectPosition: "bottom",
                         maxWidth: "300px",
                         width: "65vw",
                         height: "86.67vw",
+                        objectFit: "cover",
                         maxHeight: "400px",
                         borderRadius: 12,
                         WebkitMaskImage:

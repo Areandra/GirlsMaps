@@ -33,7 +33,6 @@ export const sendStoreData = async (data) => {
       },
       type: "Feature",
     });
-    console.log("Berhasil");
     return {
       success: true,
       errorType: [],
@@ -63,12 +62,11 @@ export const sendStoreData = async (data) => {
 
 export const updateStoreReview = async (id, value) => {
   try {
-    await set(ref(db, `/girlsMapsDB/features/${id}/review`), {
-      value,
+    await push(ref(db, `/girlsMapsDB/features/${id}/review`), {
+      ...value,
     });
-    console.log("Berhasil");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -116,25 +114,23 @@ export const getUserData = async (id, optionalpath) => {
     );
     return snaps.val() || {};
   } catch (error) {
-    console.log("error:", error.code);
+    console.error("error:", error.code);
   }
 };
 
 export const setUserData = async (id, values, optionalpath) => {
   try {
-    console.log(id, values, optionalpath);
     if (id === null) throw new Error();
     await set(
       ref(db, optionalpath ? `/users/${id}/${optionalpath}` : `/users/${id}`),
       values
     );
-    console.log("berhasil");
     return {
       status: "berhasi",
       messege: "✅ Store Succsesfuly Save On Your Profile Menu",
     };
   } catch (error) {
-    console.log("error:", error.code);
+    console.error("error:", error.code);
     let userMessage =
       "❌ An unexpected error occurred. Please try again later.";
 
@@ -155,18 +151,16 @@ export const setUserData = async (id, values, optionalpath) => {
 
 export const delUserData = async (uid, optionalpath) => {
   try {
-    console.log(optionalpath);
     if (uid === null) throw new Error();
     await remove(
       ref(db, optionalpath ? `/users/${uid}/${optionalpath}` : `/users/${uid}`)
     );
-    console.log("berhasil");
     return {
       status: "berhasi",
       messege: "✅ Store Deleted",
     };
   } catch (error) {
-    console.log("error:", error.code);
+    console.error("error:", error.code);
     let userMessage =
       "❌ An unexpected error occurred. Please try again later.";
 

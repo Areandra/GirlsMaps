@@ -2,17 +2,13 @@ import { useState } from "react";
 import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
 import { FiUser, FiMail, FiLock, FiLogIn } from "react-icons/fi";
-import ButtonCostum from "../components/Button";
+import Button from "../components/Button/PrimaryButton";
 import logo from "../assets/logo.png";
-import { auth } from "../service/firebaseConfig";
 import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup,
-  reload,
-} from "firebase/auth";
+  handleLogin,
+  handleRegister,
+  loginWithGoogle,
+} from "../service/authFunc";
 
 const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
   const [username, setUsername] = useState("");
@@ -29,127 +25,6 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
       message: "",
       errorType: [],
     });
-  };
-
-  const handleRegister = async ({ email, password, username }) => {
-    try {
-      if (!username) {
-        const err = new Error("Username cannot be empty");
-        err.code = "auth/username-is-empty";
-        throw err;
-      }
-      if (password.length < 8) {
-        const err = new Error("Username cannot be under 8 length");
-        err.code = "auth/password-is-to-short";
-        throw err;
-      }
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      await updateProfile(userCredential.user, {
-        displayName: username,
-      });
-
-      await reload(userCredential.user);
-    } catch (error) {
-      console.error("Register gagal:", error.message);
-
-      let errorMessage = [];
-      let errorType = [];
-
-      if (!username || !email || !password) {
-        if (!email) {
-          errorMessage.push(`${errorMessage.length > 0 ? ", " : ""}Email`);
-          errorType.push("email");
-        }
-        if (!password) {
-          errorMessage.push(
-            `${errorMessage.length > 0 ? " and " : ""}Password`
-          );
-          errorType.push("password");
-        }
-        errorMessage.push(" Cannot be Empty");
-      } else {
-        switch (error.code) {
-          case "auth/invalid-email":
-            errorMessage.push("Email Format is Invalid");
-            errorType.push("email");
-            break;
-          case "auth/email-already-in-use":
-            errorMessage.push("Email Already in Use");
-            errorType.push("email");
-            break;
-          case "auth/username-is-empty":
-            errorMessage.push("Username Cannot be Empty");
-            errorType.push("username");
-            break;
-          case "auth/password-is-to-short":
-            errorMessage.push("Password is to Short, Password Minimal Length is 8");
-            errorType.push("password");
-            break;
-          default:
-            errorMessage.push("Terjadi kesalahan, coba lagi.");
-            errorType.push("");
-        }
-      }
-
-      setLoginErrorMessege({
-        message: errorMessage.join(""),
-        errorType,
-      });
-    }
-  };
-
-  const handleLogin = async ({ email, password }) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      return;
-    } catch (error) {
-      console.error("Login gagal:", error.code);
-      let errorMasege = [];
-      let errorType = [];
-      if (!password || !email) {
-        if (!email) {
-          errorMasege.push("Email");
-          errorType.push("email");
-        }
-        if (!password) {
-          errorMasege.push(`${!email ? " and " : ""}Password`);
-          errorType.push("password");
-        }
-        errorMasege.push(" Cannot be Empty");
-      } else {
-        switch (error.code) {
-          case "auth/invalid-email":
-            errorMasege.push("Email Format is Invalid");
-            errorType.push("email");
-            break;
-          case "auth/invalid-credential":
-            errorMasege.push("Email or Password is Invalid");
-            errorType.push("email");
-            errorType.push("password");
-            break;
-          default:
-            errorMasege.push("Terjadi kesalahan, coba lagi.");
-        }
-      }
-      setLoginErrorMessege({
-        message: errorMasege.join(""),
-        errorType: errorType,
-      });
-    }
-  };
-
-  const loginWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   const inputFields = [
@@ -277,23 +152,27 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
             </div>
           ))}
         </div>
-
-        <ButtonCostum
+        <Button
           type="normalbutton"
-          text={lastPage === "login" ? "Sign In" : "Sign Up"}
           onclick={
             lastPage === "login"
-              ? () => handleLogin({ email, password })
-              : () =>
-                  handleRegister({
+              ? async () => {
+                  const info = await handleLogin({ email, password });
+                  setLoginErrorMessege(info);
+                }
+              : async () => {
+                  const info = await handleRegister({
                     email,
                     password,
                     username,
-                  })
+                  });
+                  setLoginErrorMessege(info);
+                }
           }
           icon={FiLogIn}
-        />
-
+        >
+          {lastPage === "login" ? "Sign In" : "Sign Up"}
+        </Button>
         <div style={styles.separator}>
           <p
             style={{
@@ -305,9 +184,14 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
             - Or Sign In With -
           </p>
         </div>
-
         <div style={styles.socialContainer}>
-          <button onClick={() => loginWithGoogle()} style={styles.buttonBox}>
+          <button
+            onClick={async () => {
+              const info = await loginWithGoogle();
+              setLoginErrorMessege(info);
+            }}
+            style={styles.buttonBox}
+          >
             <img
               src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
               alt="google"
@@ -328,12 +212,9 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
               ? "Don't have an account?"
               : "Already have an account?"}
           </span>
-          <ButtonCostum
-            type="textButton"
-            text={lastPage === "login" ? "Register" : "Log In"}
-            onclick={() => handleChangeMode()}
-            disbleBackground={true}
-          />
+          <Button onclick={() => handleChangeMode()} text={true}>
+            {lastPage === "login" ? "Register" : "Log In"}
+          </Button>
         </div>
       </div>
     </div>

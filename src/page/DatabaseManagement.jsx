@@ -781,7 +781,7 @@ const DatabaseManagement = ({
             paddingInline: 40,
           }}
         >
-          <h2>Store Data</h2>
+          <h2>Store Data ({storeData.length})</h2>
           <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <InputForm
               value={searchQuery}
