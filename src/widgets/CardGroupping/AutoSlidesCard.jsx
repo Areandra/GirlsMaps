@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import { Card } from "../components/Card";
-import ColorPallate from "../theme/Color";
+import { Card } from "../../components/Card";
+import ColorPallate from "../../theme/Color";
 
 export const AutoSlideCard = ({ cardContentList }) => {
   const [activeIndex, setActiveIndex] = useState(null);

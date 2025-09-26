@@ -5,7 +5,7 @@ import service1 from "../assets/Service1.png";
 import service2 from "../assets/Service2.png";
 import { FiChevronRight, FiMap } from "react-icons/fi";
 import { GradientText } from "../components/GradientText";
-import { AutoSlideCard } from "../widgets/AutoSlidesCard";
+import { AutoSlideCard } from "../widgets/CardGroupping/AutoSlidesCard";
 
 const LandingPage = ({
   lastPage,

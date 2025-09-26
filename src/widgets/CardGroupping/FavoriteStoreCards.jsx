@@ -1,7 +1,7 @@
-import ColorPallate from "../theme/Color";
+import ColorPallate from "../../theme/Color";
 import { useRef, useState } from "react";
 import { PiNavigationArrow } from "react-icons/pi";
-import Button from "../components/Button/PrimaryButton";
+import Button from "../../components/Button/PrimaryButton";
 import { FiTrash } from "react-icons/fi";
 import { BsFillStarFill } from "react-icons/bs";
 
@@ -80,7 +80,7 @@ const FavoriteStoreCards = ({ favoriteStoreList, onClick }) => {
           >
             <Button
               icon={FiTrash}
-              onclick={() => onClick.delFavStore()}
+              onclick={() => onClick.delFavStore(i.id)}
               style={{
                 width: 46,
                 padding: 12,
@@ -96,7 +96,7 @@ const FavoriteStoreCards = ({ favoriteStoreList, onClick }) => {
               }}
             />{" "}
             <Button
-              onclick={() => onClick.navToStore()}
+              onclick={() => onClick.navToStore(i)}
               icon={PiNavigationArrow}
               style={{
                 width: 46,

@@ -14,6 +14,7 @@ import ColorPallate from "../theme/Color";
 import { BsFillStarFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { setUserData } from "../service/crudDB";
+import { BiShare } from "react-icons/bi";
 
 const dayList = [
   "Senin",
@@ -294,7 +295,7 @@ const MapsPage = ({
                     icon={FiBookmark}
                   />
                   <p style={{ ...styles.lebelInfo, textAlign: "center" }}>
-                    Open In Google Maps
+                    Save
                   </p>
                 </div>
                 <div
@@ -358,7 +359,27 @@ const MapsPage = ({
                     </svg>
                   </button>
                   <p style={{ ...styles.lebelInfo, textAlign: "center" }}>
-                    Open In Google Maps
+                    Open In
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <ButtonCostum
+                    onclick={() => {
+                      setNotif("✅ Link is Copied");
+                      navigator.clipboard.writeText(window.location.href);
+                    }}
+                    icon={BiShare}
+                  />
+                  <p style={{ ...styles.lebelInfo, textAlign: "center" }}>
+                    Share
                   </p>
                 </div>
               </div>

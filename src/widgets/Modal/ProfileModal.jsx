@@ -4,8 +4,7 @@ import ColorPallate from "../../theme/Color";
 import Profile from "../../components/Profile";
 import GlobalModal from "../../components/Modal";
 import Button from "../../components/Button/PrimaryButton";
-
-import FavoriteStoreCards from "../FavoriteStoreCards";
+import FavoriteStoreCards from "../CardGroupping/FavoriteStoreCards";
 
 const ProfileModal = ({
   visible,

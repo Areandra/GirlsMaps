@@ -714,7 +714,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     <img
                       style={{
                         position: "absolute",
-                        objectPosition: "bottom",
+                        objectPosition: "top",
                         maxWidth: "300px",
                         width: "65vw",
                         height: "86.67vw",

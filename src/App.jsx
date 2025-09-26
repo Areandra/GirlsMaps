@@ -54,18 +54,15 @@ function App() {
   }, [lastPage]);
 
   useEffect(() => {
-    console.log("Dipanggin", updateFS);
     if (user?.uid) {
       const fetchFavoriteStore = async () => {
-        console.log(user.uid);
         try {
           const snaps = await getUserData(user.uid, "favoriteStore");
           const data = Object.values(snaps) || [];
-          console.log("inimi", data);
           setFavoriteStore(data);
           setUpdateFS(false);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       };
       fetchFavoriteStore();
@@ -153,23 +150,22 @@ function App() {
   const setCurrentPin = (p) => {
     const newParams = new URLSearchParams(urlParams);
     if (!p) newParams.delete("pinData");
-    else newParams.set("pinData", JSON.stringify(p));
+    else {
+      newParams.set("pinData", JSON.stringify(p));
+      newParams.set("page", "map");
+    }
     setUrlParams(newParams);
   };
 
   useEffect(() => {
     const page = urlParams.get("page");
     const pinData = urlParams.get("pinData");
-    if (lastPage !== (page || "home")) {
-      setPageTo(page || "home");
-      setCurrentPage(page || "home");
-      setCurrentPage(page || "home");
-      setCurrentPin(null);
-    }
+    setPageTo(page || "home");
+    setCurrentPage(page || "home");
+    if (page !== "map") setCurrentPin(null);
     if (currentPin !== decodeURIComponent(pinData)) {
       setPin(JSON.parse(decodeURIComponent(pinData)));
     }
-    console.log("ulang")
   }, [urlParams]);
 
   const navButtonAction = {

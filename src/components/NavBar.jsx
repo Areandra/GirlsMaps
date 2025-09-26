@@ -197,14 +197,11 @@ const NavBar = ({
           favoriteStore.includes(i.id)
         )}
         onClick={{
-          navToStore: () => {
-            setLastPage("map");
+          navToStore: (i) => {
             setShowProfileModal(false);
-            setTimeout(() => {
-              setCurrentPin(i);
-            }, 150);
+            setCurrentPin(i);
           },
-          delFavStore: () => handleDelStorage(i.id),
+          delFavStore: (id) => handleDelStorage(id),
           googleLink: async () => {
             const info = await handleLinkGoogle();
             setNotif(info);
