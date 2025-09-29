@@ -8,7 +8,7 @@ import GlobalModal from "./Modal";
 import SideNavModal from "../widgets/Modal/SideNavModal";
 import Profile from "./Profile";
 import ProfileModal from "../widgets/Modal/ProfileModal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
 
@@ -16,8 +16,6 @@ const NavBar = React.memo(
   ({
     dismiss,
     buttonAction,
-    currentPage,
-    setCurrentPage,
     lastPage,
     setLastPage,
     handleSearch,
@@ -42,6 +40,15 @@ const NavBar = React.memo(
     const navigate = useNavigate();
     const [showSideNav, setShowSideNav] = useState(false);
     const [hover, setHover] = useState(false);
+    const [urlParams, setUrlParams] = useSearchParams();
+    const [currentPage, setCurrentPage] = useState(
+      urlParams.get("page") || "home"
+    );
+
+    useEffect(() => {
+      const page = urlParams.get("page");
+      setCurrentPage(page || "home");
+    }, [urlParams]);
 
     const styles = {
       nav: {

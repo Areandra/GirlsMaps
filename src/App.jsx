@@ -21,16 +21,13 @@ import Loader from "./components/Loader.jsx";
 
 function App() {
   const [urlParams, setUrlParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(
-    urlParams.get("page") || "home"
-  );
   const [loading, setLoading] = useState(true);
   const [storeData, setStoreData] = useState(null);
   const [lastPage, setPageTo] = useState(urlParams.get("page") || "home");
   const [searchQuery, setSearchQuery] = useState("");
   const [queryResult, setQueryResult] = useState(storeData);
   const [notifMassege, setNotifMassege] = useState("");
-  const [currentPin, setPin] = useState(null);
+  const [currentPin, setPin] = useState({});
   const [user, setUser] = useState(null);
   const navRef = useRef();
   const [fuse, setFuse] = useState(null);
@@ -151,10 +148,13 @@ function App() {
 
   const setCurrentPin = (p) => {
     const newParams = new URLSearchParams(urlParams);
-    if (!p) newParams.delete("pinData");
+    newParams.delete("cariToko");
+
+    if (!p) newParams.delete("toko"), newParams.delete("koordinat");
     else {
-      newParams.set("pinData", JSON.stringify(p));
       newParams.set("page", "map");
+      newParams.set("toko", p.namaToko);
+      newParams.set("koordinat", p.koordinat.join("_"));
     }
     setUrlParams(newParams);
   };
@@ -162,18 +162,62 @@ function App() {
   useEffect(() => {
     const validPges = ["home", "map", "login", "daftar", "about"];
     const page = urlParams.get("page");
+
     if (!validPges.includes(page) && page != null) {
       setLastPage("home");
       return;
     }
-    const pinData = urlParams.get("pinData");
+
+    const storeName = urlParams.get("toko");
+    const coordinates = urlParams.get("koordinat");
+    const cariToko = urlParams.get("cariToko");
+
     setPageTo(page || "home");
-    setCurrentPage(page || "home");
-    if (page !== "map") setCurrentPin(null);
-    if (currentPin !== decodeURIComponent(pinData)) {
-      setPin(JSON.parse(decodeURIComponent(pinData)));
+
+    if (page !== "map") {
+      setCurrentPin(null);
+      return;
     }
-  }, [urlParams]);
+
+    if (!storeData) return;
+
+    let found = null;
+
+    const namaToko = storeName ? decodeURIComponent(storeName) : null;
+    const koordinatStr = coordinates ? decodeURIComponent(coordinates) : null;
+    const koordinat = koordinatStr ? koordinatStr.split("_").map(Number) : null;
+    const cari = cariToko
+      ? decodeURIComponent(cariToko).trim().toLowerCase()
+      : null;
+
+    if (koordinat) {
+      found = storeData.find(
+        (i) => i.koordinat?.join("_") === koordinat.join("_")
+      );
+    }
+
+    if (!found && namaToko) {
+      found = storeData.find(
+        (i) =>
+          i.namaToko?.trim().toLowerCase() === namaToko.trim().toLowerCase()
+      );
+    }
+
+    if (!found && cari) {
+      found = storeData.find(
+        (i) =>
+          i.namaToko?.trim().toLowerCase() === cari ||
+          i.alamat?.trim().toLowerCase() === cari
+      );
+    }
+
+    const currentPinStr = currentPin ? currentPin.koordinat?.join("_") : null;
+    const newPinStr = found ? found.koordinat?.join("_") : null;
+
+    if (currentPinStr !== newPinStr) {
+      setPin(found || null);
+    }
+  }, [urlParams, storeData]);
 
   const navButtonAction = {
     navButton: [],
@@ -184,7 +228,7 @@ function App() {
       () => {
         setLastPage("daftar");
       },
-    ],
+    ],  
   };
 
   const setNotif = (p) => {
