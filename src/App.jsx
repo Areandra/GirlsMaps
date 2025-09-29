@@ -228,7 +228,7 @@ function App() {
       () => {
         setLastPage("daftar");
       },
-    ],  
+    ],
   };
 
   const setNotif = (p) => {
@@ -289,8 +289,6 @@ function App() {
                 storeData={storeData}
                 dismiss={lastPage === "login" || lastPage === "daftar"}
                 buttonAction={navButtonAction}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
                 lastPage={lastPage}
                 setLastPage={setLastPage}
                 handleSearch={handleSearch}
