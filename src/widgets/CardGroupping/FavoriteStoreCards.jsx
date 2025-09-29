@@ -26,7 +26,7 @@ const FavoriteStoreCards = ({ favoriteStoreList, onClick }) => {
           display: "inline",
         }}
       >
-        Favorite Store
+        Toko Favorit
       </h1>
       <div
         style={{
@@ -46,8 +46,7 @@ const FavoriteStoreCards = ({ favoriteStoreList, onClick }) => {
               color: ColorPallate.secondaryText,
             }}
           >
-            Your Favorite Store Is Currently Empty Explore Ours Maps and Save
-            Our Favorite Location
+            Yah.., kamu belum punya toko favorit nih. Yuk, tambahkan
           </p>
         )}
         {favoriteStoreList.map((i, idx) => (

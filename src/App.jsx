@@ -17,6 +17,7 @@ import AboutUsPage from "./page/AboutUsPage.jsx";
 import GlobalModal from "./components/Modal.jsx";
 import ColorPallate from "./theme/Color.jsx";
 import useWindowSize from "./hooks/windowResizer.jsx";
+import Loader from "./components/Loader.jsx";
 
 function App() {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -143,7 +144,8 @@ function App() {
 
   const setLastPage = (p) => {
     const newParams = new URLSearchParams(urlParams);
-    newParams.set("page", p);
+    if (!p) newParams.delete("page");
+    else newParams.set("page", p);
     setUrlParams(newParams);
   };
 
@@ -158,7 +160,12 @@ function App() {
   };
 
   useEffect(() => {
+    const validPges = ["home", "map", "login", "daftar", "about"];
     const page = urlParams.get("page");
+    if (!validPges.includes(page) && page != null) {
+      setLastPage("home");
+      return;
+    }
     const pinData = urlParams.get("pinData");
     setPageTo(page || "home");
     setCurrentPage(page || "home");
@@ -172,11 +179,9 @@ function App() {
     navButton: [],
     navAuthButton: [
       () => {
-        setCurrentPage("login");
         setLastPage("login");
       },
       () => {
-        setCurrentPage("daftar");
         setLastPage("daftar");
       },
     ],
@@ -187,7 +192,22 @@ function App() {
     setNotifMassege(p);
   };
 
-  if (loading) return <></>;
+  if (loading)
+    return (
+      <div
+        style={{
+          scale: 0.5,
+          width: "100vw",
+          height: "100dvh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "transparent",
+        }}
+      >
+        <Loader />
+      </div>
+    );
 
   return (
     <>
@@ -253,35 +273,15 @@ function App() {
                 user={user}
                 setLastPage={setLastPage}
                 lastPage={lastPage}
-                buttonOneOnClick={() => {
-                  setCurrentPage("login");
-                  setLastPage("login");
-                }}
                 navRef={navRef}
                 windowSize={windowSize}
-                fetureCardOnClick={[
-                  () => {
-                    setLastPage("map");
-                    setCurrentPage("map");
-                  },
-                ]}
               />
               <AboutUsPage
                 user={user}
                 setLastPage={setLastPage}
                 lastPage={lastPage}
-                buttonOneOnClick={() => {
-                  setCurrentPage("login");
-                  setLastPage("login");
-                }}
                 navRef={navRef}
                 windowSize={windowSize}
-                fetureCardOnClick={[
-                  () => {
-                    setLastPage("map");
-                    setCurrentPage("map");
-                  },
-                ]}
               />
               <MapsPage
                 dismiss={lastPage !== "map"}

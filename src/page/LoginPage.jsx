@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ColorPallate from "../theme/Color";
 import { InputForm } from "../components/InputForm";
 import { FiUser, FiMail, FiLock, FiLogIn } from "react-icons/fi";
@@ -10,94 +10,169 @@ import {
   loginWithGoogle,
 } from "../service/authFunc";
 
-const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginErrorMessege, setLoginErrorMessege] = useState({
-    message: "",
-    errorType: [],
-  });
-
-  const handleChangeMode = () => {
-    setLastPage(lastPage === "login" ? "daftar" : "login");
-    setLoginErrorMessege({
+const LoginPage = React.memo(
+  ({ lastPage, slideIn, setLastPage, windowSize }) => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loginErrorMessege, setLoginErrorMessege] = useState({
       message: "",
       errorType: [],
     });
-  };
 
-  const inputFields = [
-    lastPage === "daftar" && {
-      key: "username",
-      text: "Username",
-      spread: {
-        icon: FiUser,
-        placeholder: "example",
-        value: username,
-        onChange: (e) => setUsername(e.target.value),
-      },
-    },
-    {
-      key: "email",
-      text: "Email",
-      spread: {
-        icon: FiMail,
-        placeholder: "example@gmail.com",
-        value: email,
-        onChange: (e) => setEmail(e.target.value),
-      },
-    },
-    {
-      key: "password",
-      text: "Password",
-      spread: {
-        icon: FiLock,
-        type: "password",
-        placeholder: "enter...",
-        value: password,
-        onChange: (e) => setPassword(e.target.value),
-      },
-    },
-  ].filter(Boolean);
+    const handleChangeMode = () => {
+      setLastPage(lastPage === "login" ? "daftar" : "login");
+      setLoginErrorMessege({
+        message: "",
+        errorType: [],
+      });
+    };
 
-  return (
-    <div
-      style={{
-        ...styles.container,
-        ...(!slideIn ? { opacity: 0, pointerEvents: "none" } : { opacity: 1 }),
-      }}
-    >
+    const inputFields = [
+      lastPage === "daftar" && {
+        key: "username",
+        text: "Username",
+        spread: {
+          icon: FiUser,
+          value: username,
+          onChange: (e) => setUsername(e.target.value),
+        },
+      },
+      {
+        key: "email",
+        text: "Email",
+        spread: {
+          icon: FiMail,
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
+        },
+      },
+      {
+        key: "password",
+        text: "Password",
+        spread: {
+          icon: FiLock,
+          type: "password",
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
+        },
+      },
+    ].filter(Boolean);
+
+    return (
       <div
         style={{
-          ...styles.loginForm,
-          ...(windowSize.width < 700
-            ? { width: "65vw" }
-            : { minWidth: "325px" }),
-          ...(!slideIn ? styles.firstPosition : {}),
+          ...styles.container,
+          ...(!slideIn
+            ? { opacity: 0, pointerEvents: "none" }
+            : { opacity: 1 }),
         }}
       >
         <div
           style={{
-            justifyContent: "flex-start",
-            display: "flex",
-            flexDirection: "column",
+            ...styles.loginForm,
+            ...(windowSize.width < 700
+              ? { width: "65vw" }
+              : { minWidth: "325px" }),
+            ...(!slideIn ? styles.firstPosition : {}),
           }}
         >
-          <div style={styles.titleGroup}>
-            <img src={logo} alt="" style={styles.logo} />
-            <h1 style={styles.titleText}>Girls</h1>
-            <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
-              Map
-            </h1>
+          <div
+            style={{
+              justifyContent: "flex-start",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div style={styles.titleGroup}>
+              <img src={logo} alt="" style={styles.logo} />
+              <h1 style={styles.titleText}>Girls</h1>
+              <h1 style={{ ...styles.titleText, color: ColorPallate.text }}>
+                Map
+              </h1>
+            </div>
+            <h2 style={styles.loginTitle}>
+              {lastPage === "login"
+                ? "Selamat Datang Kembali"
+                : "Daftar & Simpan Toko Favoritmu"}
+            </h2>
           </div>
-          <h2 style={styles.loginTitle}>
-            Get Ready To Embark on A Journey
-            <br />
-            With Us
-          </h2>
-        </div>
-        {loginErrorMessege.errorType.length !== 0 && (
+          {loginErrorMessege?.errorType?.length !== 0 && (
+            <div style={styles.separator}>
+              <p
+                style={{
+                  textAlign: "center",
+                  color: ColorPallate.inputBorder,
+                  fontSize: "12px",
+                }}
+              >
+                {loginErrorMessege.message}
+              </p>
+            </div>
+          )}
+          <div
+            style={{
+              gap: "12px",
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}
+          >
+            {inputFields.map((field) => (
+              <div
+                key={field.key}
+                style={{
+                  display: "flex",
+                  gap: "4px",
+                  flexDirection: "column",
+                }}
+              >
+                <p
+                  style={{
+                    color: ColorPallate.primary,
+                    textAlign: "left",
+                    fontSize: 12,
+                    flex: 1,
+                  }}
+                >
+                  {field.text}
+                </p>
+                <InputForm
+                  {...field.spread}
+                  style={{
+                    ...(loginErrorMessege.errorType.find((i) => i === field.key)
+                      ? {
+                          container: {
+                            boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
+                          },
+                        }
+                      : {}),
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          <Button
+            type="normalbutton"
+            onclick={
+              lastPage === "login"
+                ? async () => {
+                    const info = await handleLogin({ email, password });
+                    setLoginErrorMessege(info);
+                  }
+                : async () => {
+                    const info = await handleRegister({
+                      email,
+                      password,
+                      username,
+                    });
+                    setLoginErrorMessege(info);
+                  }
+            }
+            icon={FiLogIn}
+          >
+            {lastPage === "login" ? "Masuk" : "Daftar"}
+          </Button>
           <div style={styles.separator}>
             <p
               style={{
@@ -106,120 +181,44 @@ const LoginPage = ({ lastPage, slideIn, setLastPage, windowSize }) => {
                 fontSize: "12px",
               }}
             >
-              {loginErrorMessege.message}
+              - Atau Masuk Dengan -
             </p>
           </div>
-        )}
-        <div
-          style={{
-            gap: "12px",
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "10px",
-          }}
-        >
-          {inputFields.map((field) => (
-            <div
-              key={field.key}
-              style={{
-                display: "flex",
-                gap: "4px",
-                flexDirection: "column",
+          <div style={styles.socialContainer}>
+            <button
+              onClick={async () => {
+                const info = await loginWithGoogle();
+                setLoginErrorMessege(info);
               }}
+              style={styles.buttonBox}
             >
-              <p
-                style={{
-                  color: ColorPallate.primary,
-                  textAlign: "left",
-                  fontSize: 12,
-                  flex: 1,
-                }}
-              >
-                {field.text}
-              </p>
-              <InputForm
-                {...field.spread}
-                style={{
-                  ...(loginErrorMessege.errorType.find((i) => i === field.key)
-                    ? {
-                        container: {
-                          boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,
-                        },
-                      }
-                    : {}),
-                }}
+              <img
+                src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
+                alt="google"
+                style={{ width: 18, height: 18 }}
               />
-            </div>
-          ))}
-        </div>
-        <Button
-          type="normalbutton"
-          onclick={
-            lastPage === "login"
-              ? async () => {
-                  const info = await handleLogin({ email, password });
-                  setLoginErrorMessege(info);
-                }
-              : async () => {
-                  const info = await handleRegister({
-                    email,
-                    password,
-                    username,
-                  });
-                  setLoginErrorMessege(info);
-                }
-          }
-          icon={FiLogIn}
-        >
-          {lastPage === "login" ? "Sign In" : "Sign Up"}
-        </Button>
-        <div style={styles.separator}>
-          <p
+              Google
+            </button>
+          </div>
+          <div
             style={{
-              textAlign: "center",
-              color: ColorPallate.inputBorder,
-              fontSize: "12px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            - Or Sign In With -
-          </p>
-        </div>
-        <div style={styles.socialContainer}>
-          <button
-            onClick={async () => {
-              const info = await loginWithGoogle();
-              setLoginErrorMessege(info);
-            }}
-            style={styles.buttonBox}
-          >
-            <img
-              src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
-              alt="google"
-              style={{ width: 18, height: 18 }}
-            />
-            Google
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <span style={{ color: "grey", fontSize: 12 }}>
-            {lastPage === "login"
-              ? "Don't have an account?"
-              : "Already have an account?"}
-          </span>
-          <Button onclick={() => handleChangeMode()} text={true}>
-            {lastPage === "login" ? "Register" : "Log In"}
-          </Button>
+            <span style={{ color: "grey", fontSize: 12 }}>
+              {lastPage === "login" ? "Tidak Punya Akun?" : "Sudah Punya Akun?"}
+            </span>
+            <Button onclick={() => handleChangeMode()} text={true}>
+              {lastPage === "login" ? "Daftar" : "Masuk"}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 const styles = {
   container: {

@@ -83,7 +83,7 @@ const ProfileModal = ({
             margin: 0,
           }}
         >
-          Hi, {user?.displayName}
+          Halo, {user?.displayName}
         </h1>
         <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
           <button
@@ -114,12 +114,9 @@ const ProfileModal = ({
           <Button
             style={{ flex: 1 }}
             icon={FiLogOut}
-            onclick={() => {
-              signOut(auth);
-              window.location.reload();
-            }}
+            onclick={() => onClick.logout()}
           >
-            Log Out
+            Keluar
           </Button>
         </div>
         {user?.admin && (

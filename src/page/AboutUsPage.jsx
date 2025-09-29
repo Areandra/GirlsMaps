@@ -1,17 +1,18 @@
 import ButtonCostum from "../components/Button";
 import ColorPallate from "../theme/Color";
-import { FiCheckCircle, FiMap } from "react-icons/fi";
-import { BsFillMoonStarsFill, BsRocketTakeoffFill } from "react-icons/bs";
+import { FiMap } from "react-icons/fi";
+import { BsRocketTakeoffFill } from "react-icons/bs";
 import { RiUserCommunityLine } from "react-icons/ri";
 import { BiCheckDouble } from "react-icons/bi";
-import { GiJourney } from "react-icons/gi";
 import { MdSupportAgent } from "react-icons/md";
 import logo from "../assets/logo.png";
 import aril from "../assets/Aril.jpg";
 import caca from "../assets/caca.jpg";
 import kelpin from "../assets/kelpin.jpg";
+import { GradientText } from "../components/GradientText";
+import React from "react";
 
-const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
+const AboutUsPage = React.memo(({ lastPage, windowSize, setLastPage }) => {
   const AboutUsPageStyles = {
     container: {
       display: "flex",
@@ -35,7 +36,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
     title: {
       fontSize: windowSize.width > 700 ? "2.75rem" : "1.5rem",
       fontWeight: 500,
-      color: ColorPallate.text,
       marginBlock: 20,
     },
     subtitle: {
@@ -84,40 +84,40 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
 
   const ourValues = [
     {
-      title: "Community First",
-      body: "We believe true strength comes from collaboration and sharing",
+      title: "Terkurasi & Akurat",
+      body: "Setiap toko kami datangi langsung. Menjamin data 100% akurat.",
       icon: RiUserCommunityLine,
     },
     {
-      title: "Authenticity",
-      body: "Every review is honest, transparent, and from real experiences.",
+      title: "Fokus pada Kosmetik",
+      body: "Hanya toko kosmetik. Menjamin pencarianmu selalu relevan.",
       icon: BiCheckDouble,
     },
     {
-      title: "Empowerment",
-      body: "Supporting women to share, learn, and grow together.",
+      title: "Cepat & Efisien",
+      body: "Temukan lokasi dalam hitungan detik. Tanpa perlu scroll tanpa henti.",
       icon: MdSupportAgent,
     },
     {
-      title: "Innovation",
-      body: "Constantly evolving to create the best experience possible",
-      icon: GiJourney,
+      title: "Terlengkap di Palu",
+      body: "Memetakan semua toko kosmetik di Palu, bahkan tersembunyi.",
+      icon: MdSupportAgent,
     },
   ];
 
   const footerList = [
     {
-      tittle: "Features",
-      list: ["Maps", "Search Product"],
+      tittle: "Fitur",
+      list: ["Peta", "Cari Toko Berdasarkan Produk"],
       onclick: [() => setLastPage("map"), () => setLastPage("map")],
     },
     {
-      tittle: "Company",
-      list: ["GirlsMap", "About Us"],
+      tittle: "Kami",
+      list: ["GirlsMap", "Tentang Kami"],
       onclick: [() => setLastPage("home"), () => setLastPage("about")],
     },
     {
-      tittle: "Attribution",
+      tittle: "Atribusi & Lisensi",
       list: ["Leaflet", "Esri", "DeLorme", "NAVTEQ"],
       onclick: [
         () => window.open("https://leafletjs.com", "_blank"),
@@ -158,32 +158,24 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             }}
           >
             <h1 style={AboutUsPageStyles.title}>
-              Mapping the World of{" "}
-              <label
-                style={{
-                  ...AboutUsPageStyles.title,
-                  background: ColorPallate.primaryGradient,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                Beauty
-              </label>
-              ,<br />
-              Just for You.
+              Panduan{" "}
+              <GradientText style={AboutUsPageStyles.title}>
+                Kecantikan
+              </GradientText>{" "}
+              Terlengkap
+              <br />
+              Dibuat Untukmu.
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
-              We believe finding your favorite beauty products should be a
-              delightful adventure, not a tiring hunt. That's why GirlsMap was
-              born.
+              Kami percaya menemukan produk kecantikan favoritmu seharusnya
+              menjadi petualangan yang menyenangkan, bukan perburuan yang
+              melelahkan. Itulah mengapa GirlsMap lahir.
             </p>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <ButtonCostum
-              icon={!user ? FiCheckCircle : FiMap}
-              text={user ? "Start Exploring" : "Join Our Comunity"}
+              icon={FiMap}
+              text={"Ayo Jelajah"}
               type="primary"
               onclick={() => setLastPage("map")}
             />
@@ -210,20 +202,11 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 width: windowSize.width > 700 ? "70vw" : "",
               }}
             >
-              From a Simple{" "}
-              <label
-                style={{
-                  ...AboutUsPageStyles.title,
-                  background: ColorPallate.primaryGradient,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                Coffee Chat
-              </label>{" "}
-              to a Community Map.
+              Dari Keluhan{" "}
+              <GradientText style={AboutUsPageStyles.title}>
+                Saat Ngopi
+              </GradientText>{" "}
+              Menjadi Sebuah Solusi.
             </h1>
           </div>
         </div>
@@ -243,19 +226,9 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
               marginTop: "4vh",
             }}
           >
-            <h1
-              style={{
-                ...AboutUsPageStyles.title,
-                fontSize: 20,
-                background: ColorPallate.primaryGradient,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                color: "transparent",
-              }}
-            >
-              Our Story
-            </h1>
+            <GradientText style={{ fontSize: 24, fontWeight: 600 }}>
+              Cerita Kami
+            </GradientText>
             <div
               style={{
                 justifyContent: "flex-start",
@@ -268,74 +241,28 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   width: windowSize.width > 700 ? "45vw" : "",
                 }}
               >
-                GirlsMap started over a cup of coffee and one simple question:
-                "Where can I find serum X in this city?" We were tired of
-                spending our weekends searching fruitlessly. From that moment,
-                we were determined to create a solution.
+                Berawal dari obrolan santai (dan sedikit keluhan!), kami sadar
+                betapa sulitnya menemukan informasi toko kosmetik yang lengkap
+                dan akurat di Palu. Dari sanalah ide GirlsMap lahir: satu peta
+                terpusat yang kami bangun dan verifikasi secara khusus untuk
+                menjadi kompas kecantikan andalan Anda di kota ini
                 <br />
                 <br />
                 <label
                   style={{
                     color: ColorPallate.text,
-                    gap: 6,
-                    display: "flex",
-                    alignItems: "center",
-                    marginBlockEnd: 8,
-                    fontSize: 14,
-                  }}
-                >
-                  Our{""}
-                  <label
-                    style={{
-                      background: ColorPallate.primaryGradient,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                    Vision
-                  </label>
-                  <BsFillMoonStarsFill color="rgba(255, 242, 0, 1)" />
-                </label>
-                To become the go-to platform for every Indonesian woman to
-                discover, support, and share local beauty spots with ease and
-                joy. <br />
-                <br />
-                <label
-                  style={{
                     fontSize: 14,
                     gap: 8,
                     display: "flex",
                     alignItems: "center",
                   }}
                 >
-                  Our
-                  <label
-                    style={{
-                      background: ColorPallate.primaryGradient,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                    Mission
-                  </label>
+                  <GradientText>Misi</GradientText> Kami
                   <BsRocketTakeoffFill color="rgba(168, 241, 126, 1)" />
                 </label>
-                <ul
-                  style={{
-                    paddingInline: 16,
-                    marginBlockStart: 8,
-                  }}
-                >
-                  <li>Provide an accurate, interactive beauty map.</li>
-                  <li>
-                    Deliver authentic reviews from real community members.
-                  </li>
-                  <li>Build a supportive and empowering beauty community.</li>
-                </ul>
+                Kami lelah dengan info toko kosmetik di Palu yang tidak pasti.
+                Jadi, kami ciptakan solusinya: satu peta terkurasi untuk semua
+                kebutuhan kecantikanmu.
               </div>
             </div>
           </div>
@@ -358,7 +285,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             }}
           >
             <h1 style={AboutUsPageStyles.title}>
-              Why Choose{" "}
+              Kenapa Pilih{" "}
               <label
                 style={{
                   ...AboutUsPageStyles.title,
@@ -374,10 +301,10 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
               Map?
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
-              With GirlsMap, you’re not just finding products — you’re joining a
-              supportive community that values authenticity and empowerment.
-              Together, we make beauty exploration fun, trustworthy, and
-              inspiring.{" "}
+              Kami percaya, menemukan informasi kecantikan haruslah mudah dan
+              bisa diandalkan. Karena itu, kami membangun GirlsMap bukan sekadar
+              sebagai peta, melainkan sebagai kompas tepercaya Anda di Palu.
+              Inilah yang membuat kami berbeda.{" "}
               <label
                 style={{
                   background: ColorPallate.primaryGradient,
@@ -387,7 +314,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   color: "transparent",
                 }}
               >
-                Our Values
+                Keunggulan Kami
               </label>
               ?.
             </p>
@@ -395,7 +322,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                width: "100%", // biar grid bisa melebar
+                width: "100%",
                 marginBlockStart: "8vh",
               }}
             >
@@ -516,24 +443,12 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                   style={{
                     fontSize: "24px",
                     fontWeight: "600",
-                    color: "#FFFFFF",
                     margin: "0",
                   }}
                 >
-                  <label
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "600",
-                      background:
-                        "linear-gradient(to right, #FF76AF 0%, #F8494C 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      marginBottom: "24px",
-                      paddingLeft: "4px",
-                    }}
-                  >
+                  <GradientText style={{ fontSize: "24px" }}>
                     Girls
-                  </label>
+                  </GradientText>
                   Map
                 </h1>
               </div>
@@ -550,19 +465,8 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     transition: "background-color 0.3s ease",
                   }}
                 >
-                  30+{" "}
-                  <label
-                    style={{
-                      background: ColorPallate.primaryGradient,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                    Beauty
-                  </label>{" "}
-                  Stores already mapped in Palu
+                  32+ Toko <GradientText>Kecantikan</GradientText> di Palu
+                  terpetakan
                 </p>
                 <p
                   style={{
@@ -573,33 +477,24 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                     marginBottom: "12px",
                     fontSize: "14px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
-                    display: "flex",
-                    alignItems: "center",
-                    transition: "background-color 0.3s ease",
                   }}
                 >
-                  Dozens of Products listed and growing
+                  50+ Produk <GradientText>Kecantikan</GradientText> telah
+                  terdaftar
                 </p>
               </div>
             </div>
             <h1 style={{ ...AboutUsPageStyles.title, marginBlockStart: 0 }}>
-              <label
-                style={{
-                  ...AboutUsPageStyles.title,
-                  background: ColorPallate.primaryGradient,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                Community
-              </label>{" "}
-              Today?
+              Temukan{" "}
+              <GradientText style={AboutUsPageStyles.title}>
+                Informasi
+              </GradientText>{" "}
+              Yang Kamu Cari.
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
-              We are just getting started — and we’re proud of it! <br />
-              (Soon, expanding to more cities across Indonesia!)
+              GirlsMap lahir di Palu, untuk Palu. Tujuan kami sederhana :
+              <br />
+              menjadi sumber informasi kecantikan nomor satu di kota ini
             </p>
           </div>
         </div>
@@ -607,7 +502,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
           style={{
             ...AboutUsPageStyles.topGroup,
             justifyContent: "flex-end",
-            marginBlockEnd: "20vh",
             height: "auto",
             width: "auto",
           }}
@@ -621,7 +515,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             }}
           >
             <h1 style={{ ...AboutUsPageStyles.title, marginBlockStart: 0 }}>
-              Meet The
+              Kenalan
               <label
                 style={{
                   ...AboutUsPageStyles.title,
@@ -633,11 +527,11 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
                 }}
               >
                 {" "}
-                Team
+                Yuk!
               </label>
             </h1>
             <p style={AboutUsPageStyles.paragraph}>
-              A small team with a big vision.
+              Tim kecil kecilan dengan visi besar.
             </p>
             <div
               style={{
@@ -735,6 +629,19 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
             </div>
           </div>
         </div>
+        <div style={{ ...AboutUsPageStyles.topGroup, marginBlock: "-10vh" }}>
+          <h1 style={AboutUsPageStyles.title}>
+            Siap Menjelajah Dunia <GradientText>Kecantikan</GradientText> Palu?
+          </h1>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <ButtonCostum
+              icon={FiMap}
+              text="Ayo Jelajahi Peta Sekarang"
+              type="primary"
+              onclick={() => setLastPage("map")}
+            />
+          </div>
+        </div>
         <div
           style={{
             ...AboutUsPageStyles.topGroup,
@@ -747,7 +654,7 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
           <div
             style={{
               textAlign: "center",
-              width: "100vvw", // biar grid bisa melebar
+              width: "100vvw",
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
               borderBlockStart: `2px ${ColorPallate.background} solid`,
@@ -809,6 +716,6 @@ const AboutUsPage = ({ lastPage, windowSize, user, setLastPage }) => {
       </div>
     </>
   );
-};
+});
 
 export default AboutUsPage;

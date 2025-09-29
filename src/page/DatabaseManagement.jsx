@@ -1,10 +1,8 @@
 import ColorPallate from "../theme/Color";
-import logo from "../assets/logo.png";
 import {
   FiChevronLeft,
   FiDelete,
   FiEdit,
-  FiFilter,
   FiGlobe,
   FiMapPin,
   FiPlus,
@@ -17,11 +15,11 @@ import { BsClockFill } from "react-icons/bs";
 import { LuMapPin, LuMapPinHouse } from "react-icons/lu";
 import { FaShop } from "react-icons/fa6";
 import { PiShoppingCartFill } from "react-icons/pi";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import GlobalModal from "../components/Modal";
 import { useRef } from "react";
 import { handleUploadImage } from "../service/uploadImage";
-import { delStoreData, getStoreData, sendStoreData } from "../service/crudDB";
+import { delStoreData, sendStoreData } from "../service/crudDB";
 import { useNavigate } from "react-router-dom";
 
 const buttonList = [{ icon: FiMapPin }, { icon: FiGlobe, onClick: () => {} }];
@@ -670,171 +668,172 @@ const SideBar = ({ buttonList }) => {
   );
 };
 
-const DatabaseManagement = ({
-  setUrlParams,
-  urlParams,
-  loading,
-  setUpdateData,
-  storeDatas,
-  searchQuery,
-  setSearchQuery,
-  handleSearch,
-  setNotif,
-}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showNewModal, setShowNewModal] = useState(false);
-  const fileInputRef = useRef();
-  const [storeData, setStoreData] = useState([]);
+const DatabaseManagement = React.memo(
+  ({
+    setUrlParams,
+    urlParams,
+    loading,
+    setUpdateData,
+    storeDatas,
+    searchQuery,
+    setSearchQuery,
+    handleSearch,
+    setNotif,
+  }) => {
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showNewModal, setShowNewModal] = useState(false);
+    const fileInputRef = useRef();
+    const [storeData, setStoreData] = useState([]);
 
-  useEffect(() => {
-    setStoreData(storeDatas);
-  }, [storeDatas]);
+    useEffect(() => {
+      setStoreData(storeDatas);
+    }, [storeDatas]);
 
-  useEffect(() => {
-    if (loading) return;
-    const editId = urlParams.get("edit");
-    setShowEditModal(
-      storeData.some(
-        (i) => i.koordinat.toString() === decodeURIComponent(editId)
-      )
-    );
-  }, [urlParams]);
+    useEffect(() => {
+      if (loading) return;
+      const editId = urlParams.get("edit");
+      setShowEditModal(
+        storeData.some(
+          (i) => i.koordinat.toString() === decodeURIComponent(editId)
+        )
+      );
+    }, [urlParams]);
 
-  if (loading) return <></>;
+    if (loading) return <></>;
 
-  return (
-    <div
-      style={{
-        backgroundColor: "rgba(18,18,18,1)",
-        height: "100dvh",
-        width: "100vw",
-        left: 0,
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <EditStoreModal
-        isOpen={showEditModal}
-        initialData={selectedItem}
-        onClose={() => setUrlParams({})}
-        onSave={sendStoreData}
-        setUpdate={setUpdateData}
-        onDel={delStoreData}
-        setNotif={setNotif}
-      />
-      <EditStoreModal
-        isOpen={showNewModal}
-        initialData={{
-          id: storeData.length,
-          namaToko: "",
-          contact: "",
-          alamat: "",
-          openTime: [
-            "00.00 - 00.00",
-            "Closed",
-            "00.00 - 00.00",
-            "00.00 - 00.00",
-            "00.00 - 00.00",
-            "00.00 - 00.00",
-            "Closed",
-          ],
-          koordinat: ["", ""],
-          product: [{ merek: "", namaProduk: [""] }],
+    return (
+      <div
+        style={{
+          backgroundColor: "rgba(18,18,18,1)",
+          height: "100dvh",
+          width: "100vw",
+          left: 0,
+          display: "flex",
+          flexDirection: "row",
         }}
-        onClose={() => {
-          setShowNewModal(false);
-          setUrlParams({});
-        }}
-        onSave={sendStoreData}
-        setUpdate={setUpdateData}
-        setNotif={setNotif}
-      />
-      <SideBar buttonList={buttonList} />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            padding: "10px 0px 10px 40px",
-            borderBottom: `2px solid ${ColorPallate.inputBorder}`,
-            backgroundColor: ColorPallate.background,
+      >
+        <EditStoreModal
+          isOpen={showEditModal}
+          initialData={selectedItem}
+          onClose={() => setUrlParams({})}
+          onSave={sendStoreData}
+          setUpdate={setUpdateData}
+          onDel={delStoreData}
+          setNotif={setNotif}
+        />
+        <EditStoreModal
+          isOpen={showNewModal}
+          initialData={{
+            id: storeData.length,
+            namaToko: "",
+            contact: "",
+            alamat: "",
+            openTime: [
+              "00.00 - 00.00",
+              "Closed",
+              "00.00 - 00.00",
+              "00.00 - 00.00",
+              "00.00 - 00.00",
+              "00.00 - 00.00",
+              "Closed",
+            ],
+            koordinat: ["", ""],
+            product: [{ merek: "", namaProduk: [""] }],
           }}
-        >
-          <p
+          onClose={() => {
+            setShowNewModal(false);
+            setUrlParams({});
+          }}
+          onSave={sendStoreData}
+          setUpdate={setUpdateData}
+          setNotif={setNotif}
+        />
+        <SideBar buttonList={buttonList} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <div
             style={{
-              color: ColorPallate.text,
-              fontSize: 16,
-              textAlign: "left",
-              fontWeight: 500,
+              padding: "10px 0px 10px 40px",
+              borderBottom: `2px solid ${ColorPallate.inputBorder}`,
+              backgroundColor: ColorPallate.background,
             }}
           >
-            Database
-          </p>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            color: ColorPallate.text,
-            justifyContent: "space-between",
-            backgroundColor: "rgba(18,18,18,0)",
-            alignItems: "center",
-            paddingInline: 40,
-          }}
-        >
-          <h2>Store Data ({storeData.length})</h2>
-          <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <InputForm
-              value={searchQuery}
-              onChange={handleSearch}
-              clearQuery={() => setSearchQuery("")}
-            />
-            <ButtonCostum
-              icon={FiEdit}
-              onclick={() =>
-                setUrlParams({ edit: selectedItem.koordinat.toString() })
-              }
-            />
-            <ButtonCostum
-              text={"Tambah Pin"}
-              icon={FiPlus}
-              onclick={() => setShowNewModal(true)}
-            />
-            <ButtonCostum
-              onclick={() => {
-                if (selectedItem) fileInputRef.current.click();
-                else
-                  setNotif(
-                    "Nothing Item Selected, Please Select One Store For Editting Data"
-                  );
+            <p
+              style={{
+                color: ColorPallate.text,
+                fontSize: 16,
+                textAlign: "left",
+                fontWeight: 500,
               }}
-              text={"Set Image"}
-              icon={FiUploadCloud}
-            />
-            <input
-              onChange={(e) => {
-                if (selectedItem) {
-                  const message = handleUploadImage(e, selectedItem.id);
-                  setNotif(message);
-                } else
-                  setNotif(
-                    "Nothing Item Selected, Please Select One Store For Setting Store Image"
-                  );
-              }}
-              ref={fileInputRef}
-              type="file"
-              hidden
-            ></input>
+            >
+              Database
+            </p>
           </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              color: ColorPallate.text,
+              justifyContent: "space-between",
+              backgroundColor: "rgba(18,18,18,0)",
+              alignItems: "center",
+              paddingInline: 40,
+            }}
+          >
+            <h2>Store Data ({storeData.length})</h2>
+            <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <InputForm
+                value={searchQuery}
+                onChange={handleSearch}
+                clearQuery={() => setSearchQuery("")}
+              />
+              <ButtonCostum
+                icon={FiEdit}
+                onclick={() =>
+                  setUrlParams({ edit: selectedItem.koordinat.toString() })
+                }
+              />
+              <ButtonCostum
+                text={"Tambah Pin"}
+                icon={FiPlus}
+                onclick={() => setShowNewModal(true)}
+              />
+              <ButtonCostum
+                onclick={() => {
+                  if (selectedItem) fileInputRef.current.click();
+                  else
+                    setNotif(
+                      "Nothing Item Selected, Please Select One Store For Editting Data"
+                    );
+                }}
+                text={"Set Image"}
+                icon={FiUploadCloud}
+              />
+              <input
+                onChange={(e) => {
+                  if (selectedItem) {
+                    const message = handleUploadImage(e, selectedItem.id);
+                    setNotif(message);
+                  } else
+                    setNotif(
+                      "Nothing Item Selected, Please Select One Store For Setting Store Image"
+                    );
+                }}
+                ref={fileInputRef}
+                type="file"
+                hidden
+              ></input>
+            </div>
+          </div>
+          <DataTable
+            tableList={tableList}
+            storeData={storeData}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
         </div>
-        <DataTable
-          tableList={tableList}
-          storeData={storeData}
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-        />
       </div>
-    </div>
-  );
-};
-
+    );
+  }
+);
 export default DatabaseManagement;

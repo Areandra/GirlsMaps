@@ -60,7 +60,6 @@ export const AutoSlideCard = ({ cardContentList }) => {
             text={i.text}
             id={i.id}
             imageUrl={i.imageUrl}
-            onClick={() => i.onClick()}
             styles={{
               scrollSnapAlign: "start",
             }}

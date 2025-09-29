@@ -1,6 +1,6 @@
 import ColorPallate from "../theme/Color";
 
-export const Card = ({ text, imageUrl, id, onClick, styles, chidren }) => {
+export const Card = ({ text, imageUrl, id, styles, chidren }) => {
   const cardStyles = {
     container: {
       display: "flex",
@@ -35,7 +35,7 @@ export const Card = ({ text, imageUrl, id, onClick, styles, chidren }) => {
         ...styles,
       }}
     >
-      <p style={cardStyles.text}>{text}</p>
+      {chidren ? chidren : <p style={cardStyles.text}>{text}</p>}
     </div>
   );
 };
