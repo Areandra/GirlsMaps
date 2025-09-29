@@ -48,7 +48,6 @@ const FlyToMarker = ({ pin, setCurrentPin, currentPin }) => {
 
 const Maps = React.memo(
   ({ lastPage, queryResult, setCurrentPin, windowSize, currentPin }) => {
-    console.error("render map");
     const mapRef = useRef();
 
     const RecenterMap = ({ position }) => {

@@ -12,10 +12,11 @@ export const InputForm = ({
   onChange,
   name,
   ref,
+  onFocus,
 }) => {
   const [hover, setHover] = useState(false);
   const inputRef = useRef();
-  
+
   const changeValue = () => {
     if (onChange) {
       onChange({ target: { value: "" } });
@@ -54,7 +55,7 @@ export const InputForm = ({
         ...searchForm.form,
         ...(hover ? searchForm.hover : {}),
         ...style?.container,
-        ...style?.important
+        ...style?.important,
       }}
       onMouseEnter={() => {
         setHover(true);
@@ -66,6 +67,7 @@ export const InputForm = ({
       }}
     >
       <input
+        onFocus={() => onFocus()}
         ref={inputRef}
         type={type}
         placeholder={placeholder}

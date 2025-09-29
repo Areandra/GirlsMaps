@@ -324,6 +324,7 @@ const NavBar = React.memo(
               style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
             >
               <InputForm
+                onFocus={() => setCurrentPin(null)}
                 ref={searchBarRef}
                 placeholder="Cari Toko & Product atau Merek Kesenangan Anda"
                 style={{
