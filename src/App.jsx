@@ -118,7 +118,7 @@ function App() {
       setTimeout(() => {
         setVisibleNotif(false);
         setTimeout(() => setNotifMassege(""), 300);
-      }, 5000);
+      }, 2000);
     }
   }, [notifMassege]);
 
@@ -328,6 +328,7 @@ function App() {
                 lastPage={lastPage}
                 navRef={navRef}
                 windowSize={windowSize}
+                setNotif={setNotif}
               />
               <MapsPage
                 dismiss={lastPage !== "map"}
