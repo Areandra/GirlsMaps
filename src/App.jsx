@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar.jsx";
 import LandingPage from "./page/LandingPage.jsx";
 import Maps from "./components/Maps.jsx";
 import LoginPage from "./page/LoginPage.jsx";
-import { Routes, useSearchParams } from "react-router-dom";
+import { Navigate, Routes, useSearchParams } from "react-router-dom";
 import MapsPage from "./page/MapsPage.jsx";
 import Fuse from "fuse.js";
 import { onAuthStateChanged } from "firebase/auth";
@@ -20,6 +20,9 @@ import useWindowSize from "./hooks/windowResizer.jsx";
 import Loader from "./components/Loader.jsx";
 
 function App() {
+  if (document.title.includes("404")) {
+    window.location.href = "/home";
+  }
   const [urlParams, setUrlParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [storeData, setStoreData] = useState(null);
@@ -281,6 +284,7 @@ function App() {
         <p style={{ fontSize: 12, color: ColorPallate.text }}>{notifMassege}</p>
       </GlobalModal>
       <Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
         <Route
           path="/"
           element={
