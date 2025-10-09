@@ -98,7 +98,7 @@ const LandingPage = React.memo(
                 icon={!user ? FiChevronRight : FiMap}
                 onclick={() => setLastPage("map")}
               >
-                Jelajahi Peta Sekarang
+                Jelajah!
               </Button>
               <Button onclick={() => setLastPage("about")} text={true}>
                 Kenalan Yuk!
