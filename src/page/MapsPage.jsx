@@ -187,6 +187,10 @@ const MapsPage = React.memo(
     };
 
     const handleSetFavorite = async (dataID) => {
+      if (!user?.uid) {
+        setNotif("❗ Please Login First");
+        return;
+      }
       if (favoriteStore.includes(dataID)) {
         setNotif("This Store Is Already On Your Favorite List");
         return;

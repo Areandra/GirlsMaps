@@ -98,12 +98,17 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        if (lastPage === "login" || lastPage === "daftar") {
-          setLastPage("home");
+        try {
+          if (lastPage === "login" || lastPage === "daftar") {
+            setLastPage("home");
+          }
+          const snapshot = await get(ref(db, `admin/${currentUser.uid}`));
+          const isAdmin = snapshot.exists();
+          setUser({ ...currentUser, admin: isAdmin });
+        } catch (error) {
+          console.error("Error fetching admin status:", error);
+          setUser({ ...currentUser, admin: false });
         }
-        const snapshot = await get(ref(db, `admin/${currentUser.uid}`));
-        const isAdmin = snapshot.exists();
-        setUser({ ...currentUser, admin: isAdmin });
       } else {
         setUser(null);
       }

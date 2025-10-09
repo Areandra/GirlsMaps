@@ -106,7 +106,7 @@ const LoginPage = React.memo(
                   fontSize: "12px",
                 }}
               >
-                {loginErrorMessege.message}
+                {loginErrorMessege?.message}
               </p>
             </div>
           )}
@@ -140,7 +140,7 @@ const LoginPage = React.memo(
                 <InputForm
                   {...field.spread}
                   style={{
-                    ...(loginErrorMessege.errorType.find((i) => i === field.key)
+                    ...(loginErrorMessege?.errorType?.find((i) => i === field.key)
                       ? {
                           container: {
                             boxShadow: `inset 0 0 0 2px red, 0 4px 8px ${ColorPallate.buttonShadow}`,

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import ColorPallate from "../theme/Color";
 import { FiArrowRight } from "react-icons/fi";
-import { BiBorderRadius } from "react-icons/bi";
 
 const ButtonCostum = ({
   onclick,
