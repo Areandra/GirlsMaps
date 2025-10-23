@@ -6,11 +6,13 @@ import {
   useMapEvent,
   AttributionControl,
   Tooltip,
+  GeoJSON,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import React, { useEffect, useRef, useState } from "react";
 import logo from "../assets/pin.svg";
+import jalan from "../assets/jalan.json";
 
 const icon = new L.Icon({
   iconUrl: logo,
@@ -81,7 +83,7 @@ const Maps = React.memo(
         position: "absolute",
         transform: "translateX(-50%) translateY(-50%)",
         zIndex: 1,
-        backgroundColor: "rgba(71, 71, 73, 1)",
+        backgroundColor: "#232226",
       },
       disbleMap: {
         pointerEvents: "auto",
@@ -147,8 +149,8 @@ const Maps = React.memo(
                 : {}),
             }}
             maxBounds={[
-              [-1.05, 119.75],
-              [-0.75, 120.0],
+              [-0.95, 119.74],
+              [-0.62, 120.05],
             ]}
             zoomControl={false}
             maxBoundsViscosity={1.0}
@@ -168,6 +170,10 @@ const Maps = React.memo(
             />
             <TileLayer
               url="https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+              attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
+            />
+            <TileLayer
+              url="/BasedMap/{z}/{x}/{y}.png"
               attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
             />
             {queryResult?.map((pin, index) => (
