@@ -6,13 +6,11 @@ import {
   useMapEvent,
   AttributionControl,
   Tooltip,
-  GeoJSON,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import React, { useEffect, useRef, useState } from "react";
 import logo from "../assets/pin.svg";
-import jalan from "../assets/jalan.json";
 
 const icon = new L.Icon({
   iconUrl: logo,
@@ -174,7 +172,7 @@ const Maps = React.memo(
             />
             <TileLayer
               url="/BasedMap/{z}/{x}/{y}.png"
-              attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
+              attribution="| Tiles &copy; GirlsMap"
             />
             {queryResult?.map((pin, index) => (
               <FlyToMarker
