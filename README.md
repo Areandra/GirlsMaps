@@ -142,8 +142,6 @@ GirlsMap/
 
 <div align="center">
 
-Developed for **Sistem Informasi - Universitas Tadulako 2025**
-
 **⭐ Dukung kami dengan memberikan STAR jika bermanfaat! ⭐**
 
 </div>
