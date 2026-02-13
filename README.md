@@ -1,6 +1,6 @@
-# 💄 Girls Map - Sistem Peta Digital Penjual Skincare & Make Up
+# 💄 Girls Map - Skincare & Makeup Digital Map System
 
-**Girls Map** adalah sistem informasi geografis (GIS) berbasis web yang dirancang khusus untuk membantu perempuan menemukan lokasi toko kosmetik, *skincare*, dan *make up* secara akurat. Proyek ini merupakan implementasi Rekayasa Perangkat Lunak (RPL) dengan pendekatan *user-centered design* untuk memberikan solusi pencarian produk kecantikan yang terintegrasi.
+**Girls Map** is a web-based Geographic Information System (GIS) specifically designed to help women locate cosmetic, skincare, and makeup stores accurately. This project is a Software Engineering (RPL) implementation utilizing a user-centered design approach to provide an integrated solution for beauty product discovery.
 
 ---
 
@@ -20,117 +20,116 @@
 
 ---
 
-## 🎯 Informasi Singkat
+## 🎯 Quick Info
 
-| Aspek                   | Detail                     |
-| ----------------------- | -------------------------- |
-| **Framework**           | React.js                   |
-| **Bundler**             | Vite                       |
-| **Database**            | Firebase Realtime Database |
-| **Library Peta**        | Leaflet.js                 |
-| **Pengolahan Data**     | QGIS & ArcGIS              |
-| **Metode Pengembangan** | Waterfall                  |
-| **Target Lokasi**       | Kota Palu                  |
+| Aspect | Detail |
+| --- | --- |
+| **Framework** | React.js |
+| **Bundler** | Vite |
+| **Database** | Firebase Realtime Database |
+| **Map Library** | Leaflet.js |
+| **Data Processing** | QGIS & ArcGIS |
+| **Development Method** | Waterfall |
+| **Target Location** | Palu City, Indonesia |
 
 ---
 
-## 📖 Daftar Isi
+## 📖 Table of Contents
 
-* [Overview](#overview)
-* [Use Case & Target Pengguna](#use-case--target-pengguna)
-* [Fitur Utama](#fitur-utama)
-* [Kebutuhan Sistem](#kebutuhan-sistem)
-* [Metodologi Pengembangan](#metodologi-pengembangan)
-* [Alur Penggunaan](#alur-penggunaan)
-* [Struktur Proyek](#struktur-proyek)
-* [Kontribusi & Lisensi](#kontribusi--lisensi)
+* [Overview](https://www.google.com/search?q=%23overview)
+* [Use Case & Target Audience](https://www.google.com/search?q=%23use-case--target-audience)
+* [Key Features](https://www.google.com/search?q=%23key-features)
+* [System Requirements](https://www.google.com/search?q=%23system-requirements)
+* [Development Methodology](https://www.google.com/search?q=%23development-methodology)
+* [Usage Flow](https://www.google.com/search?q=%23usage-flow)
+* [Project Structure](https://www.google.com/search?q=%23project-structure)
+* [Contribution & License](https://www.google.com/search?q=%23contribution--license)
 
 ---
 
 ## 📋 Overview
 
-Girls Map hadir untuk mengatasi kesulitan konsumen dalam mencari lokasi toko kosmetik terpercaya, yang sering tersebar tidak teratur di media sosial. Platform ini menyediakan:
+Girls Map addresses the challenges consumers face when searching for trusted cosmetic stores, which are often scattered inconsistently across social media. This platform provides:
 
-* ✅ **Peta Digital Interaktif:** Menampilkan lokasi toko melalui marker pada peta.
-* ✅ **Direktori Produk:** Informasi lengkap mengenai katalog produk tiap toko.
-* ✅ **Informasi Operasional:** Detail jam buka/tutup toko.
-* ✅ **Rekomendasi Personal:** Membantu memilih produk sesuai tipe kulit (*fitur rencana pengembangan*).
-
----
-
-## 🏫 Use Case & Target Pengguna
-
-* **Konsumen Perempuan:**
-  Mencari toko terdekat, membandingkan produk, melihat ulasan, dan mendapatkan rekomendasi.
-
-* **Pemilik Toko:**
-  Meningkatkan eksposur bisnis dan menampilkan katalog produk kepada pelanggan lokal.
+* ✅ **Interactive Digital Map:** Visualizes store locations using markers on a map.
+* ✅ **Product Directory:** Comprehensive information regarding the product catalog for each store.
+* ✅ **Operational Info:** Detailed opening and closing hours.
+* ✅ **Personal Recommendations:** Assistance in choosing products based on skin type (*planned feature*).
 
 ---
 
-## ⭐ Fitur Utama
+## 🏫 Use Case & Target Audience
 
-### 1. Sistem Peta Interaktif
-
-* Visualisasi wilayah Kota Palu menggunakan Leaflet.js.
-* Marker lokasi toko dengan tautan ke informasi detail.
-
-### 2. Pencarian & Filter
-
-* Cari toko berdasarkan nama atau jenis produk.
-* Filter berdasarkan kategori produk (*Skincare / Make Up*).
-
-### 3. Manajemen Data (Admin)
-
-* CRUD (Create, Read, Update, Delete) data toko dan lokasi.
-* Update informasi produk dan jam operasional secara real-time melalui Firebase.
-
-### 4. Pengalaman Pengguna (UX)
-
-* Antarmuka responsif untuk laptop dan ponsel.
-* Menampilkan rating dan ulasan dari pengguna lain.
+* **Female Consumers:**
+Search for the nearest stores, compare products, view reviews, and receive recommendations.
+* **Store Owners:**
+Increase business exposure and showcase product catalogs to local customers.
 
 ---
 
-## ⚙️ Kebutuhan Sistem
+## ⭐ Key Features
 
-### Perangkat Lunak (Software)
+### 1. Interactive Map System
 
-* **Sistem Operasi:** Windows / Linux / MacOS
-* **Browser:** Google Chrome, Mozilla Firefox, Safari (versi terbaru)
-* **Tools Pengembangan:** VS Code, Git, QGIS (untuk data spasial)
+* Visualization of Palu City using Leaflet.js.
+* Store location markers with links to detailed information.
 
----
+### 2. Search & Filter
 
-## 🔄 Metodologi Pengembangan
+* Search for stores by name or product type.
+* Filter by product category (*Skincare / Makeup*).
 
-Proyek ini dikembangkan menggunakan **Metode Waterfall**:
+### 3. Data Management (Admin)
 
-1. **Analisis Kebutuhan:** Observasi langsung di Kota Palu untuk mengidentifikasi masalah.
-2. **Perancangan:** Pembuatan Flowchart, DFD, ERD, dan Use Case Diagram.
-3. **Implementasi:** Coding menggunakan React.js dan Firebase.
-4. **Pengujian:** Blackbox Testing untuk memastikan fungsi marker, pencarian, dan CRUD data berjalan baik.
+* CRUD (Create, Read, Update, Delete) for store data and locations.
+* Real-time product and operational hour updates via Firebase.
 
----
+### 4. User Experience (UX)
 
-## 🚦 Alur Penggunaan
-
-### Untuk Pengguna
-
-1. Buka aplikasi melalui browser.
-2. Jelajahi peta digital Kota Palu.
-3. Klik **marker** pada lokasi toko yang diinginkan.
-4. Lihat detail informasi: jam operasional, foto toko, dan daftar produk.
-
-### Untuk Admin
-
-1. Login ke sistem manajemen.
-2. Tambahkan titik koordinat baru atau edit informasi toko yang sudah ada.
-3. Simpan perubahan ke database untuk update instan di peta.
+* Responsive interface optimized for both desktop and mobile.
+* Displays ratings and reviews from other users.
 
 ---
 
-## 📂 Struktur Proyek
+## ⚙️ System Requirements
+
+### Software
+
+* **Operating System:** Windows / Linux / MacOS
+* **Browser:** Google Chrome, Mozilla Firefox, Safari (Latest versions)
+* **Development Tools:** VS Code, Git, QGIS (for spatial data processing)
+
+---
+
+## 🔄 Development Methodology
+
+This project was developed using the **Waterfall Method**:
+
+1. **Requirements Analysis:** Direct observation in Palu City to identify core problems.
+2. **Design:** Creation of Flowcharts, DFD, ERD, and Use Case Diagrams.
+3. **Implementation:** Coding using React.js and Firebase.
+4. **Testing:** Blackbox Testing to ensure map markers, search functions, and CRUD operations function correctly.
+
+---
+
+## 🚦 Usage Flow
+
+### For Users
+
+1. Open the application in a web browser.
+2. Explore the digital map of Palu City.
+3. Click on a **marker** at the desired store location.
+4. View detailed information: operational hours, store photos, and product lists.
+
+### For Admins
+
+1. Log in to the management system.
+2. Add new coordinates or edit existing store information.
+3. Save changes to the database for instant updates on the map.
+
+---
+
+## 📂 Project Structure
 
 ```text
 GirlsMap/
@@ -139,31 +138,30 @@ GirlsMap/
 │   ├── pages/           # Main Pages (Home, Admin Dashboard)
 │   ├── services/        # Firebase & Leaflet logic
 │   └── assets/          # Images & Icons
-├── database/            # Data spasial & non-spasial (JSON/Firebase)
+├── database/            # Spatial & non-spatial data (JSON/Firebase)
 ├── public/              # Static files
 ├── vite.config.ts       # Vite configuration
 ├── package.json         # Project dependencies
 └── README.md
+
 ```
 
 ---
 
-## 📜 Kontribusi & Lisensi
+## 📜 Contribution & License
 
-* Contributions diterima melalui Pull Request.
-* Gunakan branch `main` untuk versi stabil.
-* Proyek ini dibagikan di bawah lisensi MIT.
+* Contributions are welcome via Pull Requests.
+* Use the `main` branch for stable versions.
+* This project is distributed under the MIT License.
 
 ---
 
 <div align="center">
 
-**⭐ Dukung kami dengan memberikan STAR jika bermanfaat! ⭐**
+**⭐ Support us by giving a STAR if you find this useful! ⭐**
 
 </div>
 
 ---
 
-Kalau mau, saya bisa buatkan **versi README yang lebih “modern”** dengan **badge, screenshot peta, dan command install/run**, sehingga bisa langsung ditempel di GitHub agar lebih menarik dan profesional.
-
-Apakah mau saya buatkan versi itu juga?
+Would you like me to add a specific **Installation & Quick Start** section with the terminal commands (e.g., `npm install`, `npm run dev`) to make it even more developer-friendly?
