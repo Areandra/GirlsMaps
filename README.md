@@ -4,6 +4,22 @@
 
 ---
 
+![React](https://img.shields.io/badge/React-19.1.1-61DAFB)
+![ReactDOM](https://img.shields.io/badge/ReactDOM-19.1.1-61DAFB)
+![React-Router-Dom](https://img.shields.io/badge/React--Router--Dom-7.8.2-CA4242)
+![React-Icons](https://img.shields.io/badge/React--Icons-5.5.0-61DAFB)
+![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-4ABF4F)
+![React-Leaflet](https://img.shields.io/badge/React--Leaflet-5.0.0-4ABF4F)
+![Mapbox-GL](https://img.shields.io/badge/Mapbox--GL-3.14.0-0099FF)
+![Firebase](https://img.shields.io/badge/Firebase-12.2.1-FFCA28)
+![Fuse.js](https://img.shields.io/badge/Fuse.js-7.1.0-FF6F61)
+![Vite](https://img.shields.io/badge/Vite-7.1.2-yellow)
+![ESLint](https://img.shields.io/badge/ESLint-9.33.0-orange)
+![@vitejs/plugin-react](https://img.shields.io/badge/@vitejs--plugin--react-5.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-red)
+
+---
+
 ## 🎯 Informasi Singkat
 
 | Aspek                   | Detail                     |
